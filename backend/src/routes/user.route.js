@@ -1,4 +1,5 @@
 import express from "express";
+import passport from "passport";
 
 import userController from "../controllers/user.controller.js";
 
@@ -11,14 +12,18 @@ router.get("/", (req, res) => {
   res.send("this is user route");
 });
 
-router.get("/all", (req, res) => {});
+router.get("/all", userController.getAllUsers);
 
 router.post("/signup", userController.signup);
 
-router.post("/signin", userController.signin);
+router.post("/signin", passport.authenticate("local"), userController.signin);
 
 router.get("/profile", authMiddleware, userController.profile);
 
+router.get("/profileById/:id", userController.profileById);
+
 router.get("/experties/:type", userController.getUserByExpertise);
+
+router.get("/work/:id", userController.getWorkById);
 
 export default router;

@@ -48,55 +48,62 @@ const signup = async (req, res) => {
 
 const signin = async (req, res) => {
   // only accept application/json
-  if (!req.is("application/json")) {
-    return res.status(400).send("only accept application/json");
-  }
+  res.message = "success";
+  const payload = {
+    status: "success",
+    user: req.user,
+  };
 
-  // get user information from request body
-  const user = req.body;
-  const { email, password, access_token } = user;
-
-  // // only accept native or google provider
-  // if (provider !== "native" && provider !== "google") {
-  //   return res.status(400).send("only accept native or google provider");
+  res.status(200).send(payload);
+  // if (!req.is("application/json")) {
+  //   return res.status(400).send("only accept application/json");
   // }
 
-  try {
-    // TODO: Implement google signin authentication in userModel
-    // get user information from database
-    const userFromDatabase = await userModel.signin(email, password);
+  // // get user information from request body
+  // const user = req.body;
+  // const { email, password, access_token } = user;
 
-    // use algorithm HS256
-    const token = jwt.sign(
-      { _id: userFromDatabase.id },
-      process.env.JWTSECRET,
-      {
-        expiresIn: 60 * 60,
-      }
-    );
+  // // // only accept native or google provider
+  // // if (provider !== "native" && provider !== "google") {
+  // //   return res.status(400).send("only accept native or google provider");
+  // // }
 
-    // construct response payload
-    const responsePayload = {
-      data: {
-        access_token: token,
-        access_expired: 3600,
-        user: {
-          id: userFromDatabase.id,
-          name: userFromDatabase.name,
-          email: userFromDatabase.email,
-        },
-      },
-    };
-    res.status(200).send(responsePayload);
-  } catch (err) {
-    if (err === "user not found" || err === "wrong password") {
-      console.log(err);
-      return res.status(403).send(err);
-    } else {
-      console.log(err);
-      return res.status(500).send("server error");
-    }
-  }
+  // try {
+  //   // TODO: Implement google signin authentication in userModel
+  //   // get user information from database
+  //   const userFromDatabase = await userModel.signin(email, password);
+
+  //   // use algorithm HS256
+  //   const token = jwt.sign(
+  //     { _id: userFromDatabase.id },
+  //     process.env.JWTSECRET,
+  //     {
+  //       expiresIn: 60 * 60,
+  //     }
+  //   );
+
+  //   // construct response payload
+  //   const responsePayload = {
+  //     data: {
+  //       access_token: token,
+  //       access_expired: 3600,
+  //       user: {
+  //         id: userFromDatabase.id,
+  //         name: userFromDatabase.name,
+  //         email: userFromDatabase.email,
+  //       },
+  //     },
+  //   };
+  //   res.status(200).send(responsePayload);
+  // } catch (err) {
+  //   if (err === "user not found" || err === "wrong password") {
+  //     console.log(err);
+  //     return res.status(403).send(err);
+  //   } else {
+  //     console.log(err);
+  //     return res.status(500).send("server error");
+  //   }
+  // }
 };
 
 const profile = async (req, res) => {
@@ -115,10 +122,29 @@ const profile = async (req, res) => {
   res.status(200).send(responsePayload);
 };
 
+const profileById = async (req, res) => {
+  const { id } = req.params;
+  const user = await userModel.getUserById(id);
+  res.status(200).send(user);
+};
+
 const getUserByExpertise = async (req, res) => {
   const { type } = req.params;
   const users = await userModel.getUserByExpertise(type);
+  console.log(users);
   res.status(200).send(users);
+};
+
+const getAllUsers = async (req, res) => {
+  const users = await userModel.getAllUsers();
+  res.status(200).send(users);
+};
+
+const getWorkById = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const work = await userModel.getWorkById(id);
+  res.status(200).send(work);
 };
 
 // export controller functions
@@ -126,7 +152,10 @@ const userController = {
   signup,
   signin,
   profile,
+  profileById,
   getUserByExpertise,
+  getAllUsers,
+  getWorkById,
 };
 
 export default userController;

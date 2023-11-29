@@ -10,19 +10,37 @@
 import fs from "fs";
 import express from "express";
 import cors from "cors";
+import session from "express-session";
+import passport from "passport";
 
 import routes from "./routes/index.route.js";
 
+import "./config/passport.config.js";
 // import { env } from "./utils/env.js";
 
 const app = express();
+
+// enable session
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    name: "database_user",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: false,
+      domain: "localhost",
+    },
+  })
+);
 
 // enable cors
 app.use(cors());
 
 // initialize passport
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // parse application/json and urlencoded
 app.use(express.json());

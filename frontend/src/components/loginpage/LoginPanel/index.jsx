@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -53,6 +54,8 @@ const defaultTheme = createTheme(
 );
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -60,6 +63,27 @@ export default function SignIn() {
       email: data.get("email"),
       password: data.get("password"),
     });
+    fetch("http://localhost:8000/api/1.0/user/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: data.get("email"),
+        password: data.get("password"),
+      }),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        // test status
+        if (data.status === "success") {
+          const user = data.user;
+          console.log("aaa");
+          navigate("/profile/" + user.id);
+        } else {
+          alert("Wrong email or password");
+        }
+      });
   };
 
   return (

@@ -94,24 +94,84 @@ const getUserByExpertise = async (type) => {
   const connection = mysql.createConnection(dbConfig);
 
   return new Promise((resolve, reject) => {
+    // search for users with matching expertise
+    // expertise is like ["design", "sculpting"]
+
     connection.query(
-      `SELECT * FROM user WHERE expertise = ?`,
-      [type],
+      `SELECT * FROM user WHERE skill LIKE ?`,
+      [`%${type}%`],
       (err, rows) => {
-        // connection.end();
-        if (err) {
-          console.log(err);
-          reject(err);
-        }
-
-        if (rows.length === 0) {
-          reject("no user found");
-        }
-
+        console.log(rows);
+        connection.end();
         resolve(rows);
       }
     );
   });
+};
+
+const getAllUsers = async () => {
+  const connection = mysql.createConnection(dbConfig);
+
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM user`, (err, rows) => {
+      connection.end();
+      if (err) {
+        reject(err);
+      }
+
+      if (rows.length === 0) {
+        reject("no user found");
+      }
+
+      resolve(rows);
+    });
+  });
+};
+
+const getWorkById = async (id) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM work WHERE id = ?`, [id], (err, rows) => {
+      connection.end();
+      if (err) {
+        reject(err);
+      }
+
+      if (rows.length === 0) {
+        reject("no work found");
+      }
+
+      resolve(rows[0]);
+    });
+  });
+};
+
+const getUserByEmail = async (email) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT * FROM user WHERE email = ?`,
+      [email],
+      (err, rows) => {
+        connection.end();
+        if (err) {
+          reject(err);
+        }
+
+        if (rows.length === 0) {
+          reject("user not found");
+        }
+
+        resolve(rows[0]);
+      }
+    );
+  });
+};
+
+const correctPassword = (encryptedPassword, password) => {
+  return bcrypt.compareSync(password, encryptedPassword);
 };
 
 // export model functions
@@ -120,6 +180,10 @@ const userModel = {
   signin,
   getUserById,
   getUserByExpertise,
+  getUserByEmail,
+  getAllUsers,
+  getWorkById,
+  correctPassword,
 };
 
 export default userModel;
