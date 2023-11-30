@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { SocialIcon } from "react-social-icons";
 
 import Button from "@mui/material/Button";
@@ -8,11 +8,13 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState([]);
 
-  const [portfolioDetail, setPortfolioDetail] = useState([]);
+  const storage = window.localStorage;
 
-  const { id } = useParams();
+  const [portfolioDetail, setPortfolioDetail] = useState([]);
 
   async function getPortfolio() {
     if (!user.portfolio) return;
@@ -46,18 +48,32 @@ export default function ProfilePage() {
   }, [user]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/1.0/user/profileById/" + id, {
+    const token = storage.getItem("token");
+
+    // use backend passport to check if user is logged in
+    fetch("http://localhost:8000/api/1.0/user/isLoggedIn", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // 將 token 放入 Authorization header 中
       },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log(resp);
+        return resp.json();
+      })
       .then((data) => {
-        data.jobStr = data.job.join(" / ");
-        setUser(data);
+        console.log(data);
+        if (data.message === "success") {
+          data.data.jobStr = data.data.job.join(" / ");
+          setUser(data.data);
+          console.log("logged in");
+        } else {
+          navigate("/login");
+          console.log("not logged in");
+        }
       });
-  }, [id]);
+  }, []);
 
   function getResume() {
     window.open(user.resumeLink);
@@ -116,7 +132,19 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="px-5">
-            <div>
+            <div className="relative">
+              <div className="absolute top-0 right-0 w-30">
+                {" "}
+                <Button
+                  variant="outlined"
+                  className="absolute top-0 right-0 "
+                  style={{ color: "#fff", borderColor: "#fff" }}
+                  size="small"
+                  onClick={getResume}
+                >
+                  Edit
+                </Button>
+              </div>
               <div className="mt-8 text-xl">About me</div>
               <div className="mt-2 mb-5">{user.about}</div>
               <Button variant="contained" color="primary" onClick={getResume}>

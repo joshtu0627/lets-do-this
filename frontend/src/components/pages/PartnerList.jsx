@@ -34,6 +34,7 @@ export default function PartnerList() {
     console.log("before", result);
 
     for (let i = 0; i < data.length; i++) {
+      if (!data[i].portfolio) continue;
       for (let j = 0; j < data[i].portfolio.length; j++) {
         console.log(i, j);
         let resp = await fetch(
@@ -63,15 +64,17 @@ export default function PartnerList() {
       .then((resp) => resp.json())
       .then((data) => {
         // console.log(data);
-        for (let i = 0; i < data.length; i++) {
-          data[i].jobStr = concatJson(data[i].job);
-          data[i].skillStr = concatJson(data[i].skill);
-        }
-        console.log(data);
-        if (data.length === 0) {
-          setMessage("No result found");
-        } else {
-          setMessage("");
+        if (data.jobStr && data.skillStr) {
+          for (let i = 0; i < data.length; i++) {
+            data[i].jobStr = data[i].job.join(", ");
+            data[i].skillStr = data[i].skill.join(", ");
+          }
+          console.log(data);
+          if (data.length === 0) {
+            setMessage("No result found");
+          } else {
+            setMessage("");
+          }
         }
         setData(data);
       });
@@ -130,7 +133,7 @@ export default function PartnerList() {
   }, [data]);
 
   return (
-    <div className="flex flex-col bg-[#242128]">
+    <div className="min-h-screen flex flex-col bg-[#242128]">
       <Header />
       <div className="flex justify-center text-white">
         <div className="flex w-5/6 m-10">
@@ -232,17 +235,18 @@ export default function PartnerList() {
                   <div className="flex flex-col text-xs text-gray-300 h-2/5">
                     <div>{user.skillStr}</div>
                     <div className="flex">
-                      {Object.entries(user.userPreferences).map(
-                        ([key, value]) =>
-                          value && (
-                            <div
-                              key={Math.random()}
-                              className="p-1 my-2 mr-2 border"
-                            >
-                              V {key}
-                            </div>
-                          )
-                      )}
+                      {user.userPreferences &&
+                        Object.entries(user.userPreferences).map(
+                          ([key, value]) =>
+                            value && (
+                              <div
+                                key={Math.random()}
+                                className="p-1 my-2 mr-2 border"
+                              >
+                                V {key}
+                              </div>
+                            )
+                        )}
                       <div></div>
                     </div>
                   </div>

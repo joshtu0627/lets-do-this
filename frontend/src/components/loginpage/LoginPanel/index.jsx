@@ -56,6 +56,8 @@ const defaultTheme = createTheme(
 export default function SignIn() {
   const navigate = useNavigate();
 
+  const storage = window.localStorage;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -76,13 +78,16 @@ export default function SignIn() {
       .then((resp) => resp.json())
       .then((data) => {
         // test status
-        if (data.status === "success") {
-          const user = data.user;
-          console.log("aaa");
-          navigate("/profile/" + user.id);
-        } else {
-          alert("Wrong email or password");
-        }
+        // if (data.status === "success") {
+        // const user = d
+        console.log(data);
+
+        storage.setItem("token", data.data.access_token);
+
+        navigate("/profile/" + data.data.user.id);
+        // } else {
+        //   alert("Wrong email or password");
+        // }
       });
   };
 

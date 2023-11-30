@@ -7,6 +7,7 @@ import PartnerList from "./components/pages/PartnerList";
 import ProfilePage from "./components/pages/ProfilePage";
 import Registerpage from "./components/pages/RegisterPage";
 import JobList from "./components/pages/JobList";
+import SelfProfilePage from "./components/pages/SelfProfilePage";
 
 import "./App.css";
 
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/partners" element={<PartnerList />} />
         <Route path="/jobs" element={<JobList />} />
         <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/selfProfile" element={<SelfProfilePage />} />
         <Route path="/" element={<Homepage />} />
       </Routes>
     </BrowserRouter>

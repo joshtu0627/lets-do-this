@@ -59,16 +59,17 @@ export default function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    fetch("http://localhost:8000/api/1.0/user/signin", {
+    // console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
+    fetch("http://localhost:8000/api/1.0/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        name: data.get("username"),
         email: data.get("email"),
         password: data.get("password"),
       }),
@@ -76,13 +77,14 @@ export default function Register() {
       .then((resp) => resp.json())
       .then((data) => {
         // test status
-        if (data.status === "success") {
-          const user = data.user;
-          console.log("aaa");
-          navigate("/profile/" + user.id);
-        } else {
-          alert("Wrong email or password");
-        }
+        // if (data.status === "success") {
+        //   const user = data.user;
+        console.log(data.data.user.id);
+        console.log("aaa");
+        navigate("/profile/" + data.data.user.id);
+        // } else {
+        //   alert("Wrong email or password");
+        // }
       });
   };
 
@@ -115,6 +117,16 @@ export default function Register() {
               id="email"
               label="Email Address"
               name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
               autoComplete="email"
               autoFocus
             />
