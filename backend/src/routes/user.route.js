@@ -5,6 +5,8 @@ import userController from "../controllers/user.controller.js";
 
 import authMiddleware from "../middlewares/auth.middleware.js";
 
+import { frontendurl } from "../utils/url.js";
+
 const router = express.Router();
 
 // for health check
@@ -16,9 +18,16 @@ router.get("/all", userController.getAllUsers);
 
 router.post("/signup", userController.signup);
 
-router.post("/signin", passport.authenticate("local"), userController.signin);
+router.post("/signin", userController.signin);
 
-router.get("/profile", authMiddleware, userController.profile);
+router.get("/isLoggedIn", authMiddleware, (req, res) => {
+  res.status(200).send(
+    JSON.stringify({
+      message: "success",
+      data: req.user,
+    })
+  );
+});
 
 router.get("/profileById/:id", userController.profileById);
 

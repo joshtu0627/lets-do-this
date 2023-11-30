@@ -11,6 +11,7 @@ passport.use(
       usernameField: "email",
     },
     async (email, password, done) => {
+      console.log("local strategy");
       const user = await userModel.getUserByEmail(email);
       if (!user) {
         console.log("no user.");

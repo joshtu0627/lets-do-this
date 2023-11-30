@@ -34,6 +34,7 @@ const signup = async (req, res) => {
       },
     };
 
+    console.log("send");
     res.status(200).send(responsePayload);
   } catch (err) {
     if (err === "user already exists") {
@@ -43,67 +44,68 @@ const signup = async (req, res) => {
       console.log(err);
       res.status(500).send("server error");
     }
+    console.log(err);
   }
 };
 
 const signin = async (req, res) => {
   // only accept application/json
-  res.message = "success";
-  const payload = {
-    status: "success",
-    user: req.user,
-  };
+  // res.message = "success";
+  // const payload = {
+  //   status: "success",
+  //   user: req.user,
+  // };
 
-  res.status(200).send(payload);
-  // if (!req.is("application/json")) {
-  //   return res.status(400).send("only accept application/json");
+  // res.status(200).send(payload);
+  if (!req.is("application/json")) {
+    return res.status(400).send("only accept application/json");
+  }
+
+  // get user information from request body
+  const user = req.body;
+  const { email, password, access_token } = user;
+
+  // // only accept native or google provider
+  // if (provider !== "native" && provider !== "google") {
+  //   return res.status(400).send("only accept native or google provider");
   // }
 
-  // // get user information from request body
-  // const user = req.body;
-  // const { email, password, access_token } = user;
+  try {
+    // TODO: Implement google signin authentication in userModel
+    // get user information from database
+    const userFromDatabase = await userModel.signin(email, password);
 
-  // // // only accept native or google provider
-  // // if (provider !== "native" && provider !== "google") {
-  // //   return res.status(400).send("only accept native or google provider");
-  // // }
+    // use algorithm HS256
+    const token = jwt.sign(
+      { _id: userFromDatabase.id },
+      process.env.JWTSECRET,
+      {
+        expiresIn: 60 * 60,
+      }
+    );
 
-  // try {
-  //   // TODO: Implement google signin authentication in userModel
-  //   // get user information from database
-  //   const userFromDatabase = await userModel.signin(email, password);
-
-  //   // use algorithm HS256
-  //   const token = jwt.sign(
-  //     { _id: userFromDatabase.id },
-  //     process.env.JWTSECRET,
-  //     {
-  //       expiresIn: 60 * 60,
-  //     }
-  //   );
-
-  //   // construct response payload
-  //   const responsePayload = {
-  //     data: {
-  //       access_token: token,
-  //       access_expired: 3600,
-  //       user: {
-  //         id: userFromDatabase.id,
-  //         name: userFromDatabase.name,
-  //         email: userFromDatabase.email,
-  //       },
-  //     },
-  //   };
-  //   res.status(200).send(responsePayload);
-  // } catch (err) {
-  //   if (err === "user not found" || err === "wrong password") {
-  //     console.log(err);
-  //     return res.status(403).send(err);
-  //   } else {
-  //     console.log(err);
-  //     return res.status(500).send("server error");
-  //   }
-  // }
+    // construct response payload
+    const responsePayload = {
+      data: {
+        access_token: token,
+        access_expired: 3600,
+        user: {
+          id: userFromDatabase.id,
+          name: userFromDatabase.name,
+          email: userFromDatabase.email,
+        },
+      },
+    };
+    res.status(200).send(responsePayload);
+  } catch (err) {
+    if (err === "user not found" || err === "wrong password") {
+      console.log(err);
+      return res.status(403).send(err);
+    } else {
+      console.log(err);
+      return res.status(500).send("server error");
+    }
+  }
 };
 
 const profile = async (req, res) => {

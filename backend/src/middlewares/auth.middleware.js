@@ -21,39 +21,19 @@ import { env } from "../utils/env.js";
  * @param {Function} next - Express next function.
  */
 const authMiddleware = async (req, res, next) => {
-  console.log(req.query.token);
-  if (req.query.token) {
-    try {
-      const decoded = jwt.verify(req.query.token, env.JWTSECRET);
-      req.user = await userModel.getUserById(decoded._id);
-      next();
-      return;
-    } catch (err) {
-      if (err === "wrong token") {
-        return res.status(403).send("wrong token");
-      }
-    }
-  }
-
-  if (req.query.user) {
-    console.log("query user:", req.query.user);
-    req.user = JSON.parse(req.query.user);
-  }
-  console.log("userrrrrrr:", req.user);
-  if (req.user) {
-    return next();
-  }
-
   // check if there is authorization header
   if (!req.headers.authorization) {
     return res.status(401).send("no token");
   }
-
+  // console.log(req.headers.authorization);
   // get token from header
   const token = req.headers.authorization.split(" ")[1];
 
+  console.log(token);
+
   // check if not token
   if (!token) {
+    console.log("no token");
     return res.status(401).send("no token");
   }
 
@@ -63,12 +43,13 @@ const authMiddleware = async (req, res, next) => {
 
     // check if the token can be decoded
     if (!decoded) {
+      console.log("wrong token");
       return res.status(401).send("no token");
     }
-
+    console.log("aaa");
     // add user to request for later use
     req.user = await userModel.getUserById(decoded._id);
-
+    console.log(req.user);
     next();
   } catch (err) {
     if (err === "wrong token") {

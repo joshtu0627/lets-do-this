@@ -26,9 +26,8 @@ const signup = async (user) => {
           reject("user already exists");
         }
         connection.query(`INSERT INTO user SET ?`, [user], (err, result) => {
-          connection.end();
           if (err) {
-            // console.log(err);
+            console.log(err);
             reject(err);
           }
 

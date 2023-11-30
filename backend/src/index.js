@@ -38,6 +38,13 @@ app.use(
 // enable cors
 app.use(cors());
 
+// const options = {
+//   credentials: true,
+//   origin: "http://localhost:5173",
+//   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
+// };
+// app.use(cors(options));
+
 // initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
