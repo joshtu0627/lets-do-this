@@ -10,7 +10,7 @@
 import express from "express";
 
 import userRouter from "./user.route.js";
-// import projectRouter from "./project.route.js";
+import projectRouter from "./project.route.js";
 
 const router = express.Router();
 
@@ -23,5 +23,6 @@ router.get("/health", (req, res) => {
 });
 
 router.use("/user", userRouter);
+router.use("/project", projectRouter);
 
 export default router;

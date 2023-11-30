@@ -1,16 +1,19 @@
-// import express from "express";
+import express from "express";
 
-// import projectController from "../controllers/project.controller.js";
+import projectController from "../controllers/project.controller.js";
+import jobController from "../controllers/job.controller.js";
 
 // import authMiddleware from "../middlewares/auth.middleware.js";
 
-// const router = express.Router();
+const router = express.Router();
 
-// // for health check
-// router.get("/", (req, res) => {
-//   res.send("this is user route");
-// });
+// for health check
+router.get("/", (req, res) => {
+  res.send("this is project route");
+});
 
-// router.get("/all", (req, res) => {});
+router.get("/:id", projectController.getProjectById);
 
-// export default router;
+router.get("/job/allJob", jobController.getAllJob);
+
+export default router;

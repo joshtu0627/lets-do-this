@@ -13,10 +13,14 @@ export default function Header() {
         </Link>
       </div>
       <div className="flex items-center justify-center w-1/5">
-        <img className="w-28" src={logo} alt="logo" />
+        <Link to={"/"}>
+          <img className="w-28" src={logo} alt="logo" />
+        </Link>
       </div>
       <div className="flex items-center justify-between w-1/3 px-20">
-        <div>Find Project</div>
+        <Link to={"/jobs"}>
+          <div>Find Project</div>
+        </Link>
         <Link to={"/login"}>
           <div>login / register</div>
         </Link>

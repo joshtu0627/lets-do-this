@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 
+import { skillList } from "../../data/data";
+
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -13,26 +15,6 @@ export default function PartnerList() {
   const [message, setMessage] = useState("");
   const [choosedSkill, setChoosedSkill] = useState("None");
   const [portfolioDetail, setPortfolioDetail] = useState([]);
-
-  const skillList = [
-    "None",
-    "Data Analysis",
-    "Design",
-    "Education",
-    "Electrical Engineering",
-    "Finance",
-    "Language",
-    "Law",
-    "Management",
-    "Marketing",
-    "Medical",
-    "Music",
-    "Photography",
-    "Programming",
-    "Sales",
-    "Video Production",
-    "Writing",
-  ];
 
   function concatJson(job) {
     let result = "";
@@ -148,7 +130,7 @@ export default function PartnerList() {
   }, [data]);
 
   return (
-    <div className="h-screen flex flex-col bg-[#242128]">
+    <div className="flex flex-col bg-[#242128]">
       <Header />
       <div className="flex justify-center text-white">
         <div className="flex w-5/6 m-10">
