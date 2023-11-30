@@ -54,7 +54,7 @@ export default function ProfilePage() {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        data.jobStr = data.job.join(" / ");
+        data.jobStr = data.job ? data.job.join(" / ") : "";
         setUser(data);
       });
   }, [id]);
@@ -64,7 +64,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className=" flex flex-col bg-[#242128]">
+    <div className="min-h-screen flex flex-col bg-[#242128]">
       <Header />
       <div className="flex justify-center w-full mt-8 text-white">
         <div className="w-3/5">
@@ -115,17 +115,17 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
-          <div className="px-5">
-            <div>
-              <div className="mt-8 text-xl">About me</div>
+          <div className="mt-8">
+            <div className="p-5  bg-[#2c2830]">
+              <div className="text-3xl h2">About me</div>
               <div className="mt-2 mb-5">{user.about}</div>
               <Button variant="contained" color="primary" onClick={getResume}>
                 My Resume
               </Button>
             </div>
-            <div className="my-14 ">
+            <div className="my-14 p-5 bg-[#2c2830]">
               <div className="flex items-end">
-                <div className="text-xl">Portfolio</div>
+                <div className="text-3xl h2">Portfolio</div>
                 {"\u00a0\u00a0\u00a0\u00a0\u00a0"}
                 <span> ..more</span>
               </div>
@@ -147,7 +147,7 @@ export default function ProfilePage() {
                           alt=""
                         />
                       </div>
-                      <div className="mt-3 h-1/5">{work.name}</div>
+                      <div className="mt-3 h-1/5 h2">{work.name}</div>
                     </div>
                   ))}
               </div>

@@ -6,6 +6,16 @@ import { dbConfig } from "../config/db.config.js";
 const signup = async (user) => {
   console.log(user);
 
+  // default avatar
+  user.image = "https://i.imgur.com/6VBx3io.png";
+
+  // default about
+  user.about = "I am a new user";
+
+  // default banner
+  user.bannerImage =
+    "https://upload.wikimedia.org/wikivoyage/zh/6/6a/Default_Banner.jpg";
+
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(user.password, saltRounds);
 

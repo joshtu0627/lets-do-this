@@ -55,6 +55,7 @@ const defaultTheme = createTheme(
 
 export default function Register() {
   const navigate = useNavigate();
+  const storage = window.localStorage;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -82,6 +83,7 @@ export default function Register() {
         console.log(data.data.user.id);
         console.log("aaa");
         navigate("/profile/" + data.data.user.id);
+        storage.setItem("token", data.data.access_token);
         // } else {
         //   alert("Wrong email or password");
         // }

@@ -5,10 +5,13 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 
 import { skillList } from "../../data/data";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import theme from "../../theme/lowerCaseTheme";
 
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { Button } from "@mui/material";
 
 export default function PartnerList() {
   const [data, setData] = useState([]);
@@ -64,17 +67,17 @@ export default function PartnerList() {
       .then((resp) => resp.json())
       .then((data) => {
         // console.log(data);
-        if (data.jobStr && data.skillStr) {
-          for (let i = 0; i < data.length; i++) {
+
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].job && data[i].skill) {
             data[i].jobStr = data[i].job.join(", ");
             data[i].skillStr = data[i].skill.join(", ");
           }
-          console.log(data);
-          if (data.length === 0) {
-            setMessage("No result found");
-          } else {
-            setMessage("");
-          }
+        }
+        if (data.length === 0) {
+          setMessage("No result found");
+        } else {
+          setMessage("");
         }
         setData(data);
       });
@@ -133,150 +136,177 @@ export default function PartnerList() {
   }, [data]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#242128]">
-      <Header />
-      <div className="flex justify-center text-white">
-        <div className="flex w-5/6 m-10">
-          <div className="w-1/5 mx-10 border border-gray-400">
-            <div className="m-5 text-lg">{"Preference"}</div>
+    <ThemeProvider theme={theme}>
+      <div className="min-h-screen flex flex-col bg-[#242128]">
+        <Header />
+        <div className="flex justify-center text-white">
+          <div className="flex w-5/6 m-10">
+            <div className="w-1/5 mx-10 border border-gray-400">
+              <div className="m-5 text-lg">{"Preference"}</div>
 
-            <FormGroup className="m-5">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    sx={{
-                      color: "#fff",
-                      "&.Mui-checked": { color: "#fff" },
-                      "&.Mui-checked:hover": { color: "#fff" },
-                      "&.Mui-checked.Mui-disabled": { color: "#fff" },
-                      "&.Mui-checked.Mui-disabled:hover": { color: "#fff" },
-                      "&.Mui-disabled": { color: "#fff" },
-                      "&.Mui-disabled:hover": { color: "#fff" },
-                    }}
-                  />
-                }
-                label="Contract"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    sx={{
-                      color: "#fff",
-                      "&.Mui-checked": { color: "#fff" },
-                      "&.Mui-checked:hover": { color: "#fff" },
-                      "&.Mui-checked.Mui-disabled": { color: "#fff" },
-                      "&.Mui-checked.Mui-disabled:hover": { color: "#fff" },
-                      "&.Mui-disabled": { color: "#fff" },
-                      "&.Mui-disabled:hover": { color: "#fff" },
-                    }}
-                  />
-                }
-                label="Freelancer"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    sx={{
-                      color: "#fff",
-                      "&.Mui-checked": { color: "#fff" },
-                      "&.Mui-checked:hover": { color: "#fff" },
-                      "&.Mui-checked.Mui-disabled": { color: "#fff" },
-                      "&.Mui-checked.Mui-disabled:hover": { color: "#fff" },
-                      "&.Mui-disabled": { color: "#fff" },
-                      "&.Mui-disabled:hover": { color: "#fff" },
-                    }}
-                  />
-                }
-                label="Remote work"
-              />
-            </FormGroup>
-            <div className="m-5 text-lg">{"Skill"}</div>
-            <div className="m-5">
-              <select
-                name=""
-                id=""
-                className="bg-black"
-                onChange={(e) => {
-                  setChoosedSkill(e.target.value);
-                }}
-              >
-                {skillList.map((skill) => (
-                  <option value={skill} key={skill}>
-                    {skill}
-                  </option>
-                ))}
-              </select>
+              <FormGroup className="m-5">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: "#fff",
+                        "&.Mui-checked": { color: "#fff" },
+                        "&.Mui-checked:hover": { color: "#fff" },
+                        "&.Mui-checked.Mui-disabled": { color: "#fff" },
+                        "&.Mui-checked.Mui-disabled:hover": { color: "#fff" },
+                        "&.Mui-disabled": { color: "#fff" },
+                        "&.Mui-disabled:hover": { color: "#fff" },
+                      }}
+                    />
+                  }
+                  label="Contract"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: "#fff",
+                        "&.Mui-checked": { color: "#fff" },
+                        "&.Mui-checked:hover": { color: "#fff" },
+                        "&.Mui-checked.Mui-disabled": { color: "#fff" },
+                        "&.Mui-checked.Mui-disabled:hover": { color: "#fff" },
+                        "&.Mui-disabled": { color: "#fff" },
+                        "&.Mui-disabled:hover": { color: "#fff" },
+                      }}
+                    />
+                  }
+                  label="Freelancer"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: "#fff",
+                        "&.Mui-checked": { color: "#fff" },
+                        "&.Mui-checked:hover": { color: "#fff" },
+                        "&.Mui-checked.Mui-disabled": { color: "#fff" },
+                        "&.Mui-checked.Mui-disabled:hover": { color: "#fff" },
+                        "&.Mui-disabled": { color: "#fff" },
+                        "&.Mui-disabled:hover": { color: "#fff" },
+                      }}
+                    />
+                  }
+                  label="Remote work"
+                />
+              </FormGroup>
+              <div className="m-5 text-lg">{"Skill"}</div>
+              <div className="m-5">
+                <select
+                  name=""
+                  id=""
+                  className="bg-black"
+                  onChange={(e) => {
+                    setChoosedSkill(e.target.value);
+                  }}
+                >
+                  {skillList.map((skill) => (
+                    <option value={skill} key={skill}>
+                      {skill}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="m-5 text-lg">{"Sort by"}</div>
             </div>
-          </div>
-          <div className="flex flex-col w-4/5 mx-10">
-            <div>{message}</div>
-            {data.map((user) => (
-              <div className="flex my-5 bg-gray-800 h-44" key={user.id}>
-                <div className="flex flex-col w-1/4 h-full p-3 bg-gray-800">
-                  <div className="flex h-3/5">
-                    {/* round profile picture */}
-                    <div className="w-2/5">
-                      <Link to={"/profile/" + user.id}>
-                        <div className="w-20 h-20 bg-gray-500 rounded-full">
+            <div className="flex flex-col w-4/5 mx-10">
+              <div>{message}</div>
+              {data.map((user) => (
+                <div className="flex h-48 my-5 bg-gray-800" key={user.id}>
+                  <div className="flex flex-col w-1/4 h-full p-3 bg-gray-800">
+                    <div className="flex h-3/5">
+                      {/* round profile picture */}
+                      <div className="w-2/5">
+                        <Link to={"/profile/" + user.id}>
+                          <div className="w-20 h-20 bg-gray-500 rounded-full">
+                            <img
+                              className="w-20 h-20 rounded-full"
+                              src={user.image}
+                              alt="profile"
+                            />
+                          </div>
+                        </Link>
+                      </div>
+                      <div className="flex-col w-3/5 font-bold">
+                        <div className="flex items-center justify-between my-2">
+                          <div className="mr-2">{user.name}</div>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            className="w-4 h-6"
+                          >
+                            <img
+                              src="/assets/icons/addPeople.png"
+                              className="w-3 h-3 mr-1"
+                              alt=""
+                            />{" "}
+                            invite
+                          </Button>
+                        </div>
+
+                        <div className="text-xs text-gray-300">
+                          {user.jobStr}
+                        </div>
+                        <div className="flex mt-3 text-xs font-bold text-gray-300">
                           <img
-                            className="w-20 h-20 rounded-full"
-                            src={user.image}
-                            alt="profile"
+                            src="/assets/icons/location.png"
+                            className="w-3 h-3"
+                            alt=""
+                          />{" "}
+                          {user.location}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col mt-2 text-xs text-gray-300 h-2/5">
+                      <div className="flex">
+                        {user.userPreferences &&
+                          Object.entries(user.userPreferences).map(
+                            ([key, value]) =>
+                              value && (
+                                <div
+                                  key={Math.random()}
+                                  className="p-1 my-2 mr-2 bg-[#3c3a41] "
+                                >
+                                  {key}
+                                </div>
+                              )
+                          )}
+                        <div></div>
+                      </div>
+                      <div>skills: {user.skillStr}</div>
+                    </div>
+                  </div>
+                  {/* <div className="flex w-1/4 bg-black">123</div> */}
+                  {portfolioDetail[user.id - 1] &&
+                    portfolioDetail[user.id - 1].length > 0 &&
+                    portfolioDetail[user.id - 1].map((work) => (
+                      <div
+                        className="flex flex-col w-1/4 bg-black"
+                        key={Math.random()}
+                      >
+                        <div className="w-full bg-white h-4/5">
+                          <img
+                            src={work.image}
+                            className="object-cover w-full h-full"
+                            alt=""
                           />
                         </div>
-                      </Link>
-                    </div>
-                    <div className="flex-col w-3/5">
-                      <div>{user.name}</div>
-
-                      <div className="text-xs text-gray-300">{user.jobStr}</div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col text-xs text-gray-300 h-2/5">
-                    <div>{user.skillStr}</div>
-                    <div className="flex">
-                      {user.userPreferences &&
-                        Object.entries(user.userPreferences).map(
-                          ([key, value]) =>
-                            value && (
-                              <div
-                                key={Math.random()}
-                                className="p-1 my-2 mr-2 border"
-                              >
-                                V {key}
-                              </div>
-                            )
-                        )}
-                      <div></div>
-                    </div>
-                  </div>
-                </div>
-                {/* <div className="flex w-1/4 bg-black">123</div> */}
-                {portfolioDetail[user.id - 1] &&
-                  portfolioDetail[user.id - 1].length > 0 &&
-                  portfolioDetail[user.id - 1].map((work) => (
-                    <div
-                      className="flex flex-col w-1/4 bg-black"
-                      key={Math.random()}
-                    >
-                      <div className="w-full bg-white h-4/5">
-                        <img
-                          src={work.image}
-                          className="object-cover w-full h-full"
-                          alt=""
-                        />
+                        <div className="h-1/5">{work.name}</div>
                       </div>
-                      <div className="h-1/5">{work.name}</div>
-                    </div>
-                  ))}
-              </div>
-            ))}
+                    ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex-grow"></div>
-      <Footer />
-    </div>
+        <div className="flex-grow"></div>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }

@@ -61,10 +61,13 @@ export default function ProjectList() {
             <div className="grid w-4/5 grid-cols-2 mx-10">
               {data.map((job) => (
                 <div
-                  className="flex flex-col h-48 mx-6 mb-6 bg-black"
+                  className="flex flex-col h-48 mx-6 mb-6 bg-[#2c2830]"
                   key={job.id}
                 >
-                  <div className="relative flex p-2 h-1/3">
+                  <Link
+                    to={`/project/${job.projectId}`}
+                    className="relative flex p-2 h-1/3"
+                  >
                     <div className="absolute w-12 h-12 ml-2 rounded-full">
                       <img
                         src={job.image}
@@ -74,13 +77,13 @@ export default function ProjectList() {
                     </div>
                     <div className="flex items-end justify-center w-full">
                       <div className="flex flex-col">
-                        <div className="text-center">{job.name}</div>
+                        <div className="text-center h2">{job.name}</div>
                         <div className="text-xs text-center text-gray-300">
                           Looking for: {job.jobType}
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                   <div className="flex flex-col px-5 pt-2 text-s h-2/3 ">
                     <div className="h-3/5">{job.about}</div>
                     <div className="h-2/5">

@@ -8,6 +8,7 @@ import projectModel from "../models/project.model.js";
 const getProjectById = async (req, res) => {
   try {
     const project = await projectModel.getProjectById(req.params.id);
+    console.log(project);
     res.status(200).send(project);
   } catch (err) {
     console.log(err);

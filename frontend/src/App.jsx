@@ -5,6 +5,7 @@ import Homepage from "./components/pages/HomePage";
 import Loginpage from "./components/pages/LoginPage";
 import PartnerList from "./components/pages/PartnerList";
 import ProfilePage from "./components/pages/ProfilePage";
+import ProjectDetail from "./components/pages/ProjectDetail";
 import Registerpage from "./components/pages/RegisterPage";
 import JobList from "./components/pages/JobList";
 import SelfProfilePage from "./components/pages/SelfProfilePage";
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/partners" element={<PartnerList />} />
         <Route path="/jobs" element={<JobList />} />
         <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/project/:id" element={<ProjectDetail />} />
         <Route path="/selfProfile" element={<SelfProfilePage />} />
         <Route path="/" element={<Homepage />} />
       </Routes>
