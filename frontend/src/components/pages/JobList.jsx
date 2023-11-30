@@ -35,7 +35,7 @@ export default function ProjectList() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="h-screen flex flex-col bg-[#242128]">
+      <div className="h-screen flex flex-col bg-[#1A171D]">
         <Header />
         <div className="flex justify-center text-white">
           <div className="flex w-5/6 m-10">
@@ -61,7 +61,7 @@ export default function ProjectList() {
             <div className="grid w-4/5 grid-cols-2 mx-10">
               {data.map((job) => (
                 <div
-                  className="flex flex-col h-48 mx-6 mb-6 bg-[#2c2830]"
+                  className="flex flex-col h-56 mx-6 mb-6 bg-[#2c2830]"
                   key={job.id}
                 >
                   <Link

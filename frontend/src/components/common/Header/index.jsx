@@ -64,73 +64,80 @@ export default function Header() {
       });
   }, []);
   return (
-    <header className="flex justify-center h-20 text-white bg-black">
-      <div className="flex items-center justify-end w-1/3 px-20">
-        <Link to={"/partners"}>
-          <div
-            className={
-              "text-l h2 " +
-              (nowPage === "partners" ? "border-b-2 border-white" : "")
-            }
-          >
-            Find Partner
-          </div>
-        </Link>
-      </div>
-      <div className="flex items-center justify-center w-1/5">
-        <Link to={"/"}>
-          <img className="w-28" src={logo} alt="logo" />
-        </Link>
-      </div>
-      <div className="flex items-center justify-between w-1/3 px-20">
-        <Link to={"/jobs"}>
-          <div
-            className={
-              "text-l h2 " +
-              (nowPage === "jobs" ? "border-b-2 border-white" : "")
-            }
-          >
-            Find Project
-          </div>
-        </Link>
-        {loggedIn ? (
-          <>
-            <div className="flex">
-              <Link to={"/selfProfile"}>
-                <div className="flex items-center mx-3">
-                  <div>
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src={user.image}
-                      alt="profile"
-                    />
-                  </div>
-                  <div className="ml-3">{user.name}</div>
-                </div>
-              </Link>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                style={{
-                  border: "None",
-                  fontSize: "0.8rem",
-                }}
-                onClick={() => {
-                  storage.removeItem("token");
-                  setLoggedIn(false);
-                  navigate("/");
-                }}
-              >
-                Logout
-              </Button>
+    <header className="relative flex justify-center h-20 text-white bg-black z-99">
+      {/* <img
+        className="absolute z-0 object-cover w-full h-full opacity-25"
+        src="/assets/header/background.jpg"
+        alt=""
+      /> */}
+      <div className="absolute flex justify-center w-full h-full">
+        <div className="flex items-center justify-end w-1/3 px-20">
+          <Link to={"/partners"}>
+            <div
+              className={
+                "text-l h2 " +
+                (nowPage === "partners" ? "border-b-2 border-white" : "")
+              }
+            >
+              Find Partner
             </div>
-          </>
-        ) : (
-          <Link to={"/login"}>
-            <div className="text-l h2">Login / Register</div>
           </Link>
-        )}
+        </div>
+        <div className="flex items-center justify-center w-1/5">
+          <Link to={"/"}>
+            <img className="w-28" src={logo} alt="logo" />
+          </Link>
+        </div>
+        <div className="flex items-center justify-between w-1/3 px-20">
+          <Link to={"/jobs"}>
+            <div
+              className={
+                "text-l h2 " +
+                (nowPage === "jobs" ? "border-b-2 border-white" : "")
+              }
+            >
+              Find Project
+            </div>
+          </Link>
+          {loggedIn ? (
+            <>
+              <div className="flex">
+                <Link to={"/selfProfile"}>
+                  <div className="flex items-center mx-3">
+                    <div>
+                      <img
+                        className="w-8 h-8 rounded-full"
+                        src={user.image}
+                        alt="profile"
+                      />
+                    </div>
+                    <div className="ml-3">{user.name}</div>
+                  </div>
+                </Link>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  style={{
+                    border: "None",
+                    fontSize: "0.8rem",
+                  }}
+                  onClick={() => {
+                    storage.removeItem("token");
+                    setLoggedIn(false);
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </div>
+            </>
+          ) : (
+            <Link to={"/login"}>
+              <div className="text-l h2">Login / Register</div>
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   );

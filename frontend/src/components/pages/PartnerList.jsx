@@ -37,20 +37,24 @@ export default function PartnerList() {
     console.log("before", result);
 
     for (let i = 0; i < data.length; i++) {
-      if (!data[i].portfolio) continue;
-      for (let j = 0; j < data[i].portfolio.length; j++) {
-        console.log(i, j);
-        let resp = await fetch(
-          "http://localhost:8000/api/1.0/user/work/" + data[i].portfolio[j],
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        let dataNow = await resp.json();
-        result[i] = [...result[i], dataNow];
+      if (data[i].portfolio) {
+        for (let j = 0; j < data[i].portfolio.length; j++) {
+          console.log(i, j);
+          let resp = await fetch(
+            "http://localhost:8000/api/1.0/user/work/" + data[i].portfolio[j],
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          let dataNow = await resp.json();
+          result[i] = [...result[i], dataNow];
+        }
+      }
+      while (result[i].length < 3) {
+        result[i].push({});
       }
     }
     console.log(result);
@@ -129,7 +133,7 @@ export default function PartnerList() {
     }
     console.log("aaaaa");
     getChoosedSkill();
-  }, [choosedSkill]);
+  }, []);
 
   useEffect(() => {
     getPortfolio();
@@ -137,7 +141,7 @@ export default function PartnerList() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="min-h-screen flex flex-col bg-[#242128]">
+      <div className="min-h-screen flex flex-col bg-[#1A171D]">
         <Header />
         <div className="flex justify-center text-white">
           <div className="flex w-5/6 m-10">
@@ -216,8 +220,8 @@ export default function PartnerList() {
             <div className="flex flex-col w-4/5 mx-10">
               <div>{message}</div>
               {data.map((user) => (
-                <div className="flex h-48 my-5 bg-gray-800" key={user.id}>
-                  <div className="flex flex-col w-1/4 h-full p-3 bg-gray-800">
+                <div className="flex h-48 my-5  bg-[#2c2830]" key={user.id}>
+                  <div className="flex flex-col w-2/5 h-full p-3">
                     <div className="flex h-3/5">
                       {/* round profile picture */}
                       <div className="w-2/5">
@@ -285,17 +289,19 @@ export default function PartnerList() {
                     portfolioDetail[user.id - 1].length > 0 &&
                     portfolioDetail[user.id - 1].map((work) => (
                       <div
-                        className="flex flex-col w-1/4 bg-black"
+                        className="flex flex-col w-1/5 p-2 m-1 "
                         key={Math.random()}
                       >
-                        <div className="w-full bg-white h-4/5">
-                          <img
-                            src={work.image}
-                            className="object-cover w-full h-full"
-                            alt=""
-                          />
+                        <div className="w-full h-full ">
+                          {work.image && (
+                            <img
+                              src={work.image}
+                              className="object-cover w-full h-full rounded"
+                              alt=""
+                            />
+                          )}
                         </div>
-                        <div className="h-1/5">{work.name}</div>
+                        {/* <div className="h-1/5">{work.name}</div> */}
                       </div>
                     ))}
                 </div>
