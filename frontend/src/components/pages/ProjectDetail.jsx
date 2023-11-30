@@ -59,19 +59,23 @@ export default function ProjectDetail() {
       <div className="flex justify-center w-full mt-8 text-white">
         <div className="w-3/5">
           <div className="h-52">
-            <img
-              className="object-cover w-full h-full"
-              src={project.bannerImage}
-              alt=""
-            />
+            {project.bannerImage && (
+              <img
+                className="object-cover w-full h-full"
+                src={project.bannerImage}
+                alt=""
+              />
+            )}
           </div>
           <div className="relative flex p-5  bg-[#2c2830]">
             <div className="w-32 h-32">
-              <img
-                className="absolute top-0 object-cover w-32 h-32 rounded-full -translate-y-1/3 left-6"
-                src={project.image}
-                alt=""
-              />
+              {project.image && (
+                <img
+                  className="absolute top-0 object-cover w-32 h-32 rounded-full -translate-y-1/3 left-6"
+                  src={project.image}
+                  alt=""
+                />
+              )}
             </div>
             <div className="ml-8 ">
               <div className="flex items-end">

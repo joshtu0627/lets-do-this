@@ -65,11 +65,11 @@ export default function Header() {
   }, []);
   return (
     <header className="relative flex justify-center h-20 text-white bg-black z-99">
-      {/* <img
+      <img
         className="absolute z-0 object-cover w-full h-full opacity-25"
         src="/assets/header/background.jpg"
         alt=""
-      /> */}
+      />
       <div className="absolute flex justify-center w-full h-full">
         <div className="flex items-center justify-end w-1/3 px-20">
           <Link to={"/partners"}>
