@@ -53,7 +53,7 @@ const defaultTheme = createTheme(
   }
 );
 
-export default function SignIn() {
+export default function Register() {
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -100,7 +100,7 @@ export default function SignIn() {
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Register
           </Typography>
           <Box
             component="form"
@@ -128,6 +128,16 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="repeat-password"
+              label="Repeat Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -138,7 +148,7 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Register
             </Button>
             <Grid container>
               <Grid item xs>
@@ -147,8 +157,8 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link href="/login" variant="body2">
+                  {"Have an account? Sign In"}
                 </Link>
               </Grid>
             </Grid>

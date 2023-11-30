@@ -2,13 +2,13 @@ import React from "react";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 
-import LoginPanel from "../loginpage/LoginPanel";
+import RegisterPanel from "../loginpage/RegisterPanel";
 
 export default function Registerpage() {
   return (
     <div className="h-screen flex flex-col bg-[#242128]">
       <Header />
-      <LoginPanel />
+      <RegisterPanel />
       <div className="flex-grow"></div>
       <Footer />
     </div>
