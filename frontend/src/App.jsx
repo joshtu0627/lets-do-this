@@ -9,6 +9,7 @@ import ProjectDetail from "./components/pages/ProjectDetail";
 import Registerpage from "./components/pages/RegisterPage";
 import JobList from "./components/pages/JobList";
 import SelfProfilePage from "./components/pages/SelfProfilePage";
+import MyHomePage from "./components/pages/MyHomePage";
 
 import "./App.css";
 
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/profile/:id" element={<ProfilePage />} />
         <Route path="/project/:id" element={<ProjectDetail />} />
         <Route path="/selfProfile" element={<SelfProfilePage />} />
+        <Route path="/myHomePage" element={<MyHomePage />} />
         <Route path="/" element={<Homepage />} />
       </Routes>
     </BrowserRouter>

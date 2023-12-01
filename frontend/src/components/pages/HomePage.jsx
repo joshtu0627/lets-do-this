@@ -33,7 +33,8 @@ export default function Homepage() {
       .then((data) => {
         console.log(data);
         if (data.message === "success") {
-          setLoggedIn(true);
+          navigate("/myHomePage");
+          // setLoggedIn(true);
           console.log("logged in");
         } else {
           setLoggedIn(false);

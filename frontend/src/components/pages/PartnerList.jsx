@@ -87,10 +87,6 @@ export default function PartnerList() {
       });
   }
 
-  useEffect(() => {
-    console.log(portfolioDetail);
-  }, [portfolioDetail]);
-
   function getChoosedSkill() {
     setMessage("searching...");
     setData([]);
@@ -133,7 +129,7 @@ export default function PartnerList() {
     }
     console.log("aaaaa");
     getChoosedSkill();
-  }, []);
+  }, [choosedSkill]);
 
   useEffect(() => {
     getPortfolio();
@@ -289,10 +285,25 @@ export default function PartnerList() {
                     portfolioDetail[user.id - 1].length > 0 &&
                     portfolioDetail[user.id - 1].map((work) => (
                       <div
-                        className="flex flex-col w-1/5 p-2 m-1 "
+                        className="flex flex-col w-1/5 p-2 m-1 relative"
                         key={Math.random()}
                       >
                         <div className="w-full h-full ">
+                          <div className="absolute top-0 left-0 p-2 w-full h-full">
+                            <div className="w-full h-full rounded  bg-gradient-to-t from-black to-transparent opacity-0 transition-opacity duration-300 hover:opacity-100">
+                              <div className="relative w-full h-full ">
+                                <div className="absolute left-3 bottom-3 flex flex-col">
+                                  <div className=" h2 font-bold text-s">
+                                    {work.name}
+                                  </div>
+                                  <div className="text-xs text-gray-300">
+                                    {" "}
+                                    {work.about}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           {work.image && (
                             <img
                               src={work.image}

@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 
 import userController from "../controllers/user.controller.js";
+import projectUserController from "../controllers/project_user.controller.js";
 
 import authMiddleware from "../middlewares/auth.middleware.js";
 
@@ -34,5 +35,7 @@ router.get("/profileById/:id", userController.profileById);
 router.get("/experties/:type", userController.getUserByExpertise);
 
 router.get("/work/:id", userController.getWorkById);
+
+router.get("/:id/projects", projectUserController.getProjectsByUserId);
 
 export default router;

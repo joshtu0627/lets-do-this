@@ -91,7 +91,7 @@ export default function ProjectDetail() {
                   ))}
               </div>
               <div className="flex items-center mt-5">
-                <div className="">Hiring : </div>
+                <div className="mr-3">Hiring : </div>
 
                 {project.hiring &&
                   project.hiring.map((job) => (
