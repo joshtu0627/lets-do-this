@@ -80,7 +80,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className=" flex flex-col bg-[#242128]">
+    <div className="min-h-screen  flex flex-col bg-[#242128]">
       <Header />
       <div className="flex justify-center w-full mt-8 text-white">
         <div className="w-3/5">

@@ -9,55 +9,55 @@ import Footer from "../common/Footer";
 
 export default function ProfilePage() {
   const [user, setUser] = useState([]);
-
   const [portfolioDetail, setPortfolioDetail] = useState([]);
-
   const { id } = useParams();
 
-  async function getPortfolio() {
-    if (!user.portfolio) return;
-
-    let result = [];
-
-    console.log("before", result);
-
-    for (
-      let j = 0;
-      j < (user.portfolio.length <= 3 ? user.portfolio.length : 3);
-      j++
-    ) {
-      let resp = await fetch(
-        "http://localhost:8000/api/1.0/user/work/" + user.portfolio[j],
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      let dataNow = await resp.json();
-      result = [...result, dataNow];
+  const fetchData = async (url, options = {}) => {
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        ...options,
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Fetch error: ", error);
+      return null;
     }
-    console.log(result);
-    setPortfolioDetail([...result]);
+  };
+
+  async function getPortfolio() {
+    if (!user.portfolio || user.portfolio.length === 0) return;
+
+    let portfolioLength = Math.min(user.portfolio.length, 3);
+    let portfolioRequests = user.portfolio
+      .slice(0, portfolioLength)
+      .map((portfolioId) =>
+        fetchData(`http://localhost:8000/api/1.0/user/work/${portfolioId}`)
+      );
+
+    let result = await Promise.all(portfolioRequests);
+    setPortfolioDetail(result);
   }
+
   useEffect(() => {
     getPortfolio();
   }, [user]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/1.0/user/profileById/" + id, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
+    fetchData(`http://localhost:8000/api/1.0/user/profileById/${id}`).then(
+      (data) => {
+        if (!data) return;
         data.jobStr = data.job ? data.job.join(" / ") : "";
         setUser(data);
-      });
-  }, []);
+      }
+    );
+  }, [id]);
+
+  // fetchData 函數，可以從之前的示例中獲得
 
   function getResume() {
     window.open(user.resumeLink);

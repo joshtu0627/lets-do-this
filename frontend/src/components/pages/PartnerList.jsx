@@ -19,116 +19,65 @@ export default function PartnerList() {
   const [choosedSkill, setChoosedSkill] = useState("None");
   const [portfolioDetail, setPortfolioDetail] = useState([]);
 
-  function concatJson(job) {
-    let result = "";
-    for (let i = 0; i < 4; i++) {
-      if (!job[i]) break;
-      result += job[i];
-      if (i !== 3) {
-        result += ", ";
-      }
-    }
-    return result;
-  }
+  const processUserData = (userData) => {
+    userData.forEach((user) => {
+      user.jobStr = user.job?.join(", ") || "";
+      user.skillStr = user.skill?.join(", ") || "";
+    });
+    return userData;
+  };
 
   async function getPortfolio() {
-    let result = Array(data.length).fill([]);
-
-    console.log("before", result);
-
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].portfolio) {
-        for (let j = 0; j < data[i].portfolio.length; j++) {
-          console.log(i, j);
-          let resp = await fetch(
-            "http://localhost:8000/api/1.0/user/work/" + data[i].portfolio[j],
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
+    let result = await Promise.all(
+      data.map(async (user) => {
+        if (user.portfolio) {
+          const portfolioData = await Promise.all(
+            user.portfolio.map((portfolioId) =>
+              fetchData(
+                `http://localhost:8000/api/1.0/user/work/${portfolioId}`
+              )
+            )
           );
-          let dataNow = await resp.json();
-          result[i] = [...result[i], dataNow];
+          return portfolioData.length ? portfolioData : new Array(3).fill({});
         }
-      }
-      while (result[i].length < 3) {
-        result[i].push({});
-      }
-    }
-    console.log(result);
-    setPortfolioDetail([...result]);
+        return new Array(3).fill({});
+      })
+    );
+    setPortfolioDetail(result);
   }
 
   function getAllUser() {
-    fetch("http://localhost:8000/api/1.0/user/all", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        // console.log(data);
-
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].job && data[i].skill) {
-            data[i].jobStr = data[i].job.join(", ");
-            data[i].skillStr = data[i].skill.join(", ");
-          }
-        }
-        if (data.length === 0) {
-          setMessage("No result found");
-        } else {
-          setMessage("");
-        }
-        setData(data);
-      });
+    fetchData("http://localhost:8000/api/1.0/user/all").then((data) => {
+      if (!data || data.length === 0) {
+        setMessage("No result found");
+        return;
+      }
+      setMessage("");
+      setData(processUserData(data));
+    });
   }
 
   function getChoosedSkill() {
     setMessage("searching...");
     setData([]);
-    // to lower case
-    fetch(
-      "http://localhost:8000/api/1.0/user/experties/" +
-        choosedSkill.toLowerCase(),
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    fetchData(
+      `http://localhost:8000/api/1.0/user/experties/${choosedSkill.toLowerCase()}`
+    ).then((data) => {
+      if (!data || data.length === 0) {
+        setMessage("No result found");
+        return;
       }
-    )
-      .then((resp) => resp.json())
-      .then(async (data) => {
-        // console.log(data);
-        for (let i = 0; i < data.length; i++) {
-          data[i].jobStr = concatJson(data[i].job);
-          data[i].skillStr = concatJson(data[i].skill);
-        }
-        if (data.length === 0) {
-          setMessage("No result found");
-        } else {
-          setMessage("");
-        }
-        setData(data);
-      });
+      setMessage("");
+      setData(processUserData(data));
+    });
   }
-
-  // useEffect(() => {
-  //   getAllUser();
-  // }, []);
 
   useEffect(() => {
     if (choosedSkill === "None") {
-      console.log("bbbbb");
       getAllUser();
-      return;
+    } else {
+      getChoosedSkill();
     }
-    console.log("aaaaa");
-    getChoosedSkill();
   }, [choosedSkill]);
 
   useEffect(() => {
@@ -285,15 +234,15 @@ export default function PartnerList() {
                     portfolioDetail[user.id - 1].length > 0 &&
                     portfolioDetail[user.id - 1].map((work) => (
                       <div
-                        className="flex flex-col w-1/5 p-2 m-1 relative"
+                        className="relative flex flex-col w-1/5 p-2 m-1"
                         key={Math.random()}
                       >
                         <div className="w-full h-full ">
-                          <div className="absolute top-0 left-0 p-2 w-full h-full">
-                            <div className="w-full h-full rounded  bg-gradient-to-t from-black to-transparent opacity-0 transition-opacity duration-300 hover:opacity-100">
+                          <div className="absolute top-0 left-0 w-full h-full p-2">
+                            <div className="w-full h-full transition-opacity duration-300 rounded opacity-0 bg-gradient-to-t from-black to-transparent hover:opacity-100">
                               <div className="relative w-full h-full ">
-                                <div className="absolute left-3 bottom-3 flex flex-col">
-                                  <div className=" h2 font-bold text-s">
+                                <div className="absolute flex flex-col left-3 bottom-3">
+                                  <div className="font-bold h2 text-s">
                                     {work.name}
                                   </div>
                                   <div className="text-xs text-gray-300">

@@ -55,6 +55,7 @@ export default function Header() {
   }, [open]);
 
   useEffect(() => {
+    const abortController = new AbortController();
     const currentPath = window.location.href;
     console.log(currentPath);
 
@@ -101,6 +102,10 @@ export default function Header() {
           console.log("not logged in");
         }
       });
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
   return (
     <header className="relative flex justify-center h-20 text-white bg-black z-99">
@@ -153,7 +158,7 @@ export default function Header() {
                     <div className="ml-3">{user.name}</div>
                   </div>
                 </Link>
-                <Stack direction="row" spacing={2}>
+                <Stack direction="row" spacing={2} className="z-50">
                   <div>
                     <Button
                       ref={anchorRef}

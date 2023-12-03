@@ -30,10 +30,43 @@ const getNotificationByUserId = async (userId) => {
           // 將每個異步操作都放入到陣列中
           const promises = rows.map(async (row) => {
             let project = await projectModel.getProjectById(row.projectId);
+
+            // 計算與現在時間的差距
+            const now = new Date();
+            const timeDiff = now - row.timestamp;
+            const minuteDiff = Math.floor(timeDiff / 1000 / 60);
+            const hourDiff = Math.floor(minuteDiff / 60);
+            const dayDiff = Math.floor(hourDiff / 24);
+            const monthDiff = Math.floor(dayDiff / 30);
+            const yearDiff = Math.floor(monthDiff / 12);
+
+            // 設定時間顯示格式
+            let time = "";
+            if (yearDiff > 0) {
+              time = `${yearDiff} years ago`;
+            } else if (monthDiff > 0) {
+              time = `${monthDiff} months ago`;
+            } else if (dayDiff > 0) {
+              time = `${dayDiff} days ago`;
+            } else if (hourDiff > 0) {
+              time = `${hourDiff} hours ago`;
+            } else if (minuteDiff > 0) {
+              time = `${minuteDiff} minutes ago`;
+            } else {
+              time = "just now";
+            }
+
+            // 將計算後的時間差距加入到 row 物件中
+            row = {
+              ...row,
+              timeDiff: time,
+            };
+
             row = {
               ...row,
               project: project,
             };
+            console.log(timeDiff);
             return row;
           });
 
