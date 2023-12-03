@@ -10,6 +10,7 @@ import Registerpage from "./components/pages/RegisterPage";
 import JobList from "./components/pages/JobList";
 import SelfProfilePage from "./components/pages/SelfProfilePage";
 import MyHomePage from "./components/pages/MyHomePage";
+import NotificationPage from "./components/pages/NotificationPage";
 
 import "./App.css";
 
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/project/:id" element={<ProjectDetail />} />
         <Route path="/selfProfile" element={<SelfProfilePage />} />
         <Route path="/myHomePage" element={<MyHomePage />} />
+        <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/" element={<Homepage />} />
       </Routes>
     </BrowserRouter>

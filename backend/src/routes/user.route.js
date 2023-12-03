@@ -3,6 +3,7 @@ import passport from "passport";
 
 import userController from "../controllers/user.controller.js";
 import projectUserController from "../controllers/project_user.controller.js";
+import notificationController from "../controllers/notification.controller.js";
 
 import authMiddleware from "../middlewares/auth.middleware.js";
 
@@ -37,5 +38,10 @@ router.get("/experties/:type", userController.getUserByExpertise);
 router.get("/work/:id", userController.getWorkById);
 
 router.get("/:id/projects", projectUserController.getProjectsByUserId);
+
+router.get(
+  "/:id/notifications",
+  notificationController.getNotificationByUserId
+);
 
 export default router;

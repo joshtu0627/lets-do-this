@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import Stack from "@mui/material/Stack";
 
 import logo from "../../../assets/logo.png";
 
@@ -14,6 +21,38 @@ export default function Header() {
 
   const navigate = useNavigate();
   const storage = window.localStorage;
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = useRef(open);
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 
   useEffect(() => {
     const currentPath = window.location.href;
@@ -101,7 +140,7 @@ export default function Header() {
           </Link>
           {loggedIn ? (
             <>
-              <div className="flex">
+              <div className="flex items-center">
                 <Link to={"/selfProfile"}>
                   <div className="flex items-center mx-3">
                     <div>
@@ -114,6 +153,82 @@ export default function Header() {
                     <div className="ml-3">{user.name}</div>
                   </div>
                 </Link>
+                <Stack direction="row" spacing={2}>
+                  <div>
+                    <Button
+                      ref={anchorRef}
+                      id="composition-button"
+                      aria-controls={open ? "composition-menu" : undefined}
+                      aria-expanded={open ? "true" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleToggle}
+                    >
+                      <div className="flex items-center w-3 h-5 mx-3">
+                        {open ? (
+                          <img src="/assets/header/up.png" alt="" />
+                        ) : (
+                          <img src="/assets/header/down.png" alt="" />
+                        )}
+                      </div>
+                    </Button>
+                    <Popper
+                      open={open}
+                      anchorEl={anchorRef.current}
+                      role={undefined}
+                      placement="bottom-start"
+                      transition
+                      disablePortal
+                    >
+                      {({ TransitionProps, placement }) => (
+                        <Grow
+                          {...TransitionProps}
+                          style={{
+                            transformOrigin:
+                              placement === "bottom-start"
+                                ? "left top"
+                                : "left bottom",
+                          }}
+                        >
+                          <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                              <MenuList
+                                autoFocusItem={open}
+                                id="composition-menu"
+                                aria-labelledby="composition-button"
+                                onKeyDown={handleListKeyDown}
+                              >
+                                <MenuItem
+                                  onClick={() => {
+                                    navigate("/selfProfile");
+                                  }}
+                                >
+                                  Profile
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={() => {
+                                    storage.removeItem("token");
+                                    setLoggedIn(false);
+                                    navigate("/");
+                                  }}
+                                >
+                                  Logout
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={() => {
+                                    navigate("/notifications");
+                                  }}
+                                >
+                                  Notifications
+                                </MenuItem>
+                              </MenuList>
+                            </ClickAwayListener>
+                          </Paper>
+                        </Grow>
+                      )}
+                    </Popper>
+                  </div>
+                </Stack>
+
                 <Button
                   variant="outlined"
                   color="primary"
