@@ -48,6 +48,17 @@ const signup = async (req, res) => {
   }
 };
 
+const isLoggedIn = async (req, res) => {
+  // only accept application/json
+
+  res.status(200).send(
+    JSON.stringify({
+      message: "success",
+      data: req.user,
+    })
+  );
+};
+
 const signin = async (req, res) => {
   // only accept application/json
   // res.message = "success";
@@ -84,15 +95,16 @@ const signin = async (req, res) => {
       }
     );
 
+    // get user information from database
+    const userProfile = await userModel.getUserById(userFromDatabase.id);
+
     // construct response payload
     const responsePayload = {
       data: {
         access_token: token,
-        access_expired: 3600,
+        access_expired: 300000,
         user: {
-          id: userFromDatabase.id,
-          name: userFromDatabase.name,
-          email: userFromDatabase.email,
+          ...userProfile,
         },
       },
     };
@@ -153,6 +165,7 @@ const getWorkById = async (req, res) => {
 const userController = {
   signup,
   signin,
+  isLoggedIn,
   profile,
   profileById,
   getUserByExpertise,

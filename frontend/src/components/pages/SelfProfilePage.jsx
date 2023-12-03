@@ -7,10 +7,11 @@ import Button from "@mui/material/Button";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 
-export default function ProfilePage() {
-  const navigate = useNavigate();
+import { useUser } from "../../contexts/UserContext";
 
-  const [user, setUser] = useState([]);
+export default function ProfilePage() {
+  const { user, login, logout } = useUser();
+  const navigate = useNavigate();
 
   const storage = window.localStorage;
 
@@ -46,34 +47,6 @@ export default function ProfilePage() {
   useEffect(() => {
     getPortfolio();
   }, [user]);
-
-  useEffect(() => {
-    const token = storage.getItem("token");
-
-    // use backend passport to check if user is logged in
-    fetch("http://localhost:8000/api/1.0/user/isLoggedIn", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // 將 token 放入 Authorization header 中
-      },
-    })
-      .then((resp) => {
-        console.log(resp);
-        return resp.json();
-      })
-      .then((data) => {
-        console.log(data);
-        if (data.message === "success") {
-          data.data.jobStr = data.data.job.join(" / ");
-          setUser(data.data);
-          console.log("logged in");
-        } else {
-          navigate("/login");
-          console.log("not logged in");
-        }
-      });
-  }, []);
 
   function getResume() {
     window.open(user.resumeLink);

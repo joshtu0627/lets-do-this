@@ -11,11 +11,12 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 
+import { useUser } from "../../../contexts/UserContext";
+
 import logo from "../../../assets/logo.png";
 
 export default function Header() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
+  const { user, login, logout } = useUser();
 
   const [nowPage, setNowPage] = useState("home");
 
@@ -55,7 +56,6 @@ export default function Header() {
   }, [open]);
 
   useEffect(() => {
-    const abortController = new AbortController();
     const currentPath = window.location.href;
     console.log(currentPath);
 
@@ -77,36 +77,8 @@ export default function Header() {
       setNowPage("home");
     }
 
-    const token = storage.getItem("token");
-
-    // use backend passport to check if user is logged in
-    fetch("http://localhost:8000/api/1.0/user/isLoggedIn", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // 將 token 放入 Authorization header 中
-      },
-    })
-      .then((resp) => {
-        console.log(resp);
-        return resp.json();
-      })
-      .then((data) => {
-        console.log(data);
-        if (data.message === "success") {
-          setUser(data.data);
-          setLoggedIn(true);
-          console.log("logged in");
-        } else {
-          setLoggedIn(false);
-          console.log("not logged in");
-        }
-      });
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+    console.log("ssssssssssssssssssss");
+  }, [user]);
   return (
     <header className="relative flex justify-center h-20 text-white bg-black z-99">
       <img
@@ -143,7 +115,7 @@ export default function Header() {
               Find Project
             </div>
           </Link>
-          {loggedIn ? (
+          {user ? (
             <>
               <div className="flex items-center">
                 <Link to={"/selfProfile"}>
@@ -212,7 +184,7 @@ export default function Header() {
                                 <MenuItem
                                   onClick={() => {
                                     storage.removeItem("token");
-                                    setLoggedIn(false);
+                                    logout();
                                     navigate("/");
                                   }}
                                 >
@@ -233,23 +205,6 @@ export default function Header() {
                     </Popper>
                   </div>
                 </Stack>
-
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                  style={{
-                    border: "None",
-                    fontSize: "0.8rem",
-                  }}
-                  onClick={() => {
-                    storage.removeItem("token");
-                    setLoggedIn(false);
-                    navigate("/");
-                  }}
-                >
-                  Logout
-                </Button>
               </div>
             </>
           ) : (

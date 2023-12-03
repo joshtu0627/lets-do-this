@@ -40,9 +40,27 @@ const getProjectsByUserId = async (id) => {
   });
 };
 
+const joinUserInProject = async (projectId, userId, role) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `INSERT INTO user_project (projectId, userId, role) VALUES (${projectId}, ${userId}, '${role}')`,
+      async (err, rows, fields) => {
+        connection.end();
+        if (err) {
+          reject(err);
+        }
+        resolve(rows);
+      }
+    );
+  });
+};
+
 // export model functions
 const projectUserModel = {
   getProjectsByUserId,
+  joinUserInProject,
 };
 
 export default projectUserModel;

@@ -18,7 +18,22 @@ export default function PartnerList() {
   const [message, setMessage] = useState("");
   const [choosedSkill, setChoosedSkill] = useState("None");
   const [portfolioDetail, setPortfolioDetail] = useState([]);
-
+  const fetchData = async (url, options = {}) => {
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        ...options,
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Fetch error: ", error);
+      return null;
+    }
+  };
   const processUserData = (userData) => {
     userData.forEach((user) => {
       user.jobStr = user.job?.join(", ") || "";

@@ -14,6 +14,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams, useNavigate } from "react-router-dom";
 
+import { useUser } from "../../../contexts/UserContext";
+
 function Copyright(props) {
   return (
     <Typography
@@ -54,6 +56,7 @@ const defaultTheme = createTheme(
 );
 
 export default function SignIn() {
+  const { user, login, logout } = useUser();
   const navigate = useNavigate();
 
   const storage = window.localStorage;
@@ -61,10 +64,6 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
     fetch("http://localhost:8000/api/1.0/user/signin", {
       method: "POST",
       headers: {
@@ -77,17 +76,11 @@ export default function SignIn() {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        // test status
-        // if (data.status === "success") {
-        // const user = d
-        console.log(data);
-
+        login(data.data.user);
+        // console.log(data.data.user);
+        console.log("set", data.data.access_token);
         storage.setItem("token", data.data.access_token);
-
-        navigate("/profile/" + data.data.user.id);
-        // } else {
-        //   alert("Wrong email or password");
-        // }
+        navigate("/myHomePage");
       });
   };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 
 import Header from "../common/Header";
 import Footer from "../common/Footer";
@@ -10,7 +11,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 
 export default function MyHomePage() {
-  const [user, setUser] = useState({});
+  const { user, login, logout } = useUser();
   const [notifications, setNotifications] = useState([]);
   const storage = window.localStorage;
   const navigate = useNavigate();
@@ -40,24 +41,6 @@ export default function MyHomePage() {
       return null;
     }
   };
-
-  useEffect(() => {
-    const token = storage.getItem("token");
-    fetchData("http://localhost:8000/api/1.0/user/isLoggedIn", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((data) => {
-        if (data?.message === "success") {
-          setUser(data.data);
-        } else {
-          navigate("/login");
-        }
-      })
-      .catch((error) => {
-        console.error("Error checking login status:", error);
-        navigate("/login");
-      });
-  }, []);
 
   useEffect(() => {
     if (!user.id) return;
@@ -123,6 +106,7 @@ export default function MyHomePage() {
                         handleOpen={handleOpen}
                         handleClose={handleClose}
                         notification={notification}
+                        user={user}
                       />
                     </div>
                   </div>
