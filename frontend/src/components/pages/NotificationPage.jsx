@@ -43,7 +43,9 @@ export default function MyHomePage() {
   };
 
   useEffect(() => {
-    if (!user.id) return;
+    if (!user) {
+      return;
+    }
     fetchData(`http://127.0.0.1:8000/api/1.0/user/${user.id}/notifications`)
       .then((data) => setNotifications(data))
       .catch((error) => console.error("Error fetching notifications:", error));

@@ -11,6 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 
+import LogoutDialog from "../../dialog/LogoutDialog";
+
 import { useUser } from "../../../contexts/UserContext";
 
 import logo from "../../../assets/logo.png";
@@ -23,6 +25,15 @@ export default function Header() {
   const navigate = useNavigate();
   const storage = window.localStorage;
   const [open, setOpen] = React.useState(false);
+  const [openLogout, setOpenLogout] = React.useState(false);
+  const handleOpenLogout = () => {
+    setOpenLogout(true);
+  };
+
+  const handleCloseLogout = () => {
+    setOpenLogout(false);
+  };
+
   const anchorRef = useRef(null);
 
   const handleToggle = () => {
@@ -76,8 +87,6 @@ export default function Header() {
     } else {
       setNowPage("home");
     }
-
-    console.log("ssssssssssssssssssss");
   }, [user]);
   return (
     <header className="relative flex justify-center h-20 text-white bg-black z-99">
@@ -184,8 +193,9 @@ export default function Header() {
                                 <MenuItem
                                   onClick={() => {
                                     storage.removeItem("token");
-                                    logout();
-                                    navigate("/");
+                                    handleOpenLogout();
+
+                                    // navigate("/");
                                   }}
                                 >
                                   Logout
@@ -205,6 +215,10 @@ export default function Header() {
                     </Popper>
                   </div>
                 </Stack>
+                <LogoutDialog
+                  open={openLogout}
+                  handleClose={handleCloseLogout}
+                />
               </div>
             </>
           ) : (

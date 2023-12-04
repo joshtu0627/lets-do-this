@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
+
+import JoinProjectDialog from "../../dialog/JoinProjectDialog";
 
 import {
   Dialog,
@@ -17,6 +19,15 @@ export default function NotificationDetail({
   notification,
   user,
 }) {
+  const [openJoinProjectDialog, setOpenJoinProjectDialog] = useState(false);
+  const handleOpenJoinProjectDialog = () => {
+    setOpenJoinProjectDialog(true);
+  };
+
+  const handleCloseJoinProjectDialog = () => {
+    setOpenJoinProjectDialog(false);
+  };
+
   const fetchData = async (url, options = {}) => {
     try {
       const response = await fetch(url, {
@@ -48,6 +59,7 @@ export default function NotificationDetail({
       .then((data) => {
         console.log(data);
         handleClose();
+        setOpenJoinProjectDialog(true);
       })
       .catch((error) => console.error("Error:", error));
   }
@@ -73,26 +85,28 @@ export default function NotificationDetail({
             </div>
 
             <div className="flex justify-center w-1/3">
-              <div className="font-bold">{notification.type}</div>
+              <div className="flex items-center font-bold">
+                {notification.type}
+              </div>
             </div>
 
-            <div className="flex justify-center w-1/3">
+            <div className="flex items-center justify-center w-1/3 font-bold">
               <div>{notification.timeDiff}</div>
             </div>
           </div>
         </DialogTitle>
-        <div className="flex justify-center">
+        <div className="flex justify-center py-2 mx-8 border-b-2 ">
           <div className="text-xl">Role: {notification.role}</div>
         </div>
-        <DialogContent className="mt-10">
-          <div>{notification.text}</div>
+        <DialogContent className="flex flex-col items-center justify-center mt-4">
+          <div className="w-3/5">{notification.text}</div>
           <div className="flex mt-10">
             <Button
               variant="contained"
               color="primary"
               onClick={joinUserToProject}
             >
-              Join the project
+              Join it!
             </Button>
             <div className="mx-5"></div>
             <Button variant="contained" color="primary">
@@ -104,6 +118,11 @@ export default function NotificationDetail({
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
+      <JoinProjectDialog
+        open={openJoinProjectDialog}
+        handleClose={handleCloseJoinProjectDialog}
+        projectName={notification.project.name}
+      />
     </div>
   );
 }
