@@ -81,4 +81,6 @@ router.get(
   notificationController.getNotificationByUserId
 );
 
+router.post("/joinUserProjectTable", projectUserController.joinUserInProject);
+
 export default router;

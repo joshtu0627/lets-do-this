@@ -11,9 +11,13 @@ import Checkbox from "@mui/material/Checkbox";
 import { Input, TextField } from "@mui/material";
 import { CgAdd } from "react-icons/cg";
 
+import { useUser } from "../../contexts/UserContext";
+
 import UpdateProfileSucessDialog from "./UpdateProfileSucessDialog";
 
 export default function CreateProjectDialog({ open, handleClose }) {
+  const { user, login, logout } = useUser();
+
   const [image, setImage] = useState();
   const [bannerImage, setBannerImage] = useState();
 
@@ -53,6 +57,60 @@ export default function CreateProjectDialog({ open, handleClose }) {
       setBannerImage(reader.result);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleCreateProject = async () => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("about", about);
+    formData.append("progress", progressDescription);
+    formData.append("tag", JSON.stringify(tags));
+    formData.append("hiring", JSON.stringify(jobs));
+    formData.append("progressTag", JSON.stringify(progressTags));
+    formData.append("image", imageInputRef.current.files[0]);
+    formData.append("bannerImage", bannerImageInputRef.current.files[0]);
+
+    // let members = {
+    //   [user.id]: "leader",
+    // };
+    // formData.append("members", JSON.stringify(members));
+
+    let resp = await fetch(
+      "http://127.0.0.1:8000/api/1.0/project/createProject",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    let data = await resp.json();
+
+    console.log("user:", user);
+    let userId = user.id;
+
+    let payload = {
+      userId: userId,
+      projectId: data.projectId,
+      role: "Leader",
+    };
+
+    console.log("aewwwwwwwfawf");
+    console.log(payload);
+
+    let resp2 = await fetch(
+      "http://127.0.0.1:8000/api/1.0/user/joinUserProjectTable",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    let data2 = await resp2.json();
+
+    console.log("data2", data2);
   };
 
   return (
@@ -267,7 +325,7 @@ export default function CreateProjectDialog({ open, handleClose }) {
         <DialogActions>
           <Button
             onClick={() => {
-              handleUpdateProfile();
+              handleCreateProject();
               // handleClose();
             }}
             autoFocus
