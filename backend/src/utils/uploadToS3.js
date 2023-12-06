@@ -18,8 +18,8 @@ const uploadToS3 = (file) => {
   const s3 = new AWS.S3();
 
   // set new file name to prevent duplicate
-  const fileName = file.originalname.split(".")[0];
-  const fileExtension = file.originalname.split(".")[1];
+  const fileName = "image";
+  const fileExtension = ".jpg";
   const date = Date.now();
   const newFileName = `${fileName}-${date}.${fileExtension}`;
 
@@ -29,7 +29,7 @@ const uploadToS3 = (file) => {
         Bucket: s3Config.Bucket,
         region: s3Config.region,
         Key: newFileName,
-        Body: file.buffer,
+        Body: file[0].buffer,
       },
       (err, data) => {
         if (err) {

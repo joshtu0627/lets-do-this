@@ -2,6 +2,7 @@ import mysql from "mysql2";
 import bcrypt from "bcrypt";
 
 import { dbConfig } from "../config/db.config.js";
+import { json } from "express";
 
 const signup = async (user) => {
   console.log(user);
@@ -52,12 +53,12 @@ const signup = async (user) => {
 const signin = async (email, password) => {
   const connection = mysql.createConnection(dbConfig);
 
+  console.log(email, password);
   return new Promise((resolve, reject) => {
     connection.query(
       `SELECT * FROM user WHERE email = ?`,
       [email],
       (err, rows, fields) => {
-        connection.end();
         if (err) {
           reject(err);
         }
@@ -65,9 +66,10 @@ const signin = async (email, password) => {
         if (rows.length === 0) {
           reject("user not found");
         }
-
+        console.log(rows);
         const hashedPassword = rows[0].password;
 
+        connection.end();
         // compare password to check if it is correct
         bcrypt.compare(password, hashedPassword).then((result) => {
           if (result) {
@@ -184,6 +186,50 @@ const correctPassword = (encryptedPassword, password) => {
   return bcrypt.compareSync(password, encryptedPassword);
 };
 
+const updateProfile = async (user) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  // 创建基本的 SQL 语句和参数数组
+  let sql =
+    "UPDATE user SET name = ?, job = ?, location = ?, about = ?, resumeLink = ?, userPreferences = ?";
+  let params = [
+    user.name,
+    user.job,
+    user.location,
+    user.about,
+    user.resumeLink,
+    user.userPreferences,
+  ];
+
+  // 如果 user.image 存在，则更新 image 字段
+  if (user.image) {
+    sql += ", image = ?";
+    params.push(user.image);
+  }
+
+  // 如果 user.bannerImage 存在，则更新 bannerImage 字段
+  if (user.bannerImage) {
+    sql += ", bannerImage = ?";
+    params.push(user.bannerImage);
+  }
+
+  // 添加 WHERE 子句
+  sql += " WHERE id = ?";
+  params.push(user.id);
+
+  return new Promise((resolve, reject) => {
+    connection.query(sql, params, (err, rows) => {
+      connection.end();
+      if (err) {
+        reject(err);
+      } else {
+        console.log("Profile updated");
+        resolve(rows);
+      }
+    });
+  });
+};
+
 // export model functions
 const userModel = {
   signup,
@@ -191,6 +237,7 @@ const userModel = {
   getUserById,
   getUserByExpertise,
   getUserByEmail,
+  updateProfile,
   getAllUsers,
   getWorkById,
   correctPassword,

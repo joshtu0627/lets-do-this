@@ -10,7 +10,6 @@ export default function index() {
   const navigate = useNavigate();
   return (
     <div className="text-white flex flex-col bg-[#242128]">
-      <Header />
       <div className="">
         <img
           src="/assets/homepage/banner.png"
@@ -98,7 +97,6 @@ export default function index() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

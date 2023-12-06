@@ -8,21 +8,28 @@ import Footer from "../common/Footer";
 
 import { Button } from "@mui/material";
 
+import CreateProjectDialog from "../dialog/CreateProject";
+
 export default function MyHomePage() {
   const { user, login, logout } = useUser();
   const [projects, setProjects] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      console.log(user);
-    }
+    // if (!user) {
+    //   navigate("/login");
+    // } else {
+    //   console.log(user);
+    // }
   }, []);
 
   useEffect(() => {
-    if (!user.id) return;
+    if (!user) return;
     function fetchUserProjects() {
       fetch(`http://127.0.0.1:8000/api/1.0/user/${user.id}/projects`, {
         method: "GET",
@@ -69,6 +76,18 @@ export default function MyHomePage() {
                 </div>
               </div>
               <div className="w-4/5">
+                <div className="mb-5">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                  >
+                    + Create a new project
+                  </Button>
+                </div>
+
                 <div className="bg-[#2c2830] h-16 flex items-center px-5">
                   <div className="h2">Active Projects</div>
                 </div>
@@ -105,6 +124,7 @@ export default function MyHomePage() {
             </div>
           </div>
           <div className="flex-grow"></div>
+          <CreateProjectDialog open={open} handleClose={handleClose} />
           <Footer />
         </>
       )}

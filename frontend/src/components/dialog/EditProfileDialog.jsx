@@ -6,19 +6,41 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { Input, TextField } from "@mui/material";
 import { CgAdd } from "react-icons/cg";
+
+import UpdateProfileSucessDialog from "./UpdateProfileSucessDialog";
 
 export default function EditProfileDialog({ open, handleClose, user }) {
   const [name, setName] = useState(user && user.name);
   const [jobs, setJobs] = useState([]);
+  const [skills, setSkills] = useState([]);
   const [location, setLocation] = useState(user && user.location);
   const [about, setAbout] = useState(user && user.about);
   const [image, setImage] = useState(user && user.image);
   const [bannerImage, setBannerImage] = useState(user && user.bannerImage);
 
+  const [userPreference, setUserPreference] = useState({
+    contract: false,
+    freelance: false,
+    remoteWork: false,
+  });
+
+  const [openSuccessDialog, setOpenSuccessDialog] = React.useState(false);
+  const handleCloseSuccessDialog = () => {
+    setOpenSuccessDialog(false);
+  };
+
   const imageInputRef = useRef(null);
   const bannerImageInputRef = useRef(null);
+
+  // useEffect(() => {
+  //   if (user && user.userPreference && user.userPreference.contract) {
+  //     console.log(user.userPreference.contract);
+  //   }
+  // }, []);
 
   const handleUploadImageButtonClick = () => {
     imageInputRef.current.click();
@@ -46,14 +68,69 @@ export default function EditProfileDialog({ open, handleClose, user }) {
     reader.readAsDataURL(file);
   };
 
+  const handleUpdateProfile = async () => {
+    // console.log(userPreference);
+
+    // 創建 FormData 物件
+    const formData = new FormData();
+
+    // 添加文本字段
+    formData.append("name", name);
+    formData.append("job", JSON.stringify(jobs)); // 將職業陣列轉成 JSON 字串
+    formData.append("location", location);
+    formData.append("about", about);
+    formData.append("skill", JSON.stringify(skills)); // 將技能陣列轉成 JSON 字串
+
+    formData.append("userPreferences", JSON.stringify(userPreference));
+
+    formData.append("id", 36);
+
+    // 檢查並添加圖片檔案
+    if (imageInputRef.current.files[0]) {
+      console.log("image ok");
+      formData.append("image", imageInputRef.current.files[0]);
+    }
+
+    if (bannerImageInputRef.current.files[0]) {
+      console.log("banner image ok");
+      formData.append("bannerImage", bannerImageInputRef.current.files[0]);
+    }
+    // console.log(formData.get("image"));
+
+    // 發送請求到伺服器
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/1.0/user/updateProfile",
+        {
+          method: "POST", // 或 'PUT'，根據您的 API 設定
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+      // 處理返回結果
+      if (result.message === "success") {
+        // handleClose();
+        setOpenSuccessDialog(true);
+      }
+      console.log(result);
+    } catch (error) {
+      // 處理錯誤
+      console.error("Error:", error);
+    }
+  };
+
   useEffect(() => {
     setName(user && user.name);
     // split job
     setJobs(user && user.job);
+    setSkills(user && user.skill);
     setLocation(user && user.location);
     setAbout(user && user.about);
     setImage(user && user.image);
     setBannerImage(user && user.bannerImage);
+
+    setUserPreference(user && user.userPreferences);
   }, [user]);
 
   return (
@@ -116,6 +193,33 @@ export default function EditProfileDialog({ open, handleClose, user }) {
                       </div>
                     </div>
                     <div className="my-5">
+                      <div>Your skill</div>
+                      {skills &&
+                        skills.map((skill, index) => (
+                          <div key={index}>
+                            <Input
+                              value={skill}
+                              onChange={(e) => {
+                                let newSkill = [...skill];
+                                newSkill[index] = e.target.value;
+                                setSkills(newSkill);
+                              }}
+                            ></Input>
+                          </div>
+                        ))}
+                      <div
+                        className="flex items-center mt-2 cursor-pointer"
+                        onClick={() => {
+                          if (skills[skills.length - 1] === "") return;
+                          let newSkill = [...skills];
+                          newSkill.push("");
+                          setSkills(newSkill);
+                        }}
+                      >
+                        <CgAdd size={20} className="mr-2" /> Add new
+                      </div>
+                    </div>
+                    <div className="my-5">
                       <div>Your location</div>
                       <div>
                         <Input
@@ -125,9 +229,72 @@ export default function EditProfileDialog({ open, handleClose, user }) {
                       </div>
                     </div>
                     <div className="my-5">
+                      <div>Preference</div>
+                      <div>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                userPreference && userPreference.contract
+                              }
+                              onClick={(e) =>
+                                setUserPreference({
+                                  ...userPreference,
+                                  contract: !userPreference.contract,
+                                })
+                              }
+                              color="primary"
+                            />
+                          }
+                          label="Contract"
+                        />
+                      </div>
+                      <div>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                userPreference && userPreference.freelance
+                              }
+                              value={userPreference && userPreference.freelance}
+                              onChange={(e) =>
+                                setUserPreference({
+                                  ...userPreference,
+                                  freelance: !userPreference.freelance,
+                                })
+                              }
+                              color="primary"
+                            />
+                          }
+                          label="Freelance"
+                        />
+                      </div>
+                      <div>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                userPreference && userPreference.remoteWork
+                              }
+                              onChange={(e) =>
+                                setUserPreference({
+                                  ...userPreference,
+                                  remoteWork: !userPreference.remoteWork,
+                                })
+                              }
+                              color="primary"
+                            />
+                          }
+                          label="Remotework"
+                        />
+                      </div>
+                    </div>
+                    <div className="my-5">
                       <div>One line about you</div>
                       <div className="my-1">
                         <TextField
+                          multiline
+                          rows={2}
                           value={about}
                           onChange={(e) => setAbout(e.target.value)}
                           sx={{ width: "100%" }}
@@ -192,7 +359,8 @@ export default function EditProfileDialog({ open, handleClose, user }) {
           <DialogActions>
             <Button
               onClick={() => {
-                handleClose();
+                handleUpdateProfile();
+                // handleClose();
               }}
               autoFocus
             >
@@ -212,6 +380,10 @@ export default function EditProfileDialog({ open, handleClose, user }) {
             style={{ display: "none" }}
             onChange={handleBannerImageChange}
             accept="image/*"
+          />
+          <UpdateProfileSucessDialog
+            open={openSuccessDialog}
+            handleClose={handleCloseSuccessDialog}
           />
         </Dialog>
       )}

@@ -161,6 +161,23 @@ const getWorkById = async (req, res) => {
   res.status(200).send(work);
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    console.log(req.body);
+    let profile = req.body;
+
+    userModel.updateProfile(profile);
+
+    let payload = {
+      message: "success",
+    };
+    res.status(200).send(payload);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 // export controller functions
 const userController = {
   signup,
@@ -168,6 +185,7 @@ const userController = {
   isLoggedIn,
   profile,
   profileById,
+  updateProfile,
   getUserByExpertise,
   getAllUsers,
   getWorkById,

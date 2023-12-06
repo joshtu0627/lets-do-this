@@ -16,6 +16,16 @@ const getProjectById = async (req, res) => {
   }
 };
 
+const createProject = async (req, res) => {
+  try {
+    const project = await projectModel.createProject(req.body);
+    res.status(200).send(project);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
 // export controller functions
 const projectController = {
   getProjectById,
