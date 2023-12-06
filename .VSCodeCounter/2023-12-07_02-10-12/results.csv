@@ -1,0 +1,73 @@
+"filename", "language", "Markdown", "Properties", "JavaScript", "XML", "JavaScript JSX", "CSS", "TypeScript JSX", "JSON", "HTML", "comment", "blank", "total"
+"d:\personal-project\README.md", "Markdown", 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"d:\personal-project\backend\.env", "Properties", 0, 15, 0, 0, 0, 0, 0, 0, 0, 5, 5, 25
+"d:\personal-project\backend\package-lock.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 2896, 0, 0, 1, 2897
+"d:\personal-project\backend\package.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 1, 38
+"d:\personal-project\backend\src\config\db.config.js", "JavaScript", 0, 0, 8, 0, 0, 0, 0, 0, 0, 1, 2, 11
+"d:\personal-project\backend\src\config\passport.config.js", "JavaScript", 0, 0, 33, 0, 0, 0, 0, 0, 0, 22, 6, 61
+"d:\personal-project\backend\src\config\s3.config.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 1, 2, 10
+"d:\personal-project\backend\src\controllers\job.controller.js", "JavaScript", 0, 0, 16, 0, 0, 0, 0, 0, 0, 2, 7, 25
+"d:\personal-project\backend\src\controllers\notification.controller.js", "JavaScript", 0, 0, 17, 0, 0, 0, 0, 0, 0, 1, 4, 22
+"d:\personal-project\backend\src\controllers\project.controller.js", "JavaScript", 0, 0, 38, 0, 0, 0, 0, 0, 0, 4, 9, 51
+"d:\personal-project\backend\src\controllers\project_user.controller.js", "JavaScript", 0, 0, 42, 0, 0, 0, 0, 0, 0, 2, 8, 52
+"d:\personal-project\backend\src\controllers\user.controller.js", "JavaScript", 0, 0, 140, 0, 0, 0, 0, 0, 0, 25, 30, 195
+"d:\personal-project\backend\src\index.js", "JavaScript", 0, 0, 30, 0, 0, 0, 0, 0, 0, 21, 13, 64
+"d:\personal-project\backend\src\middlewares\auth.middleware.js", "JavaScript", 0, 0, 30, 0, 0, 0, 0, 0, 0, 23, 9, 62
+"d:\personal-project\backend\src\models\job.model.js", "JavaScript", 0, 0, 28, 0, 0, 0, 0, 0, 0, 1, 9, 38
+"d:\personal-project\backend\src\models\notification.model.js", "JavaScript", 0, 0, 69, 0, 0, 0, 0, 0, 0, 6, 15, 90
+"d:\personal-project\backend\src\models\project.model.js", "JavaScript", 0, 0, 49, 0, 0, 0, 0, 0, 0, 25, 11, 85
+"d:\personal-project\backend\src\models\project_user.model.js", "JavaScript", 0, 0, 69, 0, 0, 0, 0, 0, 0, 3, 13, 85
+"d:\personal-project\backend\src\models\user.model.js", "JavaScript", 0, 0, 190, 0, 0, 0, 0, 0, 0, 15, 42, 247
+"d:\personal-project\backend\src\routes\index.route.js", "JavaScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 11, 8, 29
+"d:\personal-project\backend\src\routes\project.route.js", "JavaScript", 0, 0, 34, 0, 0, 0, 0, 0, 0, 2, 12, 48
+"d:\personal-project\backend\src\routes\user.route.js", "JavaScript", 0, 0, 49, 0, 0, 0, 0, 0, 0, 13, 25, 87
+"d:\personal-project\backend\src\utils\env.js", "JavaScript", 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 8, 27
+"d:\personal-project\backend\src\utils\tools.js", "JavaScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 4, 14
+"d:\personal-project\backend\src\utils\uploadToS3.js", "JavaScript", 0, 0, 32, 0, 0, 0, 0, 0, 0, 9, 7, 48
+"d:\personal-project\backend\src\utils\url.js", "JavaScript", 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"d:\personal-project\forTest\fetchTest.js", "JavaScript", 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 2, 16
+"d:\personal-project\forTest\sort.js", "JavaScript", 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 3, 28
+"d:\personal-project\frontend\.eslintrc.cjs", "JavaScript", 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 1, 21
+"d:\personal-project\frontend\README.md", "Markdown", 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 9
+"d:\personal-project\frontend\index.html", "HTML", 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 1, 14
+"d:\personal-project\frontend\package-lock.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 5353, 0, 0, 1, 5354
+"d:\personal-project\frontend\package.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 1, 37
+"d:\personal-project\frontend\postcss.config.js", "JavaScript", 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"d:\personal-project\frontend\public\vite.svg", "XML", 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"d:\personal-project\frontend\src\App.css", "CSS", 0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 1, 43
+"d:\personal-project\frontend\src\App.jsx", "JavaScript JSX", 0, 0, 0, 0, 37, 0, 0, 0, 0, 0, 5, 42
+"d:\personal-project\frontend\src\assets\react.svg", "XML", 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1
+"d:\personal-project\frontend\src\components\common\Footer\index.jsx", "JavaScript JSX", 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 2, 10
+"d:\personal-project\frontend\src\components\common\Header\index.jsx", "JavaScript JSX", 0, 0, 0, 0, 214, 0, 0, 0, 0, 2, 18, 234
+"d:\personal-project\frontend\src\components\dialog\BasicDialog.jsx", "JavaScript JSX", 0, 0, 0, 0, 52, 0, 0, 0, 0, 0, 7, 59
+"d:\personal-project\frontend\src\components\dialog\CreateProject.jsx", "JavaScript JSX", 0, 0, 0, 0, 320, 0, 0, 0, 0, 24, 29, 373
+"d:\personal-project\frontend\src\components\dialog\EditProfileDialog.jsx", "JavaScript JSX", 0, 0, 0, 0, 336, 0, 0, 0, 0, 34, 23, 393
+"d:\personal-project\frontend\src\components\dialog\InviteDialog.jsx", "JavaScript JSX", 0, 0, 0, 0, 48, 0, 0, 0, 0, 0, 4, 52
+"d:\personal-project\frontend\src\components\dialog\JoinProjectDialog.jsx", "JavaScript JSX", 0, 0, 0, 0, 37, 0, 0, 0, 0, 0, 5, 42
+"d:\personal-project\frontend\src\components\dialog\LogoutDialog.jsx", "JavaScript JSX", 0, 0, 0, 0, 42, 0, 0, 0, 0, 0, 6, 48
+"d:\personal-project\frontend\src\components\dialog\UpdateProfileSucessDialog.jsx", "JavaScript JSX", 0, 0, 0, 0, 39, 0, 0, 0, 0, 0, 6, 45
+"d:\personal-project\frontend\src\components\homepage\HomePagePanel\index.jsx", "JavaScript JSX", 0, 0, 0, 0, 98, 0, 0, 0, 0, 0, 5, 103
+"d:\personal-project\frontend\src\components\hooks\useWindowWidth.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 15, 0, 0, 1, 6, 22
+"d:\personal-project\frontend\src\components\loginpage\LoginPanel\index.jsx", "JavaScript JSX", 0, 0, 0, 0, 148, 0, 0, 0, 0, 3, 9, 160
+"d:\personal-project\frontend\src\components\loginpage\RegisterPanel\index.jsx", "JavaScript JSX", 0, 0, 0, 0, 167, 0, 0, 0, 0, 12, 7, 186
+"d:\personal-project\frontend\src\components\notificationPage\NotificationDetail\index.jsx", "JavaScript JSX", 0, 0, 0, 0, 119, 0, 0, 0, 0, 0, 10, 129
+"d:\personal-project\frontend\src\components\pages\HomePage.jsx", "JavaScript JSX", 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 11, 35
+"d:\personal-project\frontend\src\components\pages\JobList.jsx", "JavaScript JSX", 0, 0, 0, 0, 97, 0, 0, 0, 0, 0, 9, 106
+"d:\personal-project\frontend\src\components\pages\LoginPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 3, 17
+"d:\personal-project\frontend\src\components\pages\MyHomePage.jsx", "JavaScript JSX", 0, 0, 0, 0, 136, 0, 0, 0, 0, 2, 13, 151
+"d:\personal-project\frontend\src\components\pages\NotificationPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 113, 0, 0, 0, 0, 1, 12, 126
+"d:\personal-project\frontend\src\components\pages\PartnerList.jsx", "JavaScript JSX", 0, 0, 0, 0, 299, 0, 0, 0, 0, 3, 20, 322
+"d:\personal-project\frontend\src\components\pages\ProfilePage.jsx", "JavaScript JSX", 0, 0, 0, 0, 173, 0, 0, 0, 0, 1, 18, 192
+"d:\personal-project\frontend\src\components\pages\ProjectDetail.jsx", "JavaScript JSX", 0, 0, 0, 0, 156, 0, 0, 0, 0, 0, 12, 168
+"d:\personal-project\frontend\src\components\pages\RegisterPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 3, 17
+"d:\personal-project\frontend\src\components\pages\SelfProfilePage.jsx", "JavaScript JSX", 0, 0, 0, 0, 166, 0, 0, 0, 0, 0, 19, 185
+"d:\personal-project\frontend\src\contexts\UserContext.jsx", "JavaScript JSX", 0, 0, 0, 0, 19, 0, 0, 0, 0, 3, 8, 30
+"d:\personal-project\frontend\src\data\data.js", "JavaScript", 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 3, 35
+"d:\personal-project\frontend\src\index.css", "CSS", 0, 0, 0, 0, 0, 6, 0, 0, 0, 68, 3, 77
+"d:\personal-project\frontend\src\main.jsx", "JavaScript JSX", 0, 0, 0, 0, 7, 0, 0, 0, 0, 2, 2, 11
+"d:\personal-project\frontend\src\theme\lowerCaseTheme.js", "JavaScript", 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 3, 12
+"d:\personal-project\frontend\src\utils\Apis.jsx", "JavaScript JSX", 0, 0, 0, 0, 59, 0, 0, 0, 0, 4, 5, 68
+"d:\personal-project\frontend\src\utils\UserAuthInitializer.jsx", "JavaScript JSX", 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 2, 30
+"d:\personal-project\frontend\tailwind.config.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 0, 1, 1, 9
+"d:\personal-project\frontend\vite.config.js", "JavaScript", 0, 0, 5, 0, 0, 0, 0, 0, 0, 1, 2, 8
+"Total", "-", 6, 15, 1039, 2, 2970, 6, 15, 8322, 13, 396, 558, 13342
