@@ -15,6 +15,8 @@ import { Button } from "@mui/material";
 
 import { useUser } from "../../contexts/UserContext";
 
+import InviteDialog from "../dialog/InviteDialog";
+
 export default function PartnerList() {
   const { user, login, logout } = useUser();
 
@@ -22,6 +24,18 @@ export default function PartnerList() {
   const [message, setMessage] = useState("");
   const [choosedSkill, setChoosedSkill] = useState("None");
   const [portfolioDetail, setPortfolioDetail] = useState([]);
+
+  const [openInviteDialog, setOpenInviteDialog] = useState(false);
+
+  const [clickedUser, setClickedUser] = useState({});
+
+  const handleOpenInviteDialog = () => {
+    setOpenInviteDialog(true);
+  };
+
+  const handleCloseInviteDialog = () => {
+    setOpenInviteDialog(false);
+  };
   const fetchData = async (url, options = {}) => {
     try {
       const response = await fetch(url, {
@@ -207,6 +221,10 @@ export default function PartnerList() {
                               variant="contained"
                               color="primary"
                               className="w-4 h-6"
+                              onClick={() => {
+                                setClickedUser(mapUser);
+                                handleOpenInviteDialog();
+                              }}
                             >
                               <img
                                 src="/assets/icons/addPeople.png"
@@ -290,7 +308,11 @@ export default function PartnerList() {
             </div>
           </div>
         </div>
-
+        <InviteDialog
+          open={openInviteDialog}
+          handleClose={handleCloseInviteDialog}
+          invitedUser={clickedUser}
+        />
         <div className="flex-grow"></div>
         <Footer />
       </div>

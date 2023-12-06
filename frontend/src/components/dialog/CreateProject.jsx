@@ -13,7 +13,7 @@ import { CgAdd } from "react-icons/cg";
 
 import { useUser } from "../../contexts/UserContext";
 
-import UpdateProfileSucessDialog from "./UpdateProfileSucessDialog";
+import BasicDialog from "./BasicDialog";
 
 export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
   const { user, login, logout } = useUser();
@@ -29,6 +29,16 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
 
   const [progressTags, setProgressTags] = useState([""]);
   const [progressDescription, setProgressDescription] = useState("");
+
+  const [openBasicDialog, setOpenBasicDialog] = useState(false);
+
+  const handleOpenBasicDialog = () => {
+    setOpenBasicDialog(true);
+  };
+
+  const handleCloseBasicDialog = () => {
+    setOpenBasicDialog(false);
+  };
 
   const imageInputRef = useRef(null);
   const bannerImageInputRef = useRef(null);
@@ -94,9 +104,6 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
       role: "Leader",
     };
 
-    console.log("aewwwwwwwfawf");
-    console.log(payload);
-
     let resp2 = await fetch(
       "http://127.0.0.1:8000/api/1.0/user/joinUserProjectTable",
       {
@@ -112,7 +119,10 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
 
     console.log("data2", data2);
 
-    setRefetch((prev) => !prev);
+    setRefetch((prev) => {
+      return !prev;
+    });
+    handleOpenBasicDialog();
   };
 
   return (
@@ -133,8 +143,9 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <div className="flex flex-col">
-              <div className="flex w-full px-8">
-                <div className="w-48 w-full my-5">
+              <div className="px-8 text-3xl h2">Project image</div>
+              <div className="flex w-full px-8 pb-4 mx-1 mb-5 border-b-2">
+                <div className="w-48 my-5 ">
                   <div className="">Avatar</div>
                   <div className="h-48 mr-4 border-2 w-44 h-44">
                     <div className="flex flex-col items-center justify-center h-full">
@@ -189,7 +200,7 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
               </div>
 
               <div className="flex w-full mt-5">
-                <div className="flex flex-col w-1/2 px-8">
+                <div className="flex flex-col w-1/2 px-8 border-r-2">
                   <div className="text-3xl h2">Project information</div>
                   <div className="my-5">
                     <div>Project name</div>
@@ -246,7 +257,7 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
                 <div className="flex flex-col w-1/2 px-8">
                   <div className="text-3xl h2">Project status</div>
                   <div className="my-5">
-                    <div>Hiring</div>
+                    <div>Hiring positions</div>
                     <div>
                       {jobs &&
                         jobs.map((job, index) => (
@@ -348,6 +359,12 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
           style={{ display: "none" }}
           onChange={handleBannerImageChange}
           accept="image/*"
+        />
+        <BasicDialog
+          open={openBasicDialog}
+          handleClose={handleCloseBasicDialog}
+          content={"Created project successfully!"}
+          handleParentClose={handleClose}
         />
       </Dialog>
     </>

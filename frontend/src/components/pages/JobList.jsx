@@ -39,7 +39,7 @@ export default function ProjectList() {
         <Header />
         <div className="flex justify-center text-white">
           <div className="flex w-5/6 m-10">
-            <div className="w-1/5 mx-10 border border-gray-400">
+            <div className="w-1/5 mx-10 border border-gray-400  bg-[#2c2830]">
               <div className="m-5 text-lg">{"Require Skill"}</div>
               <div className="m-5">
                 <select
@@ -68,14 +68,14 @@ export default function ProjectList() {
                     to={`/project/${job.projectId}`}
                     className="relative flex p-2 h-1/3"
                   >
-                    <div className="absolute w-12 h-12 ml-2 rounded-full">
+                    <div className="absolute w-12 h-12 ml-2 rounded-full top-3">
                       <img
                         src={job.image}
                         className="object-cover w-full h-full rounded-full "
                         alt=""
                       />
                     </div>
-                    <div className="flex items-end justify-center w-full">
+                    <div className="flex items-center justify-center w-full">
                       <div className="flex flex-col">
                         <div className="text-center h2">{job.name}</div>
                         <div className="text-xs text-center text-gray-300">

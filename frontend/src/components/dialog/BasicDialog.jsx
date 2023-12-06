@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 
 import { Link } from "react-router-dom";
 
-function UpdateProfileSucessDialog({ open, handleClose }) {
+function BasicDialog({ open, handleClose, title, content, handleParentClose }) {
   const { user, login, logout } = useUser();
 
   const navigate = useNavigate();
@@ -22,23 +22,37 @@ function UpdateProfileSucessDialog({ open, handleClose }) {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
+      {title && <DialogTitle id="alert-dialog-title">{title}</DialogTitle>}
+
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Update profile successfully!
+          {content}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={() => {
-            handleClose();
-          }}
-          autoFocus
-        >
-          Close
-        </Button>
+        {handleParentClose ? (
+          <Button
+            onClick={() => {
+              handleClose();
+              handleParentClose();
+            }}
+            autoFocus
+          >
+            ok
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              handleClose();
+            }}
+            autoFocus
+          >
+            ok
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
 }
 
-export default UpdateProfileSucessDialog;
+export default BasicDialog;
