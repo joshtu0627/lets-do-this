@@ -31,10 +31,10 @@ export default function ProjectDetail() {
 
     let result = [];
     async function fetchData() {
-      for (let key in project.members) {
-        console.log(key);
+      for (let member of project.members) {
+        console.log(member);
         let resp = await fetch(
-          "http://localhost:8000/api/1.0/user/profileById/" + key,
+          "http://localhost:8000/api/1.0/user/profileById/" + member.userId,
           {
             method: "GET",
             headers: {
@@ -43,6 +43,7 @@ export default function ProjectDetail() {
           }
         );
         let dataNow = await resp.json();
+        dataNow.role = member.role;
         result = [...result, dataNow];
       }
       console.log("before", result);
@@ -135,9 +136,9 @@ export default function ProjectDetail() {
                   members.map((member) => (
                     <div
                       className="flex justify-between h-20 my-2"
-                      key={member.id}
+                      key={member.userId}
                     >
-                      <Link to={"/profile/" + member.id}>
+                      <Link to={"/profile/" + member.userId}>
                         <div className="flex items-center justify-center">
                           <div className="w-16 h-16 mr-5">
                             <img
@@ -150,7 +151,7 @@ export default function ProjectDetail() {
                         </div>
                       </Link>
                       <div className="flex items-center justify-center text-xl h2">
-                        {project.members[member.id]}
+                        {member.role}
                       </div>
                     </div>
                   ))}

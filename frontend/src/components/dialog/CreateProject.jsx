@@ -15,7 +15,7 @@ import { useUser } from "../../contexts/UserContext";
 
 import UpdateProfileSucessDialog from "./UpdateProfileSucessDialog";
 
-export default function CreateProjectDialog({ open, handleClose }) {
+export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
   const { user, login, logout } = useUser();
 
   const [image, setImage] = useState();
@@ -111,6 +111,8 @@ export default function CreateProjectDialog({ open, handleClose }) {
     let data2 = await resp2.json();
 
     console.log("data2", data2);
+
+    setRefetch((prev) => !prev);
   };
 
   return (
@@ -162,15 +164,15 @@ export default function CreateProjectDialog({ open, handleClose }) {
                   <div>Banner image</div>
                   <div className="w-full h-48 mr-4 border-2 h-44">
                     <div className="flex flex-col items-center justify-center h-full">
-                      <div className="mb-2 h-3/4">
-                        {bannerImage && (
+                      {bannerImage && (
+                        <div className="mb-2 h-3/4">
                           <img
                             className="object-cover w-full h-full"
                             src={bannerImage}
                             alt=""
                           />
-                        )}
-                      </div>
+                        </div>
+                      )}
                       <div className="flex justify-center w-full ">
                         <div className="flex justify-center w-4/5 py-1 border-2 cursor-pointer">
                           <div

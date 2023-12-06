@@ -127,7 +127,7 @@ export default function Header() {
           {user ? (
             <>
               <div className="flex items-center">
-                <Link to={"/selfProfile"}>
+                <Link to={"/profile/" + user.id}>
                   <div className="flex items-center mx-3">
                     <div>
                       <img
@@ -185,7 +185,7 @@ export default function Header() {
                               >
                                 <MenuItem
                                   onClick={() => {
-                                    navigate("/selfProfile");
+                                    navigate("/profile/" + user.id);
                                   }}
                                 >
                                   Profile

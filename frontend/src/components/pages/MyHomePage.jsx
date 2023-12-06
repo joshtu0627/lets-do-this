@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 import Header from "../common/Header";
 import Footer from "../common/Footer";
@@ -14,6 +15,7 @@ export default function MyHomePage() {
   const { user, login, logout } = useUser();
   const [projects, setProjects] = useState([]);
   const [open, setOpen] = useState(false);
+  const [refetch, setRefetch] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -47,7 +49,7 @@ export default function MyHomePage() {
         });
     }
     fetchUserProjects();
-  }, [user]);
+  }, [user, refetch]);
 
   useEffect(() => {
     console.log(projects);
@@ -109,14 +111,16 @@ export default function MyHomePage() {
                         </div>
                       </div>
                       <div>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className="w-4 h-8"
-                          style={{ fontFamily: "Domine" }}
-                        >
-                          view
-                        </Button>
+                        <Link to={"/project/1"}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            className="w-4 h-8"
+                            style={{ fontFamily: "Domine" }}
+                          >
+                            view
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   ))}
@@ -124,7 +128,11 @@ export default function MyHomePage() {
             </div>
           </div>
           <div className="flex-grow"></div>
-          <CreateProjectDialog open={open} handleClose={handleClose} />
+          <CreateProjectDialog
+            open={open}
+            handleClose={handleClose}
+            setRefetch={setRefetch}
+          />
           <Footer />
         </>
       )}

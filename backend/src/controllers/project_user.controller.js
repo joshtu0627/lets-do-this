@@ -30,8 +30,20 @@ const joinUserInProject = async (req, res) => {
   }
 };
 
+const getUserByProjectId = async (req, res) => {
+  try {
+    const project = await projectUserModel.getUserByProjectId(req.params.id);
+    console.log(project);
+    res.status(200).send(project);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
 // export controller functions
 const projectUserController = {
+  getUserByProjectId,
   getProjectsByUserId,
   joinUserInProject,
 };

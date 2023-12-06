@@ -9,6 +9,7 @@ const router = express.Router();
 
 import uploadToS3 from "../utils/uploadToS3.js";
 import multer from "multer";
+import projectUserController from "../controllers/project_user.controller.js";
 const memoryStorage = multer.memoryStorage();
 
 const upload = multer({ storage: memoryStorage });
@@ -18,6 +19,8 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", projectController.getProjectById);
+
+router.get("/:id/users", projectUserController.getUserByProjectId);
 
 router.get("/job/allJob", jobController.getAllJob);
 

@@ -13,7 +13,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { Button } from "@mui/material";
 
+import { useUser } from "../../contexts/UserContext";
+
 export default function PartnerList() {
+  const { user, login, logout } = useUser();
+
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
   const [choosedSkill, setChoosedSkill] = useState("None");
@@ -179,17 +183,17 @@ export default function PartnerList() {
             </div>
             <div className="flex flex-col w-4/5 mx-10">
               <div>{message}</div>
-              {data.map((user) => (
-                <div className="flex h-48 my-5  bg-[#2c2830]" key={user.id}>
+              {data.map((mapUser) => (
+                <div className="flex h-48 my-5  bg-[#2c2830]" key={mapUser.id}>
                   <div className="flex flex-col w-2/5 h-full p-3">
                     <div className="flex h-3/5">
                       {/* round profile picture */}
                       <div className="w-2/5">
-                        <Link to={"/profile/" + user.id}>
+                        <Link to={"/profile/" + mapUser.id}>
                           <div className="w-20 h-20 bg-gray-500 rounded-full">
                             <img
                               className="w-20 h-20 rounded-full"
-                              src={user.image}
+                              src={mapUser.image}
                               alt="profile"
                             />
                           </div>
@@ -197,23 +201,25 @@ export default function PartnerList() {
                       </div>
                       <div className="flex-col w-3/5 font-bold">
                         <div className="flex items-center justify-between my-2">
-                          <div className="mr-2">{user.name}</div>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            className="w-4 h-6"
-                          >
-                            <img
-                              src="/assets/icons/addPeople.png"
-                              className="w-3 h-3 mr-1"
-                              alt=""
-                            />{" "}
-                            invite
-                          </Button>
+                          <div className="mr-2">{mapUser.name}</div>
+                          {mapUser.id !== user.id && (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              className="w-4 h-6"
+                            >
+                              <img
+                                src="/assets/icons/addPeople.png"
+                                className="w-3 h-3 mr-1"
+                                alt=""
+                              />{" "}
+                              invite
+                            </Button>
+                          )}
                         </div>
 
                         <div className="text-xs text-gray-300">
-                          {user.jobStr}
+                          {mapUser.jobStr}
                         </div>
                         <div className="flex mt-3 text-xs font-bold text-gray-300">
                           <img
@@ -221,14 +227,14 @@ export default function PartnerList() {
                             className="w-3 h-3"
                             alt=""
                           />{" "}
-                          {user.location}
+                          {mapUser.location}
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-col mt-2 text-xs text-gray-300 h-2/5">
                       <div className="flex">
-                        {user.userPreferences &&
-                          Object.entries(user.userPreferences).map(
+                        {mapUser.userPreferences &&
+                          Object.entries(mapUser.userPreferences).map(
                             ([key, value]) =>
                               value && (
                                 <div
@@ -241,13 +247,13 @@ export default function PartnerList() {
                           )}
                         <div></div>
                       </div>
-                      <div>skills: {user.skillStr}</div>
+                      <div>skills: {mapUser.skillStr}</div>
                     </div>
                   </div>
                   {/* <div className="flex w-1/4 bg-black">123</div> */}
-                  {portfolioDetail[user.id - 1] &&
-                    portfolioDetail[user.id - 1].length > 0 &&
-                    portfolioDetail[user.id - 1].map((work) => (
+                  {portfolioDetail[mapUser.id - 1] &&
+                    portfolioDetail[mapUser.id - 1].length > 0 &&
+                    portfolioDetail[mapUser.id - 1].map((work) => (
                       <div
                         className="relative flex flex-col w-1/5 p-2 m-1"
                         key={Math.random()}

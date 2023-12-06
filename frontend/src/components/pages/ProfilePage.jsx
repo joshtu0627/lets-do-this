@@ -4,12 +4,22 @@ import { SocialIcon } from "react-social-icons";
 
 import Button from "@mui/material/Button";
 
+import EditProfileDialog from "../dialog/EditProfileDialog";
+
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 
 export default function ProfilePage() {
   const [user, setUser] = useState([]);
   const [portfolioDetail, setPortfolioDetail] = useState([]);
+  const [openEditProfileDialog, setOpenEditProfileDialog] = useState(false);
+  const handleOpenEditProfileDialog = () => {
+    setOpenEditProfileDialog(true);
+  };
+
+  const handleCloseEditProfileDialog = () => {
+    setOpenEditProfileDialog(false);
+  };
   const { id } = useParams();
 
   const fetchData = async (url, options = {}) => {
@@ -120,14 +130,28 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="mt-8">
-            <div className="p-5  bg-[#2c2830]">
-              <div className="text-3xl h2">About me</div>
+            <div className="relative">
+              <div className="absolute top-0 right-0 w-30">
+                {" "}
+                <Button
+                  variant="outlined"
+                  className="absolute top-0 right-0 "
+                  style={{ color: "#fff", borderColor: "#fff" }}
+                  size="small"
+                  onClick={() => {
+                    setOpenEditProfileDialog(true);
+                  }}
+                >
+                  Edit profile
+                </Button>
+              </div>
+              <div className="mt-8 text-xl">About me</div>
               <div className="mt-2 mb-5">{user.about}</div>
               <Button variant="contained" color="primary" onClick={getResume}>
                 My Resume
               </Button>
             </div>
-            <div className="my-14 p-5 bg-[#2c2830]">
+            <div className="p-5 my-14 ">
               <div className="flex items-end">
                 <div className="text-3xl h2">Portfolio</div>
                 {"\u00a0\u00a0\u00a0\u00a0\u00a0"}

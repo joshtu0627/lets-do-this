@@ -34,7 +34,7 @@ function UpdateProfileSucessDialog({ open, handleClose }) {
           }}
           autoFocus
         >
-          Close
+          ok
         </Button>
       </DialogActions>
     </Dialog>

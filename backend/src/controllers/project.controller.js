@@ -4,13 +4,17 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 
 import projectModel from "../models/project.model.js";
+import projectUserModel from "../models/project_user.model.js";
 
 import { generateTimestamp } from "../utils/tools.js";
 
 const getProjectById = async (req, res) => {
   try {
     const project = await projectModel.getProjectById(req.params.id);
-    console.log(project);
+    const members = await projectUserModel.getUserByProjectId(req.params.id);
+    // console.log(project);
+    console.log(members);
+    project.members = members;
     res.status(200).send(project);
   } catch (err) {
     console.log(err);
