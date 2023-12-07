@@ -14,6 +14,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { Button } from "@mui/material";
 
 import { useUser } from "../../contexts/UserContext";
+import { getProjectsByUserId } from "../../utils/Apis";
 
 import InviteDialog from "../dialog/InviteDialog";
 
@@ -24,6 +25,8 @@ export default function PartnerList() {
   const [message, setMessage] = useState("");
   const [choosedSkill, setChoosedSkill] = useState("None");
   const [portfolioDetail, setPortfolioDetail] = useState([]);
+
+  const [projects, setProjects] = useState([]);
 
   const [openInviteDialog, setOpenInviteDialog] = useState(false);
 
@@ -112,6 +115,15 @@ export default function PartnerList() {
       getChoosedSkill();
     }
   }, [choosedSkill]);
+
+  useEffect(() => {
+    if (!user) return;
+    console.log(user);
+    getProjectsByUserId(user.id).then((data) => {
+      if (!data) return;
+      setProjects(data);
+    });
+  }, [user]);
 
   useEffect(() => {
     getPortfolio();
@@ -312,6 +324,7 @@ export default function PartnerList() {
           open={openInviteDialog}
           handleClose={handleCloseInviteDialog}
           invitedUser={clickedUser}
+          projects={projects}
         />
         <div className="flex-grow"></div>
         <Footer />

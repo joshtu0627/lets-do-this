@@ -1,4 +1,4 @@
-const fetchData = async (url, options = {}) => {
+export const fetchData = async (url, options = {}) => {
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -15,7 +15,7 @@ const fetchData = async (url, options = {}) => {
   }
 };
 
-const getUserDataById = (id) => {
+export const getUserDataById = (id) => {
   fetchData(`http://localhost:8000/api/1.0/user/profileById/${id}`).then(
     (data) => {
       if (!data) return;
@@ -25,31 +25,27 @@ const getUserDataById = (id) => {
   );
 };
 
-const getProjectDataById = (id) => {
+export const getProjectDataById = (id) => {
   fetchData(`http://localhost:8000/api/1.0/project/${id}`).then((data) => {
     if (!data) return;
     return data;
   });
 };
 
-const getProjectsByUserId = (id) => {
-  fetch(`http://127.0.0.1:8000/api/1.0/user/${user.id}/projects`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((resp) => {
-      //   console.log(resp);
-      return resp.json();
-    })
-    .then((data) => {
-      //   console.log(data);
-      return data;
-    });
+export const getProjectsByUserId = (id) => {
+  return new Promise((resolve, reject) => {
+    fetchData(`http://localhost:8000/api/1.0/user/${id}/projects`).then(
+      (data) => {
+        console.log(id);
+        console.log(data);
+        if (!data) return reject();
+        resolve(data);
+      }
+    );
+  });
 };
 
-const getUsersByProjectId = (id) => {
+export const getUsersByProjectId = (id) => {
   fetch("http://localhost:8000/api/1.0/user/profileById/" + id, {
     method: "GET",
     headers: {

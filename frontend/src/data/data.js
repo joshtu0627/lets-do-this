@@ -31,4 +31,28 @@ const typeList = [
   "Blockchain Technology",
 ];
 
-export { skillList, typeList };
+const jobList = [
+  "Project Management",
+  "Human Resources",
+  "Quality Assurance",
+  "Customer Service",
+  "Graphic Design",
+  "Product Management",
+  "Research and Development",
+  "Content Creation",
+  "Supply Chain Management",
+  "Healthcare Administration",
+  "Environmental Science",
+  "Event Planning",
+  "Social Media Management",
+  "Cybersecurity",
+  "Public Relations",
+  "Business Development",
+  "Data Science",
+  "UI/UX Design",
+  "Network Administration",
+  "Technical Writing",
+  "Financial Analysis",
+];
+
+export { skillList, typeList, jobList };
