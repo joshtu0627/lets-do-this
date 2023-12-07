@@ -2,13 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 import Header from "../common/Header";
 import Footer from "../common/Footer";
+import ProjectAbout from "../projectpage/ProjectAbout";
 
 export default function ProjectDetail() {
   const [project, setProject] = useState([]);
   const [members, setMembers] = useState([]);
+  const [tabValue, setTabValue] = useState(0);
 
   const { id } = useParams();
 
@@ -57,6 +65,7 @@ export default function ProjectDetail() {
   return (
     <div className="min-h-screen flex flex-col bg-[#1A171D]">
       <Header />
+
       <div className="flex justify-center w-full mt-8 text-white">
         <div className="w-3/5">
           <div className="h-52">
@@ -106,58 +115,20 @@ export default function ProjectDetail() {
               </div>
             </div>
           </div>
-          <div className="px-5  bg-[#2c2830] p-2 mt-8">
-            <div>
-              <div className="py-3 text-2xl h2">Description</div>
-              <div className="mt-2 mb-5">{project.about}</div>
-            </div>
+          <div className="mt-5">
+            <Tabs value={tabValue} aria-label="basic tabs example">
+              <Link to=""></Link>
+              <Tab label="Item One" />
+              <Tab label="Item Two" />
+              <Tab label="Item Three" />
+            </Tabs>
           </div>
-          <div className="px-5  bg-[#2c2830] p-2 mt-8">
-            <div>
-              <div className="py-3 text-2xl h2">Progress</div>
-              <div className="mt-2 mb-5">{project.progress}</div>
-              {project.progressTag &&
-                project.progressTag.map((tag) => (
-                  <div
-                    className="inline-block mr-2 mb-2 px-2 py-1 bg-[#3c3a41] rounded-md"
-                    key={tag}
-                  >
-                    #{tag}
-                  </div>
-                ))}
-            </div>
-          </div>
-
-          <div className="px-5  bg-[#2c2830] p-2 mt-8">
-            <div>
-              <div className="py-3 text-2xl h2">Members</div>
-              <div className="flex flex-col mt-3">
-                {members &&
-                  members.map((member) => (
-                    <div
-                      className="flex justify-between h-20 my-2"
-                      key={member.userId}
-                    >
-                      <Link to={"/profile/" + member.userId}>
-                        <div className="flex items-center justify-center">
-                          <div className="w-16 h-16 mr-5">
-                            <img
-                              className="object-cover w-full h-full rounded-full"
-                              src={member.image}
-                              alt=""
-                            />
-                          </div>
-                          <div className="text-xl h2 ">{member.name}</div>
-                        </div>
-                      </Link>
-                      <div className="flex items-center justify-center text-xl h2">
-                        {member.role}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
+          <Routes>
+            <Route
+              path="/"
+              element={<ProjectAbout project={project} members={members} />}
+            />
+          </Routes>
         </div>
       </div>
       <div className="flex-grow"></div>
