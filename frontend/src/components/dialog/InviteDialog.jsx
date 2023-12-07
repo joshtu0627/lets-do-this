@@ -14,6 +14,9 @@ import {
 import { Input, TextField } from "@mui/material";
 
 import { jobList } from "../../data/data";
+import { createNotification } from "../../utils/Apis";
+
+import BasicDialog from "./BasicDialog";
 
 export default function InviteDialog({
   open,
@@ -25,7 +28,29 @@ export default function InviteDialog({
   const [role, setRole] = useState("");
   const [message, setMessage] = useState("");
 
-  function handleInvitaion
+  const [openBasicDialog, setOpenBasicDialog] = useState(false);
+
+  const handleOpenBasicDialog = () => {
+    setOpenBasicDialog(true);
+  };
+
+  const handleCloseBasicDialog = () => {
+    setOpenBasicDialog(false);
+  };
+
+  function handleInvitaion() {
+    const data = {
+      userId: invitedUser.id,
+      type: "Project Invitation",
+      text: message,
+      projectId: invitedToProject,
+      role: role,
+    };
+    createNotification(data).then((data) => {
+      console.log(data);
+      handleOpenBasicDialog();
+    });
+  }
 
   return (
     <>
@@ -33,7 +58,8 @@ export default function InviteDialog({
         <DialogTitle id="alert-dialog-title">
           <div className="flex justify-center py-6 mx-4 border-b-2">
             <div className="text-3xl h2">
-              Project invitation for <span className="">{invitedUser.name}</span>
+              Project invitation for{" "}
+              <span className="">{invitedUser.name}</span>
             </div>
           </div>
         </DialogTitle>
@@ -114,7 +140,22 @@ export default function InviteDialog({
             </div>
           </div>
         </DialogContent>
-        <DialogActions></DialogActions>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              handleInvitaion();
+            }}
+            autoFocus
+          >
+            Invite
+          </Button>
+        </DialogActions>
+        <BasicDialog
+          open={openBasicDialog}
+          handleClose={handleCloseBasicDialog}
+          content={"Created project successfully!"}
+          handleParentClose={handleClose}
+        />
       </Dialog>
     </>
   );

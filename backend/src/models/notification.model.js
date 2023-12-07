@@ -82,8 +82,36 @@ const getNotificationByUserId = async (userId) => {
   });
 };
 
+const createNotification = async (notification) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  console.log(notification);
+
+  return new Promise((resolve, reject) => {
+    let sql = `INSERT INTO notification (userId, text, projectId, role, type, timestamp) VALUES (?,?,?,?,?,?)`;
+    let params = [
+      notification.userId,
+      notification.text,
+      notification.projectId,
+      notification.role,
+      notification.type,
+      notification.timestamp,
+    ];
+
+    connection.query(sql, params, (err, result) => {
+      if (err) {
+        reject(err);
+      }
+      console.log(result.insertId);
+      // connection.end(); // 確保資料庫連線被關閉
+      resolve(result);
+    });
+  });
+};
+
 const notificationModel = {
   getNotificationByUserId,
+  createNotification,
 };
 
 export default notificationModel;

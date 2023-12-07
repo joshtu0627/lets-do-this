@@ -32,6 +32,8 @@ const typeList = [
 ];
 
 const jobList = [
+  "Artist",
+  "Software Development",
   "Project Management",
   "Human Resources",
   "Quality Assurance",
