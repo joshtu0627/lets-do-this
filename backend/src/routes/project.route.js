@@ -18,6 +18,13 @@ router.get("/", (req, res) => {
   res.send("this is project route");
 });
 
+router.get("/getMessagesByProjectId", projectController.getMessagesByProjectId);
+
+router.post(
+  "/setMessagesByProjectId",
+  projectController.setMessagesByProjectId
+);
+
 router.get("/:id", projectController.getProjectById);
 
 router.get("/:id/users", projectUserController.getUserByProjectId);

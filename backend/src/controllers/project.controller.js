@@ -41,10 +41,37 @@ const createProject = async (req, res) => {
   }
 };
 
+const getMessagesByProjectId = async (req, res) => {
+  try {
+    console.log(req.query.id);
+    const messages = await projectModel.getMessagesByProjectId(req.query.id);
+    res.status(200).send(messages);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
+const setMessagesByProjectId = async (req, res) => {
+  try {
+    console.log(req.body);
+    const messages = await projectModel.setMessagesByProjectId(
+      req.body.id,
+      req.body.messages
+    );
+    res.status(200).send(messages);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
 // export controller functions
 const projectController = {
   getProjectById,
   createProject,
+  getMessagesByProjectId,
+  setMessagesByProjectId,
 };
 
 export default projectController;

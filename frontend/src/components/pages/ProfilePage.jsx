@@ -77,7 +77,7 @@ export default function ProfilePage() {
     <div className="min-h-screen flex flex-col bg-[#242128]">
       <Header />
       <div className="flex justify-center w-full mt-8 text-white">
-        <div className="w-3/5">
+        <div className="w-3/5 overflow-hidden rounded-xl">
           <div className="h-52">
             {user.bannerImage && (
               <img
@@ -87,7 +87,7 @@ export default function ProfilePage() {
               />
             )}
           </div>
-          <div className="relative flex p-5  bg-[#2c2830]">
+          <div className="relative flex p-5  bg-[#2c2830] rounded-b-xl">
             <div className="w-32 h-32">
               {user.image && (
                 <img
@@ -121,6 +121,7 @@ export default function ProfilePage() {
                           url={value}
                           target="_blank"
                           bgColor="#2c2830"
+                          // fgColor="#BEBEC2"
                           style={{ height: 30, width: 30 }}
                         />
                       </div>
@@ -129,9 +130,9 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
-          <div className="mt-8">
-            <div className="relative m-5">
-              <div className="absolute top-0 right-0 w-30">
+          <div className="mt-8 ">
+            <div className="relative p-5 bg-[#2c2830] overflow-hidden rounded-xl">
+              <div className="absolute right-5 top-8 w-30">
                 {" "}
                 <Button
                   variant="outlined"
@@ -145,13 +146,13 @@ export default function ProfilePage() {
                   Edit profile
                 </Button>
               </div>
-              <div className="mt-8 text-3xl h2">About me</div>
-              <div className="mt-2 mb-5">{user.about}</div>
+              <div className="text-3xl h2">About me</div>
+              <div className="mt-2 mb-5 gray-text">{user.about}</div>
               <Button variant="contained" color="primary" onClick={getResume}>
                 My Resume
               </Button>
             </div>
-            <div className="p-5 my-14 ">
+            <div className="p-5 my-14 bg-[#2c2830] overflow-hidden rounded-xl">
               <div className="flex items-end">
                 <div className="text-3xl h2">Portfolio</div>
                 {"\u00a0\u00a0\u00a0\u00a0\u00a0"}

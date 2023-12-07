@@ -8,17 +8,37 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import { useUser } from "../../contexts/UserContext";
 
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 import ProjectAbout from "../projectpage/ProjectAbout";
+import ProjectTasks from "../projectpage/ProjectTasks";
+import ProjectSchedule from "../projectpage/ProjectSchedule";
+import ProjectChat from "../projectpage/ProjectChat";
 
 export default function ProjectDetail() {
+  const { user, login, logout } = useUser();
+
   const [project, setProject] = useState([]);
   const [members, setMembers] = useState([]);
   const [tabValue, setTabValue] = useState(0);
 
   const { id } = useParams();
+
+  const theme = createTheme({
+    components: {
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            color: "#BEBEC2", // 未選中的文字顏色
+          },
+        },
+      },
+    },
+  });
 
   useEffect(() => {
     fetch("http://localhost:8000/api/1.0/project/" + id, {
@@ -61,24 +81,29 @@ export default function ProjectDetail() {
     }
     fetchData();
   }, [project]);
-
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
   return (
-    <div className="min-h-screen flex flex-col bg-[#1A171D]">
+    <div className="min-h-screen flex flex-col bg-[#1A171D] ">
       <Header />
 
-      <div className="flex justify-center w-full mt-8 text-white">
-        <div className="w-3/5">
-          <div className="h-52">
+      <div className="flex justify-center w-full mt-8 overflow-hidden text-white ">
+        <div className="w-3/5 overflow-hidden rounded-xl">
+          <div className="h-52 ">
             {project.bannerImage && (
               <img
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full "
                 src={project.bannerImage}
                 alt=""
               />
             )}
           </div>
-          <div className="relative flex p-5  bg-[#2c2830]">
-            <div className="w-32 h-32">
+          <div className="relative flex p-5  bg-[#2c2830] rounded-b-xl">
+            <div className="w-32 h-32 ">
               {project.image && (
                 <img
                   className="absolute top-0 object-cover w-32 h-32 rounded-full -translate-y-1/3 left-6"
@@ -116,19 +141,61 @@ export default function ProjectDetail() {
             </div>
           </div>
           <div className="mt-5">
-            <Tabs value={tabValue} aria-label="basic tabs example">
-              <Link to=""></Link>
-              <Tab label="Item One" />
-              <Tab label="Item Two" />
-              <Tab label="Item Three" />
-            </Tabs>
+            <ThemeProvider theme={theme}>
+              <Tabs value={tabValue} aria-label="basic tabs example">
+                <Tab
+                  label="Overview"
+                  {...a11yProps(0)}
+                  onClick={() => {
+                    setTabValue(0);
+                  }}
+                />
+                <Tab
+                  label="Tasks"
+                  {...a11yProps(1)}
+                  onClick={() => {
+                    setTabValue(1);
+                  }}
+                />
+                <Tab
+                  label="Schedule"
+                  {...a11yProps(2)}
+                  onClick={() => {
+                    setTabValue(2);
+                  }}
+                />
+                <Tab
+                  label="Team"
+                  {...a11yProps(3)}
+                  onClick={() => {
+                    setTabValue(3);
+                  }}
+                />
+                <Tab
+                  label="Settings"
+                  {...a11yProps(4)}
+                  onClick={() => {
+                    setTabValue(4);
+                  }}
+                />
+                <Tab
+                  label="Chat"
+                  {...a11yProps(5)}
+                  onClick={() => {
+                    setTabValue(5);
+                  }}
+                />
+              </Tabs>
+            </ThemeProvider>
           </div>
-          <Routes>
-            <Route
-              path="/"
-              element={<ProjectAbout project={project} members={members} />}
-            />
-          </Routes>
+          {tabValue === 0 && (
+            <ProjectAbout project={project} members={members} />
+          )}
+          {tabValue === 1 && <ProjectTasks />}
+          {tabValue === 2 && <ProjectSchedule />}
+          {tabValue === 5 && (
+            <ProjectChat project={project} members={members} user={user} />
+          )}
         </div>
       </div>
       <div className="flex-grow"></div>

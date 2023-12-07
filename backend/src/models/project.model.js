@@ -70,8 +70,46 @@ const createProject = async (project) => {
         reject(err);
       }
       console.log(result.insertId);
+      connection.end();
       resolve(result.insertId);
     });
+  });
+};
+
+const getMessagesByProjectId = async (id) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT messages FROM message WHERE id = ${id}`,
+      (err, rows, fields) => {
+        if (err) {
+          reject(err);
+        }
+
+        resolve(rows);
+      }
+    );
+  });
+};
+
+const setMessagesByProjectId = async (id, messages) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  messages = JSON.stringify(messages);
+
+  console.log(messages);
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `UPDATE message SET messages = '${messages}' WHERE id = ${id}`,
+      (err, rows, fields) => {
+        if (err) {
+          reject(err);
+        }
+        connection.end();
+        resolve(rows);
+      }
+    );
   });
 };
 
@@ -79,6 +117,8 @@ const createProject = async (project) => {
 const projectModel = {
   getProjectById,
   createProject,
+  getMessagesByProjectId,
+  setMessagesByProjectId,
 };
 
 export default projectModel;

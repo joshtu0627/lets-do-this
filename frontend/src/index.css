@@ -1,9 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+.gray-text {
+  color: "#BEBEC2";
+}
 .h2 {
   font-family: Domine;
+}
+.graybg {
+  background-color: "bg-[#3c3a41]";
 }
 
 /* body {

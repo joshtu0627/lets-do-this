@@ -11,13 +11,13 @@ export default function ProjectAbout({ project, members }) {
     <div>
       {" "}
       <div className="w-full">
-        <div className="px-5  bg-[#2c2830] p-2 mt-8">
+        <div className="px-5  bg-[#2c2830] p-2 mt-8 overflow-hidden rounded-xl">
           <div>
             <div className="py-3 text-2xl h2">Description</div>
             <div className="mt-2 mb-5">{project.about}</div>
           </div>
         </div>
-        <div className="px-5  bg-[#2c2830] p-2 mt-8">
+        <div className="px-5  bg-[#2c2830] p-2 mt-8 overflow-hidden rounded-xl">
           <div>
             <div className="py-3 text-2xl h2">Progress</div>
             <div className="mt-2 mb-5">{project.progress}</div>
@@ -33,7 +33,7 @@ export default function ProjectAbout({ project, members }) {
           </div>
         </div>
 
-        <div className="px-5  bg-[#2c2830] p-2 mt-8">
+        <div className="px-5  bg-[#2c2830] p-2 mt-8 mb-8 overflow-hidden rounded-xl">
           <div>
             <div className="py-3 text-2xl h2">Members</div>
             <div className="flex flex-col mt-3">

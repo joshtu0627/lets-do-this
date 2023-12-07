@@ -57,7 +57,12 @@ export default function MyHomePage() {
           <div className="flex justify-center text-white">
             <div className="flex w-5/6 m-10">
               <div className="flex flex-col items-center justify-center w-1/5 rounded-xl p-4 mx-10 border border-gray-500 h-80 bg-[#2c2830]">
-                <div className="flex flex-col items-center justify-center w-full border-b h-3/5">
+                <div className="relative flex flex-col items-center justify-center w-full border-b h-3/5">
+                  {/* <img
+                    className="absolute z-0 object-cover w-full h-full opacity-25"
+                    src={user.bannerImage}
+                    alt=""
+                  /> */}
                   <div className="mt-1">
                     <img
                       className="w-16 h-16 rounded-full"
