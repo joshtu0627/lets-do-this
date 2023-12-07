@@ -39,7 +39,7 @@ export default function ProjectList() {
         <Header />
         <div className="flex justify-center text-white">
           <div className="flex w-5/6 m-10">
-            <div className="w-1/5 mx-10 border border-gray-400  bg-[#2c2830]">
+            <div className="w-1/5 rounded-xl mx-10 border border-gray-400  bg-[#2c2830]">
               <div className="m-5 text-lg">{"Require Skill"}</div>
               <div className="m-5">
                 <select
@@ -61,7 +61,7 @@ export default function ProjectList() {
             <div className="grid w-4/5 grid-cols-2 mx-10">
               {data.map((job) => (
                 <div
-                  className="flex flex-col h-56 mx-6 mb-6 bg-[#2c2830]"
+                  className="flex flex-col h-56 mx-6 mb-6 bg-[#2c2830] rounded-xl"
                   key={job.id}
                 >
                   <Link

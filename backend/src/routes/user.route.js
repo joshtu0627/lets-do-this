@@ -85,4 +85,9 @@ router.post("/createNotification", notificationController.createNotification);
 
 router.post("/joinUserProjectTable", projectUserController.joinUserInProject);
 
+router.get(
+  "/deleteNotification/:id",
+  notificationController.deleteNotification
+);
+
 export default router;

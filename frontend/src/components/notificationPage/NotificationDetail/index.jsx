@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 import JoinProjectDialog from "../../dialog/JoinProjectDialog";
 
+import { deleteNotification } from "../../../utils/Apis";
+
 import {
   Dialog,
   DialogTitle,
@@ -18,6 +20,7 @@ export default function NotificationDetail({
   handleClose,
   notification,
   user,
+  setRefetch,
 }) {
   const [openJoinProjectDialog, setOpenJoinProjectDialog] = useState(false);
   const handleOpenJoinProjectDialog = () => {
@@ -56,10 +59,11 @@ export default function NotificationDetail({
       }),
     };
     fetchData(url, options)
-      .then((data) => {
+      .then(async (data) => {
         console.log(data);
         handleClose();
         setOpenJoinProjectDialog(true);
+        await deleteNotification(notification.id);
       })
       .catch((error) => console.error("Error:", error));
   }
@@ -122,6 +126,7 @@ export default function NotificationDetail({
         open={openJoinProjectDialog}
         handleClose={handleCloseJoinProjectDialog}
         projectName={notification.project.name}
+        setRefetch={setRefetch}
       />
     </div>
   );

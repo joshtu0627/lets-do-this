@@ -10,12 +10,13 @@ import NotificationDetail from "../notificationPage/notificationDetail/index";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 
-export default function MyHomePage() {
+export default function NotificationPage() {
   const { user, login, logout } = useUser();
   const [notifications, setNotifications] = useState([]);
   const storage = window.localStorage;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [refetch, setRefetch] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -49,7 +50,7 @@ export default function MyHomePage() {
     fetchData(`http://127.0.0.1:8000/api/1.0/user/${user.id}/notifications`)
       .then((data) => setNotifications(data))
       .catch((error) => console.error("Error fetching notifications:", error));
-  }, [user]);
+  }, [user, refetch]);
 
   // fetchData 函數，可以從之前的示例中獲得
 
@@ -62,6 +63,11 @@ export default function MyHomePage() {
             <div className="bg-[#2c2830] h-16 flex items-center px-5">
               <div className="h2">Notifications</div>
             </div>
+            {notifications && notifications.length === 0 && (
+              <div className=" mt-5 h-28 flex justify-between items-center px-5">
+                <div className="h2">No notifications</div>
+              </div>
+            )}
             {notifications &&
               notifications.map((notification) => (
                 <div
@@ -109,6 +115,7 @@ export default function MyHomePage() {
                         handleClose={handleClose}
                         notification={notification}
                         user={user}
+                        setRefetch={setRefetch}
                       />
                     </div>
                   </div>

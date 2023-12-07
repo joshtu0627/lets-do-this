@@ -56,7 +56,7 @@ export default function MyHomePage() {
           <Header />
           <div className="flex justify-center text-white">
             <div className="flex w-5/6 m-10">
-              <div className="flex flex-col items-center justify-center w-1/5 p-4 mx-10 border border-gray-500 h-80 bg-[#2c2830]">
+              <div className="flex flex-col items-center justify-center w-1/5 rounded-xl p-4 mx-10 border border-gray-500 h-80 bg-[#2c2830]">
                 <div className="flex flex-col items-center justify-center w-full border-b h-3/5">
                   <div className="mt-1">
                     <img
@@ -98,7 +98,7 @@ export default function MyHomePage() {
                 </div>
               </div>
               <div className="w-4/5">
-                <div className="bg-[#2c2830] h-20 flex items-center px-5 justify-between">
+                <div className="bg-[#2c2830] h-20 rounded-xl flex items-center px-5 justify-between">
                   <div className="h2">Active Projects</div>
                   <Button
                     variant="contained"
@@ -112,8 +112,8 @@ export default function MyHomePage() {
                 </div>
                 {projects &&
                   projects.map((project) => (
-                    <Link to={"/project/1"} key={project.id}>
-                      <div className="relative bg-[#2c2830] mt-5 h-28 flex justify-between items-center pr-5 overflow-hidden">
+                    <Link to={`/project/${project.id}`} key={project.id}>
+                      <div className="rounded-xl relative bg-[#2c2830] mt-6 h-28 flex justify-between items-center pr-5 overflow-hidden">
                         <img
                           className="absolute z-0 object-cover w-full h-full transition duration-500 ease-in-out opacity-25 hover:transform hover:scale-110"
                           src={project.bannerImage}

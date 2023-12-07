@@ -34,10 +34,26 @@ const createNotification = async (req, res) => {
   }
 };
 
+const deleteNotification = async (req, res) => {
+  try {
+    console.log("body", req.body);
+    const { id } = req.params;
+    await notificationModel.deleteNotification(id);
+    const payload = {
+      message: "success",
+    };
+    res.status(200).send(payload);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
 // export controller functions
 const notificationController = {
   getNotificationByUserId,
   createNotification,
+  deleteNotification,
 };
 
 export default notificationController;

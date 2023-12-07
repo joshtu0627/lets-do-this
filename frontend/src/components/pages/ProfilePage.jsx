@@ -130,7 +130,7 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="mt-8">
-            <div className="relative">
+            <div className="relative m-5">
               <div className="absolute top-0 right-0 w-30">
                 {" "}
                 <Button
@@ -145,7 +145,7 @@ export default function ProfilePage() {
                   Edit profile
                 </Button>
               </div>
-              <div className="mt-8 text-xl">About me</div>
+              <div className="mt-8 text-3xl h2">About me</div>
               <div className="mt-2 mb-5">{user.about}</div>
               <Button variant="contained" color="primary" onClick={getResume}>
                 My Resume
@@ -183,7 +183,11 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
-
+      <EditProfileDialog
+        open={openEditProfileDialog}
+        handleClose={handleCloseEditProfileDialog}
+        user={user}
+      />
       <div className="flex-grow"></div>
       <Footer />
     </div>

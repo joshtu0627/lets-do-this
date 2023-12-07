@@ -81,3 +81,22 @@ export const createNotification = (data) => {
       });
   });
 };
+
+export const deleteNotification = (id) => {
+  return new Promise((resolve, reject) => {
+    fetch(`http://127.0.0.1:8000/api/1.0/user/deleteNotification/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resp) => {
+        console.log(resp);
+        return resp.json();
+      })
+      .then((data) => {
+        console.log(data);
+        return resolve(data);
+      });
+  });
+};

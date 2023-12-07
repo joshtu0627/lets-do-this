@@ -109,9 +109,28 @@ const createNotification = async (notification) => {
   });
 };
 
+const deleteNotification = async (id) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  return new Promise((resolve, reject) => {
+    let sql = `DELETE FROM notification WHERE id = ?`;
+    let params = [id];
+
+    connection.query(sql, params, (err, result) => {
+      if (err) {
+        reject(err);
+      }
+      console.log(result);
+      // connection.end(); // 確保資料庫連線被關閉
+      resolve(result);
+    });
+  });
+};
+
 const notificationModel = {
   getNotificationByUserId,
   createNotification,
+  deleteNotification,
 };
 
 export default notificationModel;

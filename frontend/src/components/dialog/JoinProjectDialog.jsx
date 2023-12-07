@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 
 import { Link } from "react-router-dom";
 
-function JoinProjectDialog({ open, handleClose, projectName }) {
+function JoinProjectDialog({ open, handleClose, projectName, setRefetch }) {
   return (
     <Dialog
       open={open}
@@ -28,6 +28,7 @@ function JoinProjectDialog({ open, handleClose, projectName }) {
         <Button
           onClick={() => {
             handleClose();
+            setRefetch((prev) => !prev);
           }}
           autoFocus
         >
