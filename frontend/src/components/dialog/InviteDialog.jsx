@@ -153,7 +153,7 @@ export default function InviteDialog({
         <BasicDialog
           open={openBasicDialog}
           handleClose={handleCloseBasicDialog}
-          content={"Created project successfully!"}
+          content={"Invite successfully!"}
           handleParentClose={handleClose}
         />
       </Dialog>

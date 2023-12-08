@@ -164,7 +164,7 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
                             className="text-xs"
                             onClick={handleUploadImageButtonClick}
                           >
-                            + Upload New Avatar
+                            + Upload Project Avatar
                           </div>
                         </div>
                       </div>
@@ -190,7 +190,7 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
                             className="text-xs"
                             onClick={handleUploadBannerImageButtonClick}
                           >
-                            + Upload New Banner
+                            + Upload Project Banner
                           </div>
                         </div>
                       </div>

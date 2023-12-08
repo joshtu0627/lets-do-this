@@ -117,6 +117,7 @@ export default function ProjectChat({ project, members, user }) {
   return (
     <div className="flex items-end justify-center w-full mt-10">
       <div className="w-2/3 gray-bg bg-[#2c2830] rounded-xl min-h-[200px]">
+        {messages.length === 0 && <div className="mb-28"></div>}
         {messages &&
           messages.map((message) => {
             return (

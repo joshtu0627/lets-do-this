@@ -115,6 +115,11 @@ export default function MyHomePage() {
                     <div className="h2"> + Create a new project</div>
                   </Button>
                 </div>
+                {projects.length === 0 && (
+                  <div className="flex items-center justify-between px-5 mt-5 h-28">
+                    <div className="h2">No active projects</div>
+                  </div>
+                )}
                 {projects &&
                   projects.map((project) => (
                     <Link to={`/project/${project.id}`} key={project.id}>

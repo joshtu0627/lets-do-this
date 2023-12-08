@@ -22,6 +22,8 @@ import ProjectChat from "../projectpage/ProjectChat";
 export default function ProjectDetail() {
   const { user, login, logout } = useUser();
 
+  const [isMember, setIsMember] = useState(false);
+
   const [project, setProject] = useState([]);
   const [members, setMembers] = useState([]);
   const [tabValue, setTabValue] = useState(0);
@@ -51,6 +53,15 @@ export default function ProjectDetail() {
       .then((data) => {
         console.log(data);
         setProject(data);
+
+        // if (user) {
+        //   for (let member of data.members) {
+        //     if (member.userId === user.id) {
+        //       setIsMember(true);
+        //       break;
+        //     }
+        //   }
+        // }
       });
   }, [id]);
 
@@ -72,6 +83,12 @@ export default function ProjectDetail() {
         );
         let dataNow = await resp.json();
         dataNow.role = member.role;
+
+        console.log("member", member);
+        if (member.userId == user.id) {
+          setIsMember(true);
+        }
+
         result = [...result, dataNow];
       }
       console.log("before", result);
@@ -141,52 +158,54 @@ export default function ProjectDetail() {
             </div>
           </div>
           <div className="mt-5">
-            <ThemeProvider theme={theme}>
-              <Tabs value={tabValue} aria-label="basic tabs example">
-                <Tab
-                  label="Overview"
-                  {...a11yProps(0)}
-                  onClick={() => {
-                    setTabValue(0);
-                  }}
-                />
-                <Tab
-                  label="Tasks"
-                  {...a11yProps(1)}
-                  onClick={() => {
-                    setTabValue(1);
-                  }}
-                />
-                <Tab
-                  label="Schedule"
-                  {...a11yProps(2)}
-                  onClick={() => {
-                    setTabValue(2);
-                  }}
-                />
-                <Tab
-                  label="Team"
-                  {...a11yProps(3)}
-                  onClick={() => {
-                    setTabValue(3);
-                  }}
-                />
-                <Tab
-                  label="Settings"
-                  {...a11yProps(4)}
-                  onClick={() => {
-                    setTabValue(4);
-                  }}
-                />
-                <Tab
-                  label="Chat"
-                  {...a11yProps(5)}
-                  onClick={() => {
-                    setTabValue(5);
-                  }}
-                />
-              </Tabs>
-            </ThemeProvider>
+            {isMember && (
+              <ThemeProvider theme={theme}>
+                <Tabs value={tabValue} aria-label="basic tabs example">
+                  <Tab
+                    label="Overview"
+                    {...a11yProps(0)}
+                    onClick={() => {
+                      setTabValue(0);
+                    }}
+                  />
+                  <Tab
+                    label="Tasks"
+                    {...a11yProps(1)}
+                    onClick={() => {
+                      setTabValue(1);
+                    }}
+                  />
+                  <Tab
+                    label="Schedule"
+                    {...a11yProps(2)}
+                    onClick={() => {
+                      setTabValue(2);
+                    }}
+                  />
+                  <Tab
+                    label="Team"
+                    {...a11yProps(3)}
+                    onClick={() => {
+                      setTabValue(3);
+                    }}
+                  />
+                  <Tab
+                    label="Settings"
+                    {...a11yProps(4)}
+                    onClick={() => {
+                      setTabValue(4);
+                    }}
+                  />
+                  <Tab
+                    label="Chat"
+                    {...a11yProps(5)}
+                    onClick={() => {
+                      setTabValue(5);
+                    }}
+                  />
+                </Tabs>
+              </ThemeProvider>
+            )}
           </div>
           {tabValue === 0 && (
             <ProjectAbout project={project} members={members} />
