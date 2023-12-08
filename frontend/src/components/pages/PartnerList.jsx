@@ -210,7 +210,10 @@ export default function PartnerList() {
             <div className="flex flex-col w-4/5 mx-10">
               <div>{message}</div>
               {data.map((mapUser) => (
-                <div className="flex h-48 mb-10  bg-[#2c2830]" key={mapUser.id}>
+                <div
+                  className="flex h-48 mb-10  bg-[#2c2830] rounded-xl"
+                  key={mapUser.id}
+                >
                   <div className="flex flex-col w-2/5 h-full p-3">
                     <div className="flex h-3/5">
                       {/* round profile picture */}

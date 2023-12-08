@@ -11,8 +11,11 @@ import WorkDialog from "../dialog/WorkDialog";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 
+import { useUser } from "../../contexts/UserContext";
+
 export default function ProfilePage() {
-  const [user, setUser] = useState([]);
+  const { user, login, logout } = useUser();
+  const [profileUser, setUser] = useState([]);
   const [portfolioDetail, setPortfolioDetail] = useState([]);
   const [openEditProfileDialog, setOpenEditProfileDialog] = useState(false);
 
@@ -54,10 +57,10 @@ export default function ProfilePage() {
   };
 
   async function getPortfolio() {
-    if (!user.portfolio || user.portfolio.length === 0) return;
+    if (!profileUser.portfolio || profileUser.portfolio.length === 0) return;
 
-    let portfolioLength = Math.min(user.portfolio.length, 3);
-    let portfolioRequests = user.portfolio
+    let portfolioLength = Math.min(profileUser.portfolio.length, 3);
+    let portfolioRequests = profileUser.portfolio
       .slice(0, portfolioLength)
       .map((portfolioId) =>
         fetchData(`http://localhost:8000/api/1.0/user/work/${portfolioId}`)
@@ -69,7 +72,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     getPortfolio();
-  }, [user]);
+  }, [profileUser]);
 
   useEffect(() => {
     fetchData(`http://localhost:8000/api/1.0/user/profileById/${id}`).then(
@@ -84,7 +87,7 @@ export default function ProfilePage() {
   // fetchData 函數，可以從之前的示例中獲得
 
   function getResume() {
-    window.open(user.resumeLink);
+    window.open(profileUser.resumeLink);
   }
 
   return (
@@ -93,54 +96,58 @@ export default function ProfilePage() {
       <div className="flex justify-center w-full mt-8 text-white">
         <div className="w-3/5 overflow-hidden rounded-xl">
           <div className="h-52">
-            {user.bannerImage && (
+            {profileUser.bannerImage && (
               <img
                 className="object-cover w-full h-full"
-                src={user.bannerImage}
+                src={profileUser.bannerImage}
                 alt=""
               />
             )}
           </div>
           <div className="relative flex p-5  bg-[#2c2830] rounded-b-xl">
             <div className="w-32 h-32">
-              {user.image && (
+              {profileUser.image && (
                 <img
                   className="absolute top-0 object-cover w-32 h-32 rounded-full -translate-y-1/3 left-6"
-                  src={user.image}
+                  src={profileUser.image}
                   alt=""
                 />
               )}
             </div>
             <div className="ml-8 ">
               <div className="flex">
-                <div className="text-xl font-bold">{user.name}</div>
+                <div className="text-xl font-bold">{profileUser.name}</div>
                 <div className="flex items-end py-1 ml-3 text-xs">
                   <img
                     src="/assets/icons/location.png"
                     className="w-3"
                     alt=""
                   />{" "}
-                  {user.location}
+                  {profileUser.location}
                 </div>
               </div>
 
-              <div className="mt-3 text-xs text-gray-300">{user.jobStr}</div>
+              <div className="mt-3 text-xs text-gray-300">
+                {profileUser.jobStr}
+              </div>
               <div className="flex mt-4">
-                {user.socialWebsites &&
-                  Object.entries(user.socialWebsites).map(([key, value]) => {
-                    return (
-                      <div key={key} className="">
-                        <SocialIcon
-                          className="mr-2"
-                          url={value}
-                          target="_blank"
-                          bgColor="#2c2830"
-                          // fgColor="#BEBEC2"
-                          style={{ height: 30, width: 30 }}
-                        />
-                      </div>
-                    );
-                  })}
+                {profileUser.socialWebsites &&
+                  Object.entries(profileUser.socialWebsites).map(
+                    ([key, value]) => {
+                      return (
+                        <div key={key} className="">
+                          <SocialIcon
+                            className="mr-2"
+                            url={value}
+                            target="_blank"
+                            bgColor="#2c2830"
+                            // fgColor="#BEBEC2"
+                            style={{ height: 30, width: 30 }}
+                          />
+                        </div>
+                      );
+                    }
+                  )}
               </div>
             </div>
           </div>
@@ -148,20 +155,22 @@ export default function ProfilePage() {
             <div className="relative p-5 bg-[#2c2830] overflow-hidden rounded-xl">
               <div className="absolute right-5 top-8 w-30">
                 {" "}
-                <Button
-                  variant="outlined"
-                  className="absolute top-0 right-0 "
-                  style={{ color: "#fff", borderColor: "#fff" }}
-                  size="small"
-                  onClick={() => {
-                    setOpenEditProfileDialog(true);
-                  }}
-                >
-                  Edit profile
-                </Button>
+                {profileUser.id === user.id && (
+                  <Button
+                    variant="outlined"
+                    className="absolute top-0 right-0 "
+                    style={{ color: "#fff", borderColor: "#fff" }}
+                    size="small"
+                    onClick={() => {
+                      setOpenEditProfileDialog(true);
+                    }}
+                  >
+                    Edit profile
+                  </Button>
+                )}
               </div>
               <div className="text-3xl h2">About me</div>
-              <div className="mt-2 mb-5 gray-text">{user.about}</div>
+              <div className="mt-2 mb-5 gray-text">{profileUser.about}</div>
               <Button variant="contained" color="primary" onClick={getResume}>
                 My Resume
               </Button>
@@ -212,7 +221,7 @@ export default function ProfilePage() {
       <EditProfileDialog
         open={openEditProfileDialog}
         handleClose={handleCloseEditProfileDialog}
-        user={user}
+        user={profileUser}
       />
       <div className="flex-grow"></div>
       <Footer />
