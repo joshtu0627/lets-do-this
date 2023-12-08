@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 
 import EditProfileDialog from "../dialog/EditProfileDialog";
 
+import WorkDialog from "../dialog/WorkDialog";
+
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 
@@ -13,6 +15,18 @@ export default function ProfilePage() {
   const [user, setUser] = useState([]);
   const [portfolioDetail, setPortfolioDetail] = useState([]);
   const [openEditProfileDialog, setOpenEditProfileDialog] = useState(false);
+
+  const [openWorkDialog, setOpenWorkDialog] = useState(false);
+  const [openWork, setOpenWork] = useState({});
+
+  const handleOpenWorkDialog = () => {
+    setOpenWorkDialog(true);
+  };
+
+  const handleCloseWorkDialog = () => {
+    setOpenWorkDialog(false);
+  };
+
   const handleOpenEditProfileDialog = () => {
     setOpenEditProfileDialog(true);
   };
@@ -169,10 +183,16 @@ export default function ProfilePage() {
                       }
                       key={Math.random()}
                     >
-                      <div className="flex justify-center mx-4 h-3/4">
+                      <div
+                        className="flex justify-center mx-4 overflow-hidden cursor-pointer h-3/4"
+                        onClick={() => {
+                          setOpenWork(work);
+                          setOpenWorkDialog(true);
+                        }}
+                      >
                         <img
                           src={work.image}
-                          className="object-cover w-full rounded-md"
+                          className="object-cover w-full duration-500 ease-in-out rounded-md hover:transform hover:scale-110"
                           alt=""
                         />
                       </div>
@@ -184,6 +204,11 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+      <WorkDialog
+        open={openWorkDialog}
+        handleClose={handleCloseWorkDialog}
+        work={openWork}
+      />
       <EditProfileDialog
         open={openEditProfileDialog}
         handleClose={handleCloseEditProfileDialog}
