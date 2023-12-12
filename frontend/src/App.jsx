@@ -11,6 +11,7 @@ import JobList from "./components/pages/JobList";
 import SelfProfilePage from "./components/pages/SelfProfilePage";
 import MyHomePage from "./components/pages/MyHomePage";
 import NotificationPage from "./components/pages/NotificationPage";
+import MessagePage from "./components/pages/MessagePage";
 import Test from "./components/pages/Test";
 
 import UserAuthInitializer from "./utils/UserAuthInitializer";
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/myHomePage" element={<MyHomePage />} />
           <Route path="/notifications" element={<NotificationPage />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/messages" element={<MessagePage />} />
           <Route path="/" element={<Homepage />} />
         </Routes>
       </BrowserRouter>

@@ -121,6 +121,30 @@ const getUserByExpertise = async (type) => {
   });
 };
 
+const getMessagesByUserId = async (id) => {
+  const connection = mysql.createConnection(dbConfig);
+  console.log(id);
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT * FROM user_messages WHERE id_1 = ? OR id_2 = ?`,
+      [id, id],
+      (err, rows) => {
+        console.log(rows);
+        // connection.end();
+        if (err) {
+          reject(err);
+        }
+
+        if (rows.length === 0) {
+          reject("no message found");
+        }
+
+        resolve(rows);
+      }
+    );
+  });
+};
+
 const getAllUsers = async () => {
   const connection = mysql.createConnection(dbConfig);
 
@@ -237,6 +261,7 @@ const userModel = {
   getUserById,
   getUserByExpertise,
   getUserByEmail,
+  getMessagesByUserId,
   updateProfile,
   getAllUsers,
   getWorkById,

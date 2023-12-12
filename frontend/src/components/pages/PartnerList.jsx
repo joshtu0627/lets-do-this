@@ -209,117 +209,120 @@ export default function PartnerList() {
             </div>
             <div className="flex flex-col w-4/5 mx-10">
               <div>{message}</div>
-              {data.map((mapUser) => (
-                <div
-                  className="flex h-48 mb-10  bg-[#2c2830] rounded-xl"
-                  key={mapUser.id}
-                >
-                  <div className="flex flex-col w-2/5 h-full p-3">
-                    <div className="flex h-3/5">
-                      {/* round profile picture */}
-                      <div className="w-2/5">
-                        <Link to={"/profile/" + mapUser.id}>
-                          <div className="w-20 h-20 bg-gray-500 rounded-full">
-                            <img
-                              className="w-20 h-20 rounded-full"
-                              src={mapUser.image}
-                              alt="profile"
-                            />
+              {data.map(
+                (mapUser) =>
+                  mapUser.id !== user.id && (
+                    <div
+                      className="flex h-48 mb-10  bg-[#2c2830] rounded-xl"
+                      key={mapUser.id}
+                    >
+                      <div className="flex flex-col w-2/5 h-full p-3">
+                        <div className="flex h-3/5">
+                          {/* round profile picture */}
+                          <div className="w-2/5">
+                            <Link to={"/profile/" + mapUser.id}>
+                              <div className="w-20 h-20 bg-gray-500 rounded-full">
+                                <img
+                                  className="w-20 h-20 rounded-full"
+                                  src={mapUser.image}
+                                  alt="profile"
+                                />
+                              </div>
+                            </Link>
                           </div>
-                        </Link>
-                      </div>
-                      <div className="flex-col w-3/5 font-bold">
-                        <div className="flex items-center justify-between my-2">
-                          <div className="mr-2">{mapUser.name}</div>
-                          {mapUser.id !== user.id && (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              className="w-4 h-6"
-                              onClick={() => {
-                                setClickedUser(mapUser);
-                                handleOpenInviteDialog();
-                              }}
-                            >
+                          <div className="flex-col w-3/5 font-bold">
+                            <div className="flex items-center justify-between my-2">
+                              <div className="mr-2">{mapUser.name}</div>
+                              {mapUser.id !== user.id && (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  className="w-4 h-6"
+                                  onClick={() => {
+                                    setClickedUser(mapUser);
+                                    handleOpenInviteDialog();
+                                  }}
+                                >
+                                  <img
+                                    src="/assets/icons/addPeople.png"
+                                    className="w-3 h-3 mr-1"
+                                    alt=""
+                                  />{" "}
+                                  invite
+                                </Button>
+                              )}
+                            </div>
+
+                            <div className="text-xs text-gray-300">
+                              {mapUser.jobStr}
+                            </div>
+                            <div className="flex mt-3 text-xs font-bold text-gray-300">
                               <img
-                                src="/assets/icons/addPeople.png"
-                                className="w-3 h-3 mr-1"
+                                src="/assets/icons/location.png"
+                                className="w-3 h-3"
                                 alt=""
                               />{" "}
-                              invite
-                            </Button>
-                          )}
+                              {mapUser.location}
+                            </div>
+                          </div>
                         </div>
-
-                        <div className="text-xs text-gray-300">
-                          {mapUser.jobStr}
-                        </div>
-                        <div className="flex mt-3 text-xs font-bold text-gray-300">
-                          <img
-                            src="/assets/icons/location.png"
-                            className="w-3 h-3"
-                            alt=""
-                          />{" "}
-                          {mapUser.location}
+                        <div className="flex flex-col mt-2 text-xs text-gray-300 h-2/5">
+                          <div className="flex">
+                            {mapUser.userPreferences &&
+                              Object.entries(mapUser.userPreferences).map(
+                                ([key, value]) =>
+                                  value && (
+                                    <div
+                                      key={Math.random()}
+                                      className="p-1 my-2 mr-2 bg-[#3c3a41] "
+                                    >
+                                      {key}
+                                    </div>
+                                  )
+                              )}
+                            <div></div>
+                          </div>
+                          <div>skills: {mapUser.skillStr}</div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex flex-col mt-2 text-xs text-gray-300 h-2/5">
-                      <div className="flex">
-                        {mapUser.userPreferences &&
-                          Object.entries(mapUser.userPreferences).map(
-                            ([key, value]) =>
-                              value && (
-                                <div
-                                  key={Math.random()}
-                                  className="p-1 my-2 mr-2 bg-[#3c3a41] "
-                                >
-                                  {key}
-                                </div>
-                              )
-                          )}
-                        <div></div>
-                      </div>
-                      <div>skills: {mapUser.skillStr}</div>
-                    </div>
-                  </div>
-                  {/* <div className="flex w-1/4 bg-black">123</div> */}
-                  {portfolioDetail[mapUser.id - 1] &&
-                    portfolioDetail[mapUser.id - 1].length > 0 &&
-                    portfolioDetail[mapUser.id - 1].map((work) => (
-                      <div
-                        className="relative flex flex-col w-1/5 p-2 m-1"
-                        key={Math.random()}
-                      >
-                        <div className="w-full h-full ">
-                          <div className="absolute top-0 left-0 w-full h-full p-2">
-                            <div className="w-full h-full transition-opacity duration-300 rounded opacity-0 bg-gradient-to-t from-black to-transparent hover:opacity-100">
-                              <div className="relative w-full h-full ">
-                                <div className="absolute flex flex-col left-3 bottom-3">
-                                  <div className="font-bold h2 text-s">
-                                    {work.name}
-                                  </div>
-                                  <div className="text-xs text-gray-300">
-                                    {" "}
-                                    {work.about}
+                      {/* <div className="flex w-1/4 bg-black">123</div> */}
+                      {portfolioDetail[mapUser.id - 1] &&
+                        portfolioDetail[mapUser.id - 1].length > 0 &&
+                        portfolioDetail[mapUser.id - 1].map((work) => (
+                          <div
+                            className="relative flex flex-col w-1/5 p-2 m-1"
+                            key={Math.random()}
+                          >
+                            <div className="w-full h-full ">
+                              <div className="absolute top-0 left-0 w-full h-full p-2">
+                                <div className="w-full h-full transition-opacity duration-300 rounded opacity-0 bg-gradient-to-t from-black to-transparent hover:opacity-100">
+                                  <div className="relative w-full h-full ">
+                                    <div className="absolute flex flex-col left-3 bottom-3">
+                                      <div className="font-bold h2 text-s">
+                                        {work.name}
+                                      </div>
+                                      <div className="text-xs text-gray-300">
+                                        {" "}
+                                        {work.about}
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
+                              {work.image && (
+                                <img
+                                  src={work.image}
+                                  className="object-cover w-full h-full rounded"
+                                  alt=""
+                                />
+                              )}
                             </div>
+                            {/* <div className="h-1/5">{work.name}</div> */}
                           </div>
-                          {work.image && (
-                            <img
-                              src={work.image}
-                              className="object-cover w-full h-full rounded"
-                              alt=""
-                            />
-                          )}
-                        </div>
-                        {/* <div className="h-1/5">{work.name}</div> */}
-                      </div>
-                    ))}
-                </div>
-              ))}
+                        ))}
+                    </div>
+                  )
+              )}
             </div>
           </div>
         </div>

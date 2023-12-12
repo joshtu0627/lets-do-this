@@ -76,6 +76,9 @@ router.post(
   }
 );
 
+// router.get("/getMessagesByProjectId", projectController.getMessagesByProjectId);
+router.get("/getMessagesByUserId", userController.getMessagesByUserId);
+
 router.get(
   "/:id/notifications",
   notificationController.getNotificationByUserId

@@ -185,10 +185,25 @@ export default function Header() {
                               >
                                 <MenuItem
                                   onClick={() => {
+                                    navigate("/messages");
+                                  }}
+                                >
+                                  Message
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={() => {
                                     navigate("/profile/" + user.id);
                                   }}
                                 >
                                   Profile
+                                </MenuItem>
+
+                                <MenuItem
+                                  onClick={() => {
+                                    navigate("/notifications");
+                                  }}
+                                >
+                                  Notifications
                                 </MenuItem>
                                 <MenuItem
                                   onClick={() => {
@@ -199,13 +214,6 @@ export default function Header() {
                                   }}
                                 >
                                   Logout
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={() => {
-                                    navigate("/notifications");
-                                  }}
-                                >
-                                  Notifications
                                 </MenuItem>
                               </MenuList>
                             </ClickAwayListener>

@@ -16,13 +16,15 @@ export const fetchData = async (url, options = {}) => {
 };
 
 export const getUserDataById = (id) => {
-  fetchData(`http://localhost:8000/api/1.0/user/profileById/${id}`).then(
-    (data) => {
-      if (!data) return;
-      data.jobStr = data.job ? data.job.join(" / ") : "";
-      return data;
-    }
-  );
+  return new Promise((resolve, reject) => {
+    fetchData(`http://localhost:8000/api/1.0/user/profileById/${id}`).then(
+      (data) => {
+        if (!data) reject();
+        data.jobStr = data.job ? data.job.join(" / ") : "";
+        resolve(data);
+      }
+    );
+  });
 };
 
 export const getProjectDataById = (id) => {
@@ -42,6 +44,25 @@ export const getProjectsByUserId = (id) => {
         resolve(data);
       }
     );
+  });
+};
+
+export const getMessagesByUserId = (id) => {
+  return new Promise((resolve, reject) => {
+    fetch(`http://127.0.0.1:8000/api/1.0/user/getMessagesByUserId?id=${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resp) => {
+        console.log(resp);
+        return resp.json();
+      })
+      .then((data) => {
+        console.log(data);
+        return resolve(data);
+      });
   });
 };
 

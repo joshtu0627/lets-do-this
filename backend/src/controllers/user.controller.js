@@ -178,6 +178,18 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const getMessagesByUserId = async (req, res) => {
+  try {
+    console.log(req.query.id);
+    console.log("get messages by user id");
+    const messages = await userModel.getMessagesByUserId(req.query.id);
+    res.status(200).send(messages);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
 // export controller functions
 const userController = {
   signup,
@@ -189,6 +201,7 @@ const userController = {
   getUserByExpertise,
   getAllUsers,
   getWorkById,
+  getMessagesByUserId,
 };
 
 export default userController;
