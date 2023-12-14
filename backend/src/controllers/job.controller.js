@@ -16,9 +16,21 @@ const getAllJob = async (req, res) => {
   }
 };
 
+const getJobByType = async (req, res) => {
+  try {
+    const jobs = await jobModel.getJobByType(req.params.type);
+
+    res.status(200).send(jobs);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
 // export controller functions
 const jobController = {
   getAllJob,
+  getJobByType,
 };
 
 export default jobController;

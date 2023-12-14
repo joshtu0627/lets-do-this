@@ -288,7 +288,7 @@ const createChat = async (userId1, userId2) => {
         }
 
         if (rows.length > 0) {
-          return rows[0];
+          resolve(rows);
         } else {
           connection.query(
             `INSERT INTO user_messages (id_1, id_2 ,messages) VALUES (?, ?, ?)`,

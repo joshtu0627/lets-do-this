@@ -8,13 +8,16 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
 
-import { skillList, typeList } from "../../data/data";
+import { skillList, typeList, jobList } from "../../data/data";
 import { backendurl } from "../../constants/urls";
 
 export default function ProjectList() {
   const [data, setData] = useState([]);
+  const [choosedSkill, setChoosedSkill] = useState("");
+  const [choosedJob, setChoosedJob] = useState("");
+  const [message, setMessage] = useState("");
 
-  useEffect(() => {
+  function getAllJob() {
     async function fetchData() {
       let result = await fetch(`http://${backendurl}/project/job/allJob`, {
         method: "GET",
@@ -24,11 +27,48 @@ export default function ProjectList() {
       });
 
       result = await result.json();
-
+      setMessage("");
       setData(result);
       console.log(result);
     }
     fetchData();
+  }
+
+  function getChoosedJob() {
+    setMessage("searching...");
+    setData([]);
+    async function fetchData() {
+      let result = await fetch(
+        `http://${backendurl}/project/job/${choosedJob}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      result = await result.json();
+
+      setData(result);
+      setMessage("");
+      console.log(result);
+    }
+    fetchData();
+  }
+
+  useEffect(() => {
+    setMessage("searching...");
+    setData([]);
+    if (choosedJob === "" || choosedJob === "None") {
+      getAllJob();
+    } else {
+      getChoosedJob();
+    }
+  }, [choosedJob]);
+
+  useEffect(() => {
+    getAllJob();
   }, []);
 
   return (
@@ -38,12 +78,29 @@ export default function ProjectList() {
         <div className="flex justify-center text-white">
           <div className="flex w-5/6 m-10">
             <div className="w-1/5 rounded-xl mx-10 border border-gray-400  bg-[#2c2830]">
+              <div className="m-5 text-lg">{"Job Type"}</div>
+              <div className="m-5">
+                <select
+                  name=""
+                  id=""
+                  className="w-40 bg-black"
+                  onChange={(e) => {
+                    setChoosedJob(e.target.value);
+                  }}
+                >
+                  {jobList.map((job) => (
+                    <option value={job} key={job}>
+                      {job}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="m-5 text-lg">{"Require Skill"}</div>
               <div className="m-5">
                 <select
                   name=""
                   id=""
-                  className="bg-black"
+                  className="w-40 bg-black"
                   onChange={(e) => {
                     setChoosedSkill(e.target.value);
                   }}
@@ -57,6 +114,7 @@ export default function ProjectList() {
               </div>
             </div>
             <div className="grid w-4/5 grid-cols-2 mx-10">
+              {message}
               {data.map((job) => (
                 <div
                   className="flex flex-col h-56 mx-6 mb-6 bg-[#2c2830] rounded-xl"

@@ -51,4 +51,6 @@ router.post(
   }
 );
 
+router.get("/job/:type", jobController.getJobByType);
+
 export default router;

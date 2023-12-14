@@ -62,18 +62,19 @@ export default function MessagePage() {
   const handleGetMessage = (message) => {
     message = JSON.parse(message);
     let id = message.to;
+    let chatId = message.chatId;
     console.log(message);
     console.log(id);
 
-    setMessagesMap((messagesMap) => {
-      let newMessagesMap = { ...messagesMap };
-      let currentMessages = [...messagesMap[id]];
+    setMessagesMap((prev) => {
+      let newMessagesMap = { ...prev };
+      let currentMessages = [...prev[id]];
       console.log(currentMessages);
       let newMessage = [...currentMessages, message];
       newMessagesMap[id] = newMessage;
 
       console.log(id, newMessage);
-      setMessagesByChatId(id, newMessage);
+      setMessagesByChatId(chatId, newMessage);
       return newMessagesMap;
     });
     setUpdateMessage(!updateMessage);
@@ -206,7 +207,7 @@ export default function MessagePage() {
       <div className="flex-grow">
         <div className="flex justify-center h-full text-white">
           <div className="flex w-5/6 m-10 text-white">
-            <div className="w-1/5 mx-10 h-[800px] bg-[#2c2830]">
+            <div className="w-1/5 mx-10 h-[800px] bg-[#2c2830] rounded-xl overflow-hidden">
               {/* 123 */}
               {/* {chat &&
                 chat.map((message) => {
@@ -238,9 +239,9 @@ export default function MessagePage() {
                         alt=""
                       />
                     </div>
-                    <div className="flex-col ml-5">
+                    <div className="flex-col ml-5 font-bold">
                       <div>{messageUsers[index].name}</div>
-                      <div>
+                      <div className="text-gray-400">
                         {chatMessages.messages &&
                           chatMessages.messages.length > 0 &&
                           chatMessages.messages[
@@ -251,7 +252,7 @@ export default function MessagePage() {
                   </div>
                 ))}
             </div>
-            <div className="w-4/5 mx-10 h-[800px] bg-[#2c2830]">
+            <div className="w-4/5 mx-10 h-[800px] bg-[#2c2830]  rounded-xl overflow-hidden">
               <div className=" h-[720px] overflow-y-scroll " ref={scrollRef}>
                 {/* {chat &&
                   chat.map((chatMessages) => (
@@ -281,7 +282,7 @@ export default function MessagePage() {
                           </div>
                           <div className="flex justify-end w-full">
                             <div className="mt-2 mr-16 text-xs">
-                              {/* {getTimeDiff(message.timestamp)} */}
+                              {getTimeDiff(message.timestamp)}
                             </div>
                           </div>
                         </div>
@@ -304,7 +305,7 @@ export default function MessagePage() {
                           </div>
                           <div className="flex w-full justify-begin">
                             <div className="mt-2 ml-16 text-xs">
-                              {/* {getTimeDiff(message.timestamp)} */}
+                              {getTimeDiff(message.timestamp)}
                             </div>
                           </div>
                         </div>
