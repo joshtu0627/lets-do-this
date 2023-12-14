@@ -117,6 +117,7 @@ io.on("connection", (socket) => {
     });
     //有的話要先離開
     if (nowRoom) {
+      console.log("leaving room", nowRoom);
       socket.leave(nowFoom);
     }
     //再加入新的
@@ -126,6 +127,7 @@ io.on("connection", (socket) => {
 
   socket.on("joinRoom", (room) => {
     //加入前檢查是否已有所在房間
+    console.log(room);
     const nowRoom = Object.keys(socket.rooms).find((room) => {
       return room !== socket.id;
     });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import Header from "../common/Header";
 import Footer from "../common/Footer";
@@ -18,6 +18,10 @@ import { getProjectsByUserId } from "../../utils/Apis";
 
 import InviteDialog from "../dialog/InviteDialog";
 
+import { createChat } from "../../utils/Apis";
+
+import { IoChatbubbleSharp } from "react-icons/io5";
+
 export default function PartnerList() {
   const { user, login, logout } = useUser();
 
@@ -31,6 +35,8 @@ export default function PartnerList() {
   const [openInviteDialog, setOpenInviteDialog] = useState(false);
 
   const [clickedUser, setClickedUser] = useState({});
+
+  const navigate = useNavigate();
 
   const handleOpenInviteDialog = () => {
     setOpenInviteDialog(true);
@@ -267,22 +273,40 @@ export default function PartnerList() {
                           </div>
                         </div>
                         <div className="flex flex-col mt-2 text-xs text-gray-300 h-2/5">
-                          <div className="flex">
-                            {mapUser.userPreferences &&
-                              Object.entries(mapUser.userPreferences).map(
-                                ([key, value]) =>
-                                  value && (
-                                    <div
-                                      key={Math.random()}
-                                      className="p-1 my-2 mr-2 bg-[#3c3a41] "
-                                    >
-                                      {key}
-                                    </div>
-                                  )
-                              )}
-                            <div></div>
+                          <div className="flex justify-between">
+                            <div className="flex">
+                              {mapUser.userPreferences &&
+                                Object.entries(mapUser.userPreferences).map(
+                                  ([key, value]) =>
+                                    value && (
+                                      <div
+                                        key={Math.random()}
+                                        className="p-1 my-2 mr-2 bg-[#3c3a41] "
+                                      >
+                                        {key}
+                                      </div>
+                                    )
+                                )}
+                            </div>
+                            <div>
+                              {" "}
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ width: "10px", height: "30px" }}
+                                className="mb-5"
+                                onClick={async () => {
+                                  await createChat(user.id, mapUser.id);
+                                  navigate("/messages");
+                                }}
+                              >
+                                <IoChatbubbleSharp />
+                              </Button>
+                            </div>
                           </div>
-                          <div>skills: {mapUser.skillStr}</div>
+                          <div className="flex justify-between">
+                            <div>skills: {mapUser.skillStr}</div>
+                          </div>
                         </div>
                       </div>
                       {/* <div className="flex w-1/4 bg-black">123</div> */}

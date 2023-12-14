@@ -163,3 +163,44 @@ export const setMessagesByProjectId = (id, messages) => {
       });
   });
 };
+
+export const setMessagesByChatId = (id, messages) => {
+  return new Promise((resolve, reject) => {
+    console.log(JSON.stringify({ id, messages }));
+    fetch(`http://127.0.0.1:8000/api/1.0/user/setMessagesByChatId`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, messages }),
+    })
+      .then((resp) => {
+        console.log(resp);
+        return resp.json();
+      })
+      .then((data) => {
+        console.log(data);
+        return resolve(data);
+      });
+  });
+};
+
+export const createChat = (id1, id2) => {
+  return new Promise((resolve, reject) => {
+    fetch(`http://127.0.0.1:8000/api/1.0/user/createChat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id1, id2 }),
+    })
+      .then((resp) => {
+        console.log(resp);
+        return resp.json();
+      })
+      .then((data) => {
+        console.log(data);
+        return resolve(data);
+      });
+  });
+};

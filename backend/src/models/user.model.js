@@ -145,6 +145,26 @@ const getMessagesByUserId = async (id) => {
   });
 };
 
+const setMessagesByChatId = async (id, messages) => {
+  const connection = mysql.createConnection(dbConfig);
+  console.log(id);
+  console.log(messages);
+  messages = JSON.stringify(messages);
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `UPDATE user_messages SET messages = ? WHERE id = ?`,
+      [messages, id],
+      (err, rows) => {
+        console.log(rows);
+        // connection.end();
+        if (err) {
+          reject(err);
+        }
+      }
+    );
+  });
+};
+
 const getAllUsers = async () => {
   const connection = mysql.createConnection(dbConfig);
 
@@ -254,6 +274,41 @@ const updateProfile = async (user) => {
   });
 };
 
+const createChat = async (userId1, userId2) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  return new Promise((resolve, reject) => {
+    // find if chat already exists
+    connection.query(
+      `SELECT * FROM user_messages WHERE (id_1 = ? AND id_2 = ?) OR (id_1 = ? AND id_2 = ?)`,
+      [userId1, userId2, userId2, userId1],
+      (err, rows) => {
+        if (err) {
+          reject(err);
+        }
+
+        if (rows.length > 0) {
+          return rows[0];
+        } else {
+          connection.query(
+            `INSERT INTO user_messages (id_1, id_2 ,messages) VALUES (?, ?, ?)`,
+            [userId1, userId2, "[]"],
+            (err, rows) => {
+              connection.end();
+              if (err) {
+                reject(err);
+              } else {
+                console.log("Chat created");
+                resolve(rows);
+              }
+            }
+          );
+        }
+      }
+    );
+  });
+};
+
 // export model functions
 const userModel = {
   signup,
@@ -266,6 +321,8 @@ const userModel = {
   getAllUsers,
   getWorkById,
   correctPassword,
+  setMessagesByChatId,
+  createChat,
 };
 
 export default userModel;

@@ -190,6 +190,34 @@ const getMessagesByUserId = async (req, res) => {
   }
 };
 
+const setMessagesByChatId = async (req, res) => {
+  try {
+    // console.log(req.body);
+    console.log("set messages by chat id");
+    console.log(JSON.stringify(req.body));
+    const messages = await userModel.setMessagesByChatId(
+      req.body.id,
+      req.body.messages
+    );
+    res.status(200).send(messages);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
+const createChat = async (req, res) => {
+  try {
+    console.log(req.body);
+    console.log("create chat");
+    const chat = await userModel.createChat(req.body.id1, req.body.id2);
+    res.status(200).send(chat);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
 // export controller functions
 const userController = {
   signup,
@@ -202,6 +230,8 @@ const userController = {
   getAllUsers,
   getWorkById,
   getMessagesByUserId,
+  setMessagesByChatId,
+  createChat,
 };
 
 export default userController;

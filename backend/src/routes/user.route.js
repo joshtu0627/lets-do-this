@@ -79,6 +79,8 @@ router.post(
 // router.get("/getMessagesByProjectId", projectController.getMessagesByProjectId);
 router.get("/getMessagesByUserId", userController.getMessagesByUserId);
 
+router.post("/setMessagesByChatId", userController.setMessagesByChatId);
+
 router.get(
   "/:id/notifications",
   notificationController.getNotificationByUserId
@@ -92,5 +94,7 @@ router.get(
   "/deleteNotification/:id",
   notificationController.deleteNotification
 );
+
+router.post("/createChat", userController.createChat);
 
 export default router;

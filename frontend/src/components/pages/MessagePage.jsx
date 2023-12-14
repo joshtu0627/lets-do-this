@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import Header from "../common/Header";
 import Footer from "../common/Footer";
@@ -16,8 +16,11 @@ import webSocket from "socket.io-client";
 
 import Button from "@mui/material/Button";
 import { generateTimestamp } from "../../../../backend/src/utils/tools";
+import { setMessagesByChatId } from "../../utils/Apis";
 
 export default function MessagePage() {
+  const scrollRef = useRef(null);
+
   const [ws, setWs] = useState(null);
 
   const { user, login, logout } = useUser();
@@ -30,13 +33,15 @@ export default function MessagePage() {
   const [nowMessageUser, setNowMessageUser] = useState(null);
 
   const [userMessage, setUserMessage] = useState("");
-  const connectWebSocket = () => {
-    //開啟
-    setWs(webSocket("http://localhost:8000"));
-  };
+
+  const [updateMessage, setUpdateMessage] = useState(false);
+  const [nowChatId, setNowChatId] = useState(null);
+
+  const [joinRoom, setJoinRoom] = useState(false);
 
   const changeRoom = (id) => {
     let room = id;
+    console.log("change room", room);
     if (room !== "") {
       ws.emit("joinRoom", room);
     }
@@ -46,19 +51,41 @@ export default function MessagePage() {
     ws.emit(name, message);
   };
 
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
+  const handleGetMessage = (message) => {
+    message = JSON.parse(message);
+    let id = message.to;
+    console.log(message);
+    console.log(id);
+
+    setMessagesMap((messagesMap) => {
+      let newMessagesMap = { ...messagesMap };
+      let currentMessages = [...messagesMap[id]];
+      console.log(currentMessages);
+      let newMessage = [...currentMessages, message];
+      newMessagesMap[id] = newMessage;
+
+      console.log(id, newMessage);
+      setMessagesByChatId(id, newMessage);
+      return newMessagesMap;
+    });
+    setUpdateMessage(!updateMessage);
+    // console.log(message);
+  };
+  // useEffect(() => {
+  //   // if (!messages) return;
+
+  // }, []);
   useEffect(() => {
     const initWebSocket = () => {
       //對 getMessage 設定監聽，如果 server 有透過 getMessage 傳送訊息，將會在此被捕捉
       ws.on("getMessage", (message) => {
         console.log(message);
-        message = JSON.parse(message);
-        setUserMessage("");
-        let newNowMessage = [...nowMessage, message];
-        console.log("change message map");
-        setMessagesMap((messagesMap) => ({
-          ...messagesMap,
-          [nowMessageUser.id]: newNowMessage,
-        }));
       });
       ws.on("getMessageAll", (message) => {
         console.log(message);
@@ -67,16 +94,9 @@ export default function MessagePage() {
         console.log(message);
       });
       ws.on("getMessageRoomReceive", (message) => {
-        let comingMessage = JSON.parse(message);
-        message = JSON.parse(message);
-        let newNowMessage = [...nowMessage, message];
-
-        console.log(nowMessageUser);
-        setMessagesMap((messagesMap) => ({
-          ...messagesMap,
-          [nowMessageUser.id]: newNowMessage,
-        }));
+        console.log("get message");
         console.log(message);
+        handleGetMessage(message);
       });
       ws.on("addRoom", (message) => {
         console.log(message);
@@ -93,16 +113,31 @@ export default function MessagePage() {
       if (!user || !nowMessageUser) return;
       // 較小的id在前面
       if (user.id < nowMessageUser.id) {
-        changeRoom(String(user.id) + String(nowMessageUser.id));
+        changeRoom(String(user.id) + "_" + String(nowMessageUser.id));
       } else {
-        changeRoom(String(nowMessageUser.id) + String(user.id));
+        changeRoom(String(nowMessageUser.id) + "_" + String(user.id));
       }
     }
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, [ws]);
+
+  useEffect(() => {
+    console.log("success join room");
   }, [ws]);
 
   useEffect(() => {
     if (!ws || !user || !nowMessageUser) return;
-    changeRoom(String(user.id) + String(nowMessageUser.id));
+    console.log("change room");
+    if (user.id < nowMessageUser.id) {
+      changeRoom(String(user.id) + "_" + String(nowMessageUser.id));
+    } else {
+      changeRoom(String(nowMessageUser.id) + "_" + String(user.id));
+    }
+    setNowMessage(messagesMap[nowMessageUser.id]);
   }, [nowMessageUser]);
 
   useEffect(() => {
@@ -113,6 +148,14 @@ export default function MessagePage() {
 
   useEffect(() => {
     if (!user) return;
+    const connectWebSocket = () => {
+      //開啟
+      console.log("start connect");
+      setWs(webSocket("http://localhost:8000"));
+      setJoinRoom(!joinRoom);
+    };
+
+    connectWebSocket();
     const getData = async () => {
       let data = await getMessagesByUserId(user.id);
       // console.log(data);
@@ -142,31 +185,18 @@ export default function MessagePage() {
       setMessages(newMessages);
     };
     getData();
-    console.log("start connect");
-    connectWebSocket();
   }, [user]);
 
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
-
-  useEffect(() => {
-    console.log(nowMessageUser);
-    if (!nowMessageUser) return;
-    setNowMessage(messagesMap[nowMessageUser.id]);
-  }, [nowMessageUser]);
-
-  useEffect(() => {
-    console.log(chat);
-  }, [chat]);
+  // useEffect(() => {
+  //   console.log(nowMessageUser);
+  //   if (!nowMessageUser) return;
+  //   setNowMessage(messagesMap[nowMessageUser.id]);
+  // }, [nowMessageUser]);
 
   useEffect(() => {
     console.log(nowMessage);
+    scrollToBottom();
   }, [nowMessage]);
-
-  useEffect(() => {
-    console.log("message map:", messagesMap);
-  }, [messagesMap]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#1A171D]">
@@ -184,11 +214,18 @@ export default function MessagePage() {
                 messageUsers &&
                 chat.map((chatMessages, index) => (
                   <div
-                    className="flex items-center w-full h-20 bg-gray-600"
+                    className={
+                      "flex items-center w-full h-20" +
+                      (nowMessageUser &&
+                      nowMessageUser.id === messageUsers[index].id
+                        ? " bg-[#4E4755]"
+                        : " bg-[#2c2830]")
+                    }
                     onClick={() => {
                       console.log(messageUsers);
-                      console.log(index);
+                      console.log(messageUsers[index]);
                       setNowMessageUser(messageUsers[index]);
+                      setNowChatId(chatMessages.id);
                     }}
                     key={chatMessages.id}
                   >
@@ -202,29 +239,29 @@ export default function MessagePage() {
                     <div className="flex-col ml-5">
                       <div>{messageUsers[index].name}</div>
                       <div>
-                        {
+                        {chatMessages.messages &&
+                          chatMessages.messages.length > 0 &&
                           chatMessages.messages[
                             chatMessages.messages.length - 1
-                          ].text
-                        }
+                          ].text}
                       </div>
                     </div>
                   </div>
                 ))}
             </div>
             <div className="w-4/5 mx-10 h-[800px] bg-[#2c2830]">
-              <div>
+              <div className=" h-[720px] overflow-y-scroll " ref={scrollRef}>
                 {/* {chat &&
                   chat.map((chatMessages) => (
                     <div>{chatMessages.messages[0].text}</div>
                   ))} */}
                 <div className="p-5">
                   {nowMessage &&
-                    nowMessage.map((message) =>
+                    nowMessage.map((message, index) =>
                       user.id === message.id ? (
                         <div
-                          className="flex flex-col w-full"
-                          key={Math.random()}
+                          className="flex flex-col w-full my-6"
+                          key={nowMessageUser.id + index}
                         >
                           {" "}
                           {/* 確保添加了唯一的 key */}
@@ -242,14 +279,14 @@ export default function MessagePage() {
                           </div>
                           <div className="flex justify-end w-full">
                             <div className="mt-2 mr-16 text-xs">
-                              {getTimeDiff(message.timestamp)}
+                              {/* {getTimeDiff(message.timestamp)} */}
                             </div>
                           </div>
                         </div>
                       ) : (
                         <div
-                          className="flex flex-col w-full"
-                          key={Math.random()}
+                          className="flex flex-col w-full my-6"
+                          key={nowMessageUser.id + index}
                         >
                           <div className="flex w-full justify-begin">
                             <div className="w-12 h-12">
@@ -265,7 +302,7 @@ export default function MessagePage() {
                           </div>
                           <div className="flex w-full justify-begin">
                             <div className="mt-2 ml-16 text-xs">
-                              {getTimeDiff(message.timestamp)}
+                              {/* {getTimeDiff(message.timestamp)} */}
                             </div>
                           </div>
                         </div>
@@ -293,6 +330,8 @@ export default function MessagePage() {
                       text: userMessage,
                       image: user.image,
                       timestamp: generateTimestamp(),
+                      to: nowMessageUser.id,
+                      chatId: nowChatId,
                     };
 
                     sendMessage("getMessageRoom", JSON.stringify(payload));

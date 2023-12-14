@@ -47,7 +47,6 @@ export default function WorkDialog({ open, handleClose, work }) {
                 <span className="mr-1 font-bold">Tags: </span>
                 {work.tags.map((tag) => (
                   <span
-                    className="mr-2 "
                     key={tag}
                     className="px-2 py-1 mr-2 border-2 border-gray-500 rounded-md"
                   >
