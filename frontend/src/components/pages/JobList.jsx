@@ -9,21 +9,19 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 
 import { skillList, typeList } from "../../data/data";
+import { backendurl } from "../../constants/urls";
 
 export default function ProjectList() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      let result = await fetch(
-        "http://localhost:8000/api/1.0/project/job/allJob",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      let result = await fetch(`http://${backendurl}/project/job/allJob`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       result = await result.json();
 

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 
 import { useUser } from "../../contexts/UserContext";
+import { backendurl } from "../../constants/urls";
 
 export default function Test() {
   const [ws, setWs] = useState(null);
@@ -20,7 +21,7 @@ export default function Test() {
 
   const connectWebSocket = () => {
     //開啟
-    setWs(webSocket("http://localhost:8000"));
+    setWs(webSocket(`http://${backendurl}`));
   };
 
   useEffect(() => {

@@ -5,10 +5,11 @@ import { useUser } from "../../contexts/UserContext";
 
 import Header from "../common/Header";
 import Footer from "../common/Footer";
-import NotificationDetail from "../notificationPage/notificationDetail/index";
+import NotificationDetail from "../notificationPage/NotificationDetail";
 
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
+import { backendurl } from "../../constants/urls";
 
 export default function NotificationPage() {
   const { user, login, logout } = useUser();
@@ -47,7 +48,7 @@ export default function NotificationPage() {
     if (!user) {
       return;
     }
-    fetchData(`http://127.0.0.1:8000/api/1.0/user/${user.id}/notifications`)
+    fetchData(`http://${backendurl}/user/${user.id}/notifications`)
       .then((data) => setNotifications(data))
       .catch((error) => console.error("Error fetching notifications:", error));
   }, [user, refetch]);
@@ -64,7 +65,7 @@ export default function NotificationPage() {
               <div className="h2">Notifications</div>
             </div>
             {notifications && notifications.length === 0 && (
-              <div className=" mt-5 h-28 flex justify-between items-center px-5">
+              <div className="flex items-center justify-between px-5 mt-5 h-28">
                 <div className="h2">No notifications</div>
               </div>
             )}

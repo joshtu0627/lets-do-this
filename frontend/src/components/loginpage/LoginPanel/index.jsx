@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { useUser } from "../../../contexts/UserContext";
+import { backendurl } from "../../../constants/urls";
 
 function Copyright(props) {
   return (
@@ -64,7 +65,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    fetch("http://localhost:8000/api/1.0/user/signin", {
+    fetch(`http://${backendurl}/user/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

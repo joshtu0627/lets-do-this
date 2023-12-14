@@ -21,6 +21,7 @@ import InviteDialog from "../dialog/InviteDialog";
 import { createChat } from "../../utils/Apis";
 
 import { IoChatbubbleSharp } from "react-icons/io5";
+import { backendurl } from "../../constants/urls";
 
 export default function PartnerList() {
   const { user, login, logout } = useUser();
@@ -75,9 +76,7 @@ export default function PartnerList() {
         if (user.portfolio) {
           const portfolioData = await Promise.all(
             user.portfolio.map((portfolioId) =>
-              fetchData(
-                `http://localhost:8000/api/1.0/user/work/${portfolioId}`
-              )
+              fetchData(`http://${backendurl}/user/work/${portfolioId}`)
             )
           );
           return portfolioData.length ? portfolioData : new Array(3).fill({});
@@ -89,7 +88,7 @@ export default function PartnerList() {
   }
 
   function getAllUser() {
-    fetchData("http://localhost:8000/api/1.0/user/all").then((data) => {
+    fetchData(`http://${backendurl}/user/all`).then((data) => {
       if (!data || data.length === 0) {
         setMessage("No result found");
         return;
@@ -103,7 +102,7 @@ export default function PartnerList() {
     setMessage("searching...");
     setData([]);
     fetchData(
-      `http://localhost:8000/api/1.0/user/experties/${choosedSkill.toLowerCase()}`
+      `http://${backendurl}/user/experties/${choosedSkill.toLowerCase()}`
     ).then((data) => {
       if (!data || data.length === 0) {
         setMessage("No result found");

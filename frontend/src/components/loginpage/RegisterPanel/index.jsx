@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useParams, useNavigate } from "react-router-dom";
+import { backendurl } from "../../../constants/urls";
 
 function Copyright(props) {
   return (
@@ -64,7 +65,7 @@ export default function Register() {
     //   email: data.get("email"),
     //   password: data.get("password"),
     // });
-    fetch("http://localhost:8000/api/1.0/user/signup", {
+    fetch(`http://${backendurl}/user/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

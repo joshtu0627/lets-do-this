@@ -17,6 +17,7 @@ import webSocket from "socket.io-client";
 import Button from "@mui/material/Button";
 import { generateTimestamp } from "../../../../backend/src/utils/tools";
 import { setMessagesByChatId } from "../../utils/Apis";
+import { backendurl } from "../../constants/urls";
 
 export default function MessagePage() {
   const scrollRef = useRef(null);
@@ -151,7 +152,7 @@ export default function MessagePage() {
     const connectWebSocket = () => {
       //開啟
       console.log("start connect");
-      setWs(webSocket("http://localhost:8000"));
+      setWs(webSocket(`http://${backendurl}`));
       setJoinRoom(!joinRoom);
     };
 

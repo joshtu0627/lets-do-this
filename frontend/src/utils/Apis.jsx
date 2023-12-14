@@ -1,3 +1,5 @@
+import { backendurl } from "../constants/urls";
+
 export const fetchData = async (url, options = {}) => {
   try {
     const response = await fetch(url, {
@@ -17,18 +19,16 @@ export const fetchData = async (url, options = {}) => {
 
 export const getUserDataById = (id) => {
   return new Promise((resolve, reject) => {
-    fetchData(`http://localhost:8000/api/1.0/user/profileById/${id}`).then(
-      (data) => {
-        if (!data) reject();
-        data.jobStr = data.job ? data.job.join(" / ") : "";
-        resolve(data);
-      }
-    );
+    fetchData(`http://${backendurl}/profileById/${id}`).then((data) => {
+      if (!data) reject();
+      data.jobStr = data.job ? data.job.join(" / ") : "";
+      resolve(data);
+    });
   });
 };
 
 export const getProjectDataById = (id) => {
-  fetchData(`http://localhost:8000/api/1.0/project/${id}`).then((data) => {
+  fetchData(`http://${backendurl}/project/${id}`).then((data) => {
     if (!data) return;
     return data;
   });
@@ -36,20 +36,18 @@ export const getProjectDataById = (id) => {
 
 export const getProjectsByUserId = (id) => {
   return new Promise((resolve, reject) => {
-    fetchData(`http://localhost:8000/api/1.0/user/${id}/projects`).then(
-      (data) => {
-        console.log(id);
-        console.log(data);
-        if (!data) return reject();
-        resolve(data);
-      }
-    );
+    fetchData(`http://${backendurl}/user/${id}/projects`).then((data) => {
+      console.log(id);
+      console.log(data);
+      if (!data) return reject();
+      resolve(data);
+    });
   });
 };
 
 export const getMessagesByUserId = (id) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://127.0.0.1:8000/api/1.0/user/getMessagesByUserId?id=${id}`, {
+    fetch(`http://${backendurl}/user/getMessagesByUserId?id=${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +65,7 @@ export const getMessagesByUserId = (id) => {
 };
 
 export const getUsersByProjectId = (id) => {
-  fetch("http://localhost:8000/api/1.0/user/profileById/" + id, {
+  fetch(`http://${backendurl}/user/profileById/` + id, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -85,7 +83,7 @@ export const getUsersByProjectId = (id) => {
 
 export const createNotification = (data) => {
   return new Promise((resolve, reject) => {
-    fetch("http://127.0.0.1:8000/api/1.0/user/createNotification", {
+    fetch("http://" + backendurl + "/user/createNotification", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -105,7 +103,7 @@ export const createNotification = (data) => {
 
 export const deleteNotification = (id) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://127.0.0.1:8000/api/1.0/user/deleteNotification/${id}`, {
+    fetch(`http://${backendurl}/user/deleteNotification/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -124,15 +122,12 @@ export const deleteNotification = (id) => {
 
 export const getMessagesByProjectId = (id) => {
   return new Promise((resolve, reject) => {
-    fetch(
-      `http://127.0.0.1:8000/api/1.0/project/getMessagesByProjectId?id=${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    fetch(`http://${backendurl}/project/getMessagesByProjectId?id=${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((resp) => {
         console.log(resp);
         return resp.json();
@@ -146,7 +141,7 @@ export const getMessagesByProjectId = (id) => {
 
 export const setMessagesByProjectId = (id, messages) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://127.0.0.1:8000/api/1.0/project/setMessagesByProjectId`, {
+    fetch(`http://${backendurl}/project/setMessagesByProjectId`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -167,7 +162,7 @@ export const setMessagesByProjectId = (id, messages) => {
 export const setMessagesByChatId = (id, messages) => {
   return new Promise((resolve, reject) => {
     console.log(JSON.stringify({ id, messages }));
-    fetch(`http://127.0.0.1:8000/api/1.0/user/setMessagesByChatId`, {
+    fetch(`http://${backendurl}/user/setMessagesByChatId`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -187,7 +182,7 @@ export const setMessagesByChatId = (id, messages) => {
 
 export const createChat = (id1, id2) => {
   return new Promise((resolve, reject) => {
-    fetch(`http://127.0.0.1:8000/api/1.0/user/createChat`, {
+    fetch(`http://${backendurl}/user/createChat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

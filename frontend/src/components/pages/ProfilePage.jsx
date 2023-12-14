@@ -12,6 +12,7 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 
 import { useUser } from "../../contexts/UserContext";
+import { backendurl } from "../../constants/urls";
 
 export default function ProfilePage() {
   const { user, login, logout } = useUser();
@@ -63,7 +64,7 @@ export default function ProfilePage() {
     let portfolioRequests = profileUser.portfolio
       .slice(0, portfolioLength)
       .map((portfolioId) =>
-        fetchData(`http://localhost:8000/api/1.0/user/work/${portfolioId}`)
+        fetchData(`http://${backendurl}/user/work/${portfolioId}`)
       );
 
     let result = await Promise.all(portfolioRequests);
@@ -75,13 +76,11 @@ export default function ProfilePage() {
   }, [profileUser]);
 
   useEffect(() => {
-    fetchData(`http://localhost:8000/api/1.0/user/profileById/${id}`).then(
-      (data) => {
-        if (!data) return;
-        data.jobStr = data.job ? data.job.join(" / ") : "";
-        setUser(data);
-      }
-    );
+    fetchData(`http://${backendurl}/user/profileById/${id}`).then((data) => {
+      if (!data) return;
+      data.jobStr = data.job ? data.job.join(" / ") : "";
+      setUser(data);
+    });
   }, [id]);
 
   // fetchData 函數，可以從之前的示例中獲得

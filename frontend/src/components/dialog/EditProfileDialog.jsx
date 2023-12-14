@@ -13,6 +13,8 @@ import { CgAdd } from "react-icons/cg";
 
 import UpdateProfileSucessDialog from "./UpdateProfileSucessDialog";
 
+import { backendurl } from "../../constants/urls";
+
 export default function EditProfileDialog({ open, handleClose, user }) {
   const [name, setName] = useState(user && user.name);
   const [jobs, setJobs] = useState([]);
@@ -99,13 +101,10 @@ export default function EditProfileDialog({ open, handleClose, user }) {
 
     // 發送請求到伺服器
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/1.0/user/updateProfile",
-        {
-          method: "POST", // 或 'PUT'，根據您的 API 設定
-          body: formData,
-        }
-      );
+      const response = await fetch(`http://${backendurl}/user/updateProfile`, {
+        method: "POST", // 或 'PUT'，根據您的 API 設定
+        body: formData,
+      });
 
       const result = await response.json();
       // 處理返回結果

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useUser } from "../contexts/UserContext";
+import { backendurl } from "../constants/urls";
 
 export default function UserAuthInitializer() {
   const { user, login, logout } = useUser();
@@ -7,7 +8,7 @@ export default function UserAuthInitializer() {
     const storage = window.localStorage;
     const token = storage.getItem("token");
     console.log(token);
-    fetch("http://localhost:8000/api/1.0/user/isLoggedIn", {
+    fetch(`http://${backendurl}/user/isLoggedIn`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

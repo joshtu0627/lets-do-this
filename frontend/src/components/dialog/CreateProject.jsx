@@ -11,6 +11,8 @@ import Checkbox from "@mui/material/Checkbox";
 import { Input, TextField } from "@mui/material";
 import { CgAdd } from "react-icons/cg";
 
+import { backendurl } from "../../constants/urls";
+
 import { useUser } from "../../contexts/UserContext";
 
 import BasicDialog from "./BasicDialog";
@@ -85,13 +87,10 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
     // };
     // formData.append("members", JSON.stringify(members));
 
-    let resp = await fetch(
-      "http://127.0.0.1:8000/api/1.0/project/createProject",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    let resp = await fetch(`${backendurl}/project/createProject`, {
+      method: "POST",
+      body: formData,
+    });
 
     let data = await resp.json();
 
@@ -105,7 +104,7 @@ export default function CreateProjectDialog({ open, handleClose, setRefetch }) {
     };
 
     let resp2 = await fetch(
-      "http://127.0.0.1:8000/api/1.0/user/joinUserProjectTable",
+      `http://${backendurl}/1.0/user/joinUserProjectTable`,
       {
         method: "POST",
         headers: {

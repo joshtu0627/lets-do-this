@@ -43,7 +43,7 @@ export default function ProjectAbout({ project, members }) {
                     className="flex justify-between h-20 my-2"
                     key={member.userId}
                   >
-                    <Link to={"/profile/" + member.userId}>
+                    <Link to={"/profile/" + member.id}>
                       <div className="flex items-center justify-center">
                         <div className="w-16 h-16 mr-5">
                           <img
@@ -52,7 +52,7 @@ export default function ProjectAbout({ project, members }) {
                             alt=""
                           />
                         </div>
-                        <div className="text-xl h2 ">{member.name}</div>
+                        <div className="text-xl h2 "> {member.name}</div>
                       </div>
                     </Link>
                     <div className="flex items-center justify-center text-xl h2">

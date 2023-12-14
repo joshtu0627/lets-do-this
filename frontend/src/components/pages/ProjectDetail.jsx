@@ -18,6 +18,7 @@ import ProjectAbout from "../projectpage/ProjectAbout";
 import ProjectTasks from "../projectpage/ProjectTasks";
 import ProjectSchedule from "../projectpage/ProjectSchedule";
 import ProjectChat from "../projectpage/ProjectChat";
+import { backendurl } from "../../constants/urls";
 
 export default function ProjectDetail() {
   const { user, login, logout } = useUser();
@@ -43,7 +44,7 @@ export default function ProjectDetail() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/1.0/project/" + id, {
+    fetch(`http://${backendurl}/project/` + id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +74,7 @@ export default function ProjectDetail() {
       for (let member of project.members) {
         console.log(member);
         let resp = await fetch(
-          "http://localhost:8000/api/1.0/user/profileById/" + member.userId,
+          `http://${backendurl}/user/profileById/` + member.userId,
           {
             method: "GET",
             headers: {

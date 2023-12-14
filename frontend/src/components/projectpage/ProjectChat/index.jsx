@@ -11,12 +11,13 @@ import webSocket from "socket.io-client";
 
 import Button from "@mui/material/Button";
 import { generateTimestamp } from "../../../../../backend/src/utils/tools";
+import { backendurl } from "../../../constants/urls";
 
 export default function ProjectChat({ project, members, user }) {
   const [ws, setWs] = useState(null);
   const connectWebSocket = () => {
     //開啟
-    setWs(webSocket("http://localhost:8000"));
+    setWs(webSocket(`http://${backendurl}`));
   };
 
   const [messages, setMessages] = useState([]);

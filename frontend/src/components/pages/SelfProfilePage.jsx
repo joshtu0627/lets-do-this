@@ -10,6 +10,7 @@ import Footer from "../common/Footer";
 import EditProfileDialog from "../dialog/EditProfileDialog";
 
 import { useUser } from "../../contexts/UserContext";
+import { backendurl } from "../../constants/urls";
 
 export default function ProfilePage() {
   const { user, login, logout } = useUser();
@@ -41,7 +42,7 @@ export default function ProfilePage() {
       j++
     ) {
       let resp = await fetch(
-        "http://localhost:8000/api/1.0/user/work/" + user.portfolio[j],
+        `http://${backendurl}/user/work/` + user.portfolio[j],
         {
           method: "GET",
           headers: {

@@ -12,6 +12,8 @@ import { MdOutlineComputer } from "react-icons/md";
 
 import CreateProjectDialog from "../dialog/CreateProject";
 
+import { backendurl } from "../../constants/urls";
+
 export default function MyHomePage() {
   const { user, login, logout } = useUser();
   const [projects, setProjects] = useState([]);
@@ -27,7 +29,7 @@ export default function MyHomePage() {
   useEffect(() => {
     if (!user) return;
     function fetchUserProjects() {
-      fetch(`http://127.0.0.1:8000/api/1.0/user/${user.id}/projects`, {
+      fetch(`http://${backendurl}/user/${user.id}/projects`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

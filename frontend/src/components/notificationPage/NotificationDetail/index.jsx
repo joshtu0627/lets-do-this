@@ -6,6 +6,8 @@ import JoinProjectDialog from "../../dialog/JoinProjectDialog";
 
 import { deleteNotification } from "../../../utils/Apis";
 
+import { backendurl } from "../../../constants/urls";
+
 import {
   Dialog,
   DialogTitle,
@@ -22,6 +24,7 @@ export default function NotificationDetail({
   user,
   setRefetch,
 }) {
+  const bu = backendurl;
   const [openJoinProjectDialog, setOpenJoinProjectDialog] = useState(false);
   const handleOpenJoinProjectDialog = () => {
     setOpenJoinProjectDialog(true);
@@ -48,7 +51,7 @@ export default function NotificationDetail({
     }
   };
   function joinUserToProject() {
-    const url = `http://127.0.0.1:8000/api/1.0/user/joinProject`;
+    const url = `http://${bu}/user/joinProject`;
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },

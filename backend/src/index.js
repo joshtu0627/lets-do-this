@@ -59,7 +59,7 @@ app.use("/api/1.0", routes);
 
 // app.listen(8000, () => {
 //   // console.log(env.SECRET_KEY);
-//   console.log("Server is running on port https://127.0.0.1:8000/api/1.0");
+//   console.log("Server is running on port https://+"+frontendurl+":8000/api/1.0");
 // });
 
 // use require
