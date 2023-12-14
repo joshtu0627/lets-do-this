@@ -53,7 +53,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (err) {
     if (err === "wrong token") {
-      return res.status(403).send("wrong token");
+      return res.status(200).send("wrong token");
     }
   }
 };
