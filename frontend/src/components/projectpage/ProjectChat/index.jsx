@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
   getMessagesByProjectId,
@@ -12,16 +12,29 @@ import webSocket from "socket.io-client";
 import Button from "@mui/material/Button";
 import { generateTimestamp } from "../../../../../backend/src/utils/tools";
 import { backendurl } from "../../../constants/urls";
+import { socketurl } from "../../../constants/urls";
 
 export default function ProjectChat({ project, members, user }) {
+  const scrollRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
   const [ws, setWs] = useState(null);
   const connectWebSocket = () => {
     //開啟
-    setWs(webSocket(`http://${backendurl}`));
+    setWs(webSocket(`http://${socketurl}`));
   };
 
   const [messages, setMessages] = useState([]);
   const [userMessage, setUserMessage] = useState("");
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const changeRoom = (id) => {
     let room = id;
@@ -118,62 +131,63 @@ export default function ProjectChat({ project, members, user }) {
   return (
     <div className="flex items-end justify-center w-full mt-10">
       <div className="w-2/3 gray-bg bg-[#2c2830] rounded-xl min-h-[200px]">
-        {messages.length === 0 && <div className="mb-28"></div>}
-        {messages &&
-          messages.map((message) => {
-            return (
-              <div
-                className="flex justify-between text-white"
-                key={message.timestamp}
-              >
-                <div className="flex w-full p-5">
-                  {user.id === message.id ? (
-                    <div className="flex flex-col w-full">
-                      <div className="flex justify-end w-full">
-                        <div className="flex items-center px-5 mr-2 text-white bg-gray-400 rounded-2xl">
-                          <div>{message.text}</div>
+        <div className=" h-[600px] overflow-y-scroll" ref={scrollRef}>
+          {messages &&
+            messages.map((message) => {
+              return (
+                <div
+                  className="flex justify-between text-white"
+                  key={message.timestamp}
+                >
+                  <div className="flex w-full p-5">
+                    {user.id === message.id ? (
+                      <div className="flex flex-col w-full">
+                        <div className="flex justify-end w-full">
+                          <div className="flex items-center px-5 mr-2 text-white bg-gray-400 rounded-2xl">
+                            <div>{message.text}</div>
+                          </div>
+                          <div className="w-12 h-12">
+                            <img
+                              className="object-cover w-full h-full rounded-full"
+                              src={message.image}
+                              alt=""
+                            />
+                          </div>
                         </div>
-                        <div className="w-12 h-12">
-                          <img
-                            className="object-cover w-full h-full rounded-full"
-                            src={message.image}
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                      <div className="flex justify-end w-full">
-                        <div className="mt-2 mr-16 text-xs">
-                          {getTimeDiff(message.timestamp)}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col w-full">
-                      <div className="flex w-full justify-begin">
-                        <div className="w-12 h-12">
-                          <img
-                            className="object-cover w-full h-full rounded-full"
-                            src={message.image}
-                            alt=""
-                          />
-                        </div>
-                        <div className="flex items-center px-5 ml-2 text-white bg-gray-400 rounded-2xl">
-                          <div>{message.text}</div>
+                        <div className="flex justify-end w-full">
+                          <div className="mt-2 mr-16 text-xs">
+                            {getTimeDiff(message.timestamp)}
+                          </div>
                         </div>
                       </div>
-                      <div className="flex w-full justify-begin">
-                        <div className="mt-2 ml-16 text-xs">
-                          {getTimeDiff(message.timestamp)}
+                    ) : (
+                      <div className="flex flex-col w-full">
+                        <div className="flex w-full justify-begin">
+                          <div className="w-12 h-12">
+                            <img
+                              className="object-cover w-full h-full rounded-full"
+                              src={message.image}
+                              alt=""
+                            />
+                          </div>
+                          <div className="flex items-center px-5 ml-2 text-white bg-gray-400 rounded-2xl">
+                            <div>{message.text}</div>
+                          </div>
+                        </div>
+                        <div className="flex w-full justify-begin">
+                          <div className="mt-2 ml-16 text-xs">
+                            {getTimeDiff(message.timestamp)}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* <div className="text-white">{message.timestamp}</div> */}
+                    {/* <div className="text-white">{message.timestamp}</div> */}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+        </div>
         <div className="flex px-5 pt-5 pb-3">
           <input
             type="text"

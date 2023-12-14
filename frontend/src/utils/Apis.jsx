@@ -19,7 +19,7 @@ export const fetchData = async (url, options = {}) => {
 
 export const getUserDataById = (id) => {
   return new Promise((resolve, reject) => {
-    fetchData(`http://${backendurl}/profileById/${id}`).then((data) => {
+    fetchData(`http://${backendurl}/user/profileById/${id}`).then((data) => {
       if (!data) reject();
       data.jobStr = data.job ? data.job.join(" / ") : "";
       resolve(data);

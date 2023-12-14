@@ -18,6 +18,7 @@ import Button from "@mui/material/Button";
 import { generateTimestamp } from "../../../../backend/src/utils/tools";
 import { setMessagesByChatId } from "../../utils/Apis";
 import { backendurl } from "../../constants/urls";
+import { socketurl } from "../../constants/urls";
 
 export default function MessagePage() {
   const scrollRef = useRef(null);
@@ -152,7 +153,7 @@ export default function MessagePage() {
     const connectWebSocket = () => {
       //開啟
       console.log("start connect");
-      setWs(webSocket(`http://${backendurl}`));
+      setWs(webSocket(socketurl));
       setJoinRoom(!joinRoom);
     };
 
