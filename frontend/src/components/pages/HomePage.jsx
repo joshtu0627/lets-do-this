@@ -25,7 +25,6 @@ export default function Homepage() {
   return (
     <>
       <Header />
-
       <HomepagePanel />
 
       <Footer />
