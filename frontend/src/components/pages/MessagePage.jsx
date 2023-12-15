@@ -64,7 +64,7 @@ export default function MessagePage() {
     let id = message.to;
     let chatId = message.chatId;
     console.log(message);
-    console.log(id);
+    console.log(chatId);
 
     setMessagesMap((prev) => {
       let newMessagesMap = { ...prev };
@@ -186,6 +186,7 @@ export default function MessagePage() {
       setNowMessage(newMessages[0]);
       setMessageUsers(newMessageUsers);
       setMessages(newMessages);
+      setNowChatId(data[0].id);
     };
     getData();
   }, [user]);
@@ -259,6 +260,11 @@ export default function MessagePage() {
                     <div>{chatMessages.messages[0].text}</div>
                   ))} */}
                 <div className="p-5">
+                  {nowMessage && nowMessage.length === 0 && (
+                    <div className="text-center text-gray-400">
+                      Say anything!
+                    </div>
+                  )}
                   {nowMessage &&
                     nowMessage.map((message, index) =>
                       user.id === message.id ? (

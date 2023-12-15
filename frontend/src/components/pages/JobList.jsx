@@ -11,11 +11,24 @@ import Footer from "../common/Footer";
 import { skillList, typeList, jobList } from "../../data/data";
 import { backendurl } from "../../constants/urls";
 
+import ApplyDialog from "../dialog/ApplyDialog";
+
 export default function ProjectList() {
   const [data, setData] = useState([]);
   const [choosedSkill, setChoosedSkill] = useState("");
   const [choosedJob, setChoosedJob] = useState("");
   const [message, setMessage] = useState("");
+  const [clickedJob, setClickedJob] = useState("None");
+
+  const [openApplyDialog, setOpenApplyDialog] = useState(false);
+
+  const handleOpenApplyDialog = () => {
+    setOpenApplyDialog(true);
+  };
+
+  const handleCloseApplyDialog = () => {
+    setOpenApplyDialog(false);
+  };
 
   function getAllJob() {
     async function fetchData() {
@@ -115,7 +128,7 @@ export default function ProjectList() {
             </div>
             <div className="grid w-4/5 grid-cols-2 mx-10">
               {message}
-              {data.map((job) => (
+              {data.map((job, index) => (
                 <div
                   className="flex flex-col h-56 mx-6 mb-6 bg-[#2c2830] rounded-xl"
                   key={job.id}
@@ -143,7 +156,15 @@ export default function ProjectList() {
                   <div className="flex flex-col px-5 pt-2 text-s h-2/3 ">
                     <div className="h-3/5">{job.about}</div>
                     <div className="h-2/5">
-                      <Button variant="contained" size="small" color="primary">
+                      <Button
+                        variant="contained"
+                        size="small"
+                        color="primary"
+                        onClick={() => {
+                          handleOpenApplyDialog();
+                          setClickedJob(job);
+                        }}
+                      >
                         Apply
                       </Button>
                     </div>
@@ -153,6 +174,11 @@ export default function ProjectList() {
             </div>
           </div>
         </div>
+        <ApplyDialog
+          open={openApplyDialog}
+          handleClose={handleCloseApplyDialog}
+          job={clickedJob}
+        />
         <div className="flex-grow"></div>
         <Footer />
       </div>

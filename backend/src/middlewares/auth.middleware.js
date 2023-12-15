@@ -39,7 +39,10 @@ const authMiddleware = async (req, res, next) => {
 
   // verify token
   try {
+    console.log(token);
     const decoded = jwt.verify(token, env.JWTSECRET);
+
+    console.log(decoded);
 
     // check if the token can be decoded
     if (!decoded) {
@@ -53,7 +56,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (err) {
     if (err === "wrong token") {
-      return res.status(200).send("wrong token");
+      return res.status(403).send("wrong token");
     }
   }
 };
